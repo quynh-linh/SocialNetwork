@@ -1,3 +1,11 @@
 .wrapper{
     width: 20%;
+    &__titleFollow{
+        border-bottom: 1px solid #343434;
+        color: white;
+        font-size: 2rem;
+        text-align: center;
+        padding: 10px 0;
+        font-weight: 600;
+    }
 }
