@@ -1,0 +1,53 @@
+@import 'normalize.css';
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+:root { 
+    --var-background : #191a1f;
+    --var-font-family: 'Inter', sans-serif;
+}
+*{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+html {
+    font-size: 62.5%;
+    height: 100%;
+}
+
+body {
+    overflow: hidden;
+    font-size: 1.6rem;
+    text-rendering: optimizeSpeed;
+    font-family: var(--var-font-family);
+    height: 100%;
+    background-color: var(--var-background);
+}
+#root{
+    height: 100%;
+}
+.App{
+    height: 100%;
+}
+::-webkit-scrollbar-track
+{
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    border-radius: 5px;
+    background-color: #F5F5F5;
+    z-index: 10000;
+}
+
+::-webkit-scrollbar
+{
+    width: 5px;
+    background-color: #F5F5F5;
+}
+
+::-webkit-scrollbar-thumb
+{
+    border-radius: 5px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+    background-color: #dfdede;
+}

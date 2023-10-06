@@ -1,0 +1,25 @@
+.container{
+    width : 100% !important;
+    overflow-y: scroll;
+    height: 100%;
+    &__content{
+        margin: 90px 2% 20px 2%;
+        &-children{
+            width: 55%;
+        }
+    }
+    &__message{
+        position: absolute;
+        right: 25px;
+        bottom: 20px;
+        border: 1px solid #0f6fec;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        background-color: #0f6fec;
+        &-icon{
+            padding: 10px;
+            color: white;
+        }
+    }
+}

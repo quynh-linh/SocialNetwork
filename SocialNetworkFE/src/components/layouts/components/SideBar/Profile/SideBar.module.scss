@@ -1,0 +1,65 @@
+
+.wrapper{
+    width: 25%;
+    height: auto;
+    border-radius: 5px;
+    &__profileUser{
+        &-background{
+            background: url('https://c4.wallpaperflare.com/wallpaper/16/671/726/lionel-messi-football-barcelona-hd-wallpaper-preview.jpg') center center no-repeat;
+            background-size: cover;
+            width: 100%;
+            height: 100px;
+            position: relative;
+            &-avatar{
+                position: absolute;
+                top: 50%;
+                left: 38%;
+                border: 4px solid #0f6fec;
+                border-radius: 5px;
+            }
+        }
+        &-info{
+            margin-top: 50px;
+            &-job,
+            &-des{
+                color: #88888e;
+                font-size: 1.3rem;
+                font-weight: 500;
+                margin-top: 5px;
+            }
+            &-des{
+                padding: 20px;
+            }
+        }
+        &-followSocial{
+            padding-bottom: 10px;
+            border-bottom: 1px solid #343434;
+            &-Post,
+            &-Followers,
+            &-Following{
+                padding: 5px 10px;
+            }
+            &-Post,
+            &-Followers{
+                border-right: 1px solid #343434;
+            }
+        }
+        &-page{
+            margin: 5px 0;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #343434;
+            &-item{
+                padding: 10px 20px;
+            }
+        }
+        &-view{
+            padding: 20px;
+            &-profile{
+                text-align: center;
+                color: #0f6fec;
+                font-size: 1.4rem;
+                font-weight: 500;
+            }
+        }
+    }
+}
