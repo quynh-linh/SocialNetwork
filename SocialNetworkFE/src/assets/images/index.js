@@ -6,5 +6,9 @@ const images = {
     programmer : require('~/assets/images/programmer_560277.png'),
     earth : require('~/assets/images/planet-earth_921490.png'),
     groups : require('~/assets/images/meeting_7185645.png'),
+    uploadPhoto : require('~/assets/images/upload_photo.png'),
+    uploadVideo : require('~/assets/images/upload_video.png'),
+    uploadEvent : require('~/assets/images/upload_Event.png'),
+    uploadFeeling : require('~/assets/images/choose_feeling.png'),
 };
 export default images;

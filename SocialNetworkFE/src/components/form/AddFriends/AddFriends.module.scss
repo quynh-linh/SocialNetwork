@@ -1,0 +1,41 @@
+.wrapper{
+    width: 100%;
+    height: 50px;
+    padding: 20px 10px;
+    margin: 15px 0;
+    &-boxImg{
+        width: 17%;
+    }
+    &-title{
+        width: 67%;
+        padding-left: 10px;
+    }
+    &-icon{
+        width: 16%;
+    }
+    &-img{
+        border-radius: 50%;
+    }
+    &-name{
+        color: white;
+        font-size: 1.5rem;
+        font-weight: 600;
+        line-height: 1.5;
+    }
+    &-mutualFriends{
+        font-size: 1.2rem;
+        color: #6e888e;
+        font-weight: 500;
+    }
+    &-add{
+        border-radius: 50%;
+        align-items: center;
+        display: flex;
+        padding: 10px;
+        background: #141e2e;
+        color: #0e6eeb;
+    }
+    &-check{
+        
+    }
+}
