@@ -1,0 +1,8 @@
+.wrapper{
+    margin: 0 20px;
+    &__createPost{
+        padding: 20px;
+        border: 1px solid var(--var-border);
+        border-radius: 5px;
+    }
+}

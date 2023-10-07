@@ -1,0 +1,44 @@
+.wrapper{
+    &__inputPost{
+        &-img {
+            width: 10%;
+        }
+        &-input{
+            color: white;
+            width: 90%;
+            padding: 10px 10px 50px 20px;
+            box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+            &:focus{
+                outline: none;
+            }
+        }
+    }
+    &__menuPost{
+        margin-top: 10px;
+        &-uploadPhoto,
+        &-uploadVideo,
+        &-uploadEvent,
+        &-uploadFeeling{
+            padding: 5px 10px;
+            border-radius: 5px;
+            box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+            & span{
+                font-size: 1.4rem;
+                padding-left: 10px;
+            }
+        }
+        &-uploadPhoto{
+            margin: 10px 10px 10px 0;
+        }
+        &-uploadVideo,
+        &-uploadEvent,
+        &-uploadFeeling{
+            margin: 10px 10px;
+        }
+        &-more{
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+    }
+    
+}
