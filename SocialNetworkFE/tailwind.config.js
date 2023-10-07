@@ -11,6 +11,8 @@ module.exports = {
       'background' : '#191a1f',
       'sidebar' : '#141519',
       'color-text' : '#88888e',
+      'primaryColor':'#0468eb',
+      'comment':'#202227',
     },
     fontFamily: {
       sans: ['Inter', 'sans-serif'],

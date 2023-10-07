@@ -1,0 +1,66 @@
+$color-text : #88888e;
+.wrapper{
+    margin-top: 15px;
+    border: 1px solid var(--var-border);
+    border-radius: 5px;
+    padding: 20px;
+    &__header{
+        &-info{
+            &-name{
+                font-size: 1.7rem;
+                font-weight: 600;
+            }
+            &-img{
+                border-radius: 50%;
+                border: 2px solid #0f6fec;
+            }
+            &-icon,
+            &-timePost,
+            &-jobAt{
+                color: $color-text ;
+            }
+            &-icon{
+                margin-left: 10px;
+                color: $color-text ;
+            }
+            &-timePost{
+                margin-left: 5px;
+                font-size: 1.3rem;
+                color: $color-text ;
+            }
+            &-jobAt{
+                font-size: 1.3rem;
+                color: $color-text ;
+            }
+        }
+    }
+    &__content{
+        &-des{
+            margin-top: 10px;
+            color: white;
+            height: auto;
+        }
+        &-imgPost{
+            margin-top: 10px;
+            min-height: 360px;
+        }
+        &-interactWith{
+            margin-top: 10px;
+            &-Likes,
+            &-Comments,
+            &-Share{
+                font-size: 1.4rem;
+                &-quantity{
+                    padding-left: 5px;
+                }
+            }
+            &-Comments{
+                color: $color-text ;
+                margin-left: 20px;
+            }
+            &-Share{
+                color: $color-text ;
+            }
+        }
+    }
+}
