@@ -1,0 +1,31 @@
+.container{
+    &__content{
+        &-ipEmail,
+        &-ipPassword{
+            & input{
+                padding: 10px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+                margin: 10px 0;
+                &:focus{
+                    outline-color: #0f6fec !important;
+                }
+            }
+        }
+        &-btn{
+            width: 100%;
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid var(--var-background) !important;
+            border-radius: 5px;
+            background: var(--var-bg-components) !important;
+            color: white;
+            font-weight: 600;
+            &:hover{
+                transition: all 0.3s ease-in-out;
+                background-color: #0f6fec !important;
+                border-color: #0f6fec !important;
+            }
+        }
+    }
+}

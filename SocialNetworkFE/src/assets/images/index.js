@@ -10,5 +10,7 @@ const images = {
     uploadVideo : require('~/assets/images/upload_video.png'),
     uploadEvent : require('~/assets/images/upload_Event.png'),
     uploadFeeling : require('~/assets/images/choose_feeling.png'),
+    bgLogin : require('~/assets/images/background_login.png'),
+    logoLogin : require('~/assets/images/logo_Login.png'),
 };
 export default images;
