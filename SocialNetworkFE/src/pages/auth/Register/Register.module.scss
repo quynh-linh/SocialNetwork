@@ -1,0 +1,61 @@
+.container{
+    &__content{
+        &-strengthMeter{
+            width: 100%;
+            height: 10px;
+            border: 1px solid #ccc;
+            position: relative;
+            border-radius: 5px;
+        }
+        &-strengthLevel{
+            height: 100%;
+            width: 0;
+            transition: width 0.3s ease;
+        }
+        &-strengthLevelLow{
+            height: 100%;
+            width: 25% !important;
+            background-color: red !important;
+        }
+        &-strengthLevelMedium{
+            height: 100%;
+            width: 50% !important;
+            background-color: yellow !important;
+        }
+        &-strengthLevelHeight{
+            height: 100%;
+            width: 100% !important;
+            background-color: green !important;
+        }
+        &-log{
+            font-size: 1.3rem;
+        }
+        &-ipEmail,
+        &-ipPassword{
+            & input{
+                padding: 10px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+                margin: 10px 0;
+                &:focus{
+                    outline-color: #0f6fec !important;
+                }
+            }
+        }
+        &-btn{
+            width: 100%;
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid var(--var-background) !important;
+            border-radius: 5px;
+            background: var(--var-bg-components) !important;
+            color: white;
+            font-weight: 600;
+            &:hover{
+                transition: all 0.3s ease-in-out;
+                background-color: #0f6fec !important;
+                border-color: #0f6fec !important;
+            }
+        }
+    }
+}
