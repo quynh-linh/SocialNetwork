@@ -1,0 +1,86 @@
+.content{
+    width: 250px;
+    border-radius: 5px;
+}
+.container{
+    -webkit-animation-delay: .04s;
+    animation-delay: .04s;
+    -webkit-animation-duration: .28s;
+    animation-duration: .28s;
+    -webkit-animation-fill-mode: backwards;
+    animation-fill-mode: backwards;
+    -webkit-animation-name: faDaIn;
+    animation-name: faDaIn;
+    -webkit-animation-timing-function: cubic-bezier(.8,0,.2,1);
+    animation-timing-function: cubic-bezier(.8,0,.2,1);
+    &-header{
+        &-title{
+            font-size: 2rem;
+            font-weight:600;
+        }
+        &-job{
+            font-size: 1.3rem;
+            font-weight: 500;
+        }   
+    }
+    &-viewProfile{
+        padding: 5px;
+        text-align: center;
+        border: 1px solid #0f1826;
+        margin-top: 10px;
+        background: rgb(13 21 34 / 90%);
+        border-radius: 5px;
+        & a {
+            font-size: 1.5rem;
+            font-weight: 500;
+            color: white;
+        }
+    }
+    &-menuTool{
+        border-bottom: 1px solid #898888;
+        &-item{
+            padding: 10px 0;
+            font-size: 1.4rem;
+            font-weight: 600;
+        }
+    }
+    &-logOut{
+        padding: 10px 0;
+        font-size: 1.4rem;
+        font-weight: 600;
+        border-bottom: 1px solid #898888;
+    }
+    &-mode{
+        margin: 10px 0;
+        &-setChecked{
+            color: white;
+            background: var(--var-background) !important;
+            border-color: var(--var-background) !important;
+        }
+        & button {
+            border: 1px solid;
+            padding: 5px;
+            margin: 5px;
+            border-radius: 5px;
+            font-size: 1.4rem;
+        }
+        & span{
+            font-size: 1.4rem;
+            font-weight: 600;
+        }
+    }
+}
+@keyframes faDaIn {
+    0% {
+        opacity: 0;
+        -webkit-transform: translate(80px);
+        -ms-transform: translate(80px);
+        transform: translate(80px);
+    }
+    100% {
+        opacity: 1;
+        -webkit-transform: translate(0);
+        -ms-transform: translate(0);
+        transform: translate(0);
+    }
+}

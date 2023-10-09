@@ -7,7 +7,9 @@ function FlyOutsMenuItem({data, onClick=undefined}) {
     }
     return (
         <div className={cx('menu-box')} onClick={handleClickBox}>
-            <div>{data.name}</div>
+            <ul>
+                <li>{data.name}</li>
+            </ul>
         </div>
     );
 }

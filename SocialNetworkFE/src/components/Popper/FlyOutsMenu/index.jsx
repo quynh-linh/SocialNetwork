@@ -4,7 +4,7 @@ import FlyOutsMenuItem from './FlyoutsMenuItem';
 import classNames from 'classnames/bind';
 import styles from './FlyoutsMenu.module.scss';
 import {Wrapper as PopperWrapper} from '~/components/Popper';
-function FlyOutsMenu({items,children,title,state}) {
+function FlyOutsMenu({items,children,title = '',state = false}) {
     const cx = classNames.bind(styles);
     const handleClickMenuItem = () => {
 
@@ -20,7 +20,7 @@ function FlyOutsMenu({items,children,title,state}) {
             placement='bottom-start'
             appendTo={document.body}
             render={attrs => (
-                <div className={cx('content','bg-white')} tabIndex="-1" {...attrs}>
+                <div className={cx('content','bg-background text-white')} tabIndex="-1" {...attrs}>
                     <PopperWrapper>
                         {showFlyOutsMenuitem()}
                     </PopperWrapper>

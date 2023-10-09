@@ -21,5 +21,28 @@ const DATA_PAGES = [
         name: 'Groups',
         icon: images.groups
     },
-]
-export {DATA_PAGES};
+];
+// PAGE MENU
+const DATA_MENU_PAGES = [
+    {
+        id: 0,
+        name: 'Albums'
+    },
+    {
+        id: 1,
+        name: 'Profile'
+    },
+    {
+        id: 2,
+        name: 'Group'
+    },
+    {
+        id: 3,
+        name: 'Group Detail'
+    },
+    {
+        id: 4,
+        name: 'Messaging'
+    }
+];
+export {DATA_PAGES,DATA_MENU_PAGES};

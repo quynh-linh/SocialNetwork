@@ -1,3 +1,23 @@
 .content{
-    width : 300px;
+    width : 200px;
+    animation: slideFadeDown 250ms forwards;
+    border-radius: 5px;
+    box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
+    font-size: 1.4rem;
+}
+.menu-box{
+    li {
+        padding: 10px;
+    }
+}
+@keyframes slideFadeDown {
+    0% {
+        transform: translate3d(0, -100%, 0);
+        opacity: 0
+    }
+
+    100% {
+        transform: translate3d(0, 0, 0);
+        opacity: 1
+    }
 }
