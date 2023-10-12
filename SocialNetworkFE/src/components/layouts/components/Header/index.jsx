@@ -8,6 +8,7 @@ import { faMessage } from "@fortawesome/free-regular-svg-icons";
 import FlyOutUser from "~/components/Popper/FlyOutsUser";
 import { useEffect, useRef, useState } from "react";
 import { DATA_MENU_PAGES } from "~/const/data";
+import { Link } from "react-router-dom";
 function Header() {
     const cx = classNames.bind(styles);
     const [isOpenMenuUser,setOpenMenuUser] = useState(false);
@@ -63,7 +64,7 @@ function Header() {
     return (
         <div className={cx('flex justify-center bg-black','header')}>
             <header className={cx('w-full flex items-center justify-between text-white','header__content')}>
-                <img src={images.logo} alt="Logo"></img>
+                <Link to={'/'}><img src={images.logo} alt="Logo"></img></Link>
                 <div className={cx('flex items-center justify-around')}>
                     <div className={cx('flex items-center justify-between')}>
                         {/* PAGES */}

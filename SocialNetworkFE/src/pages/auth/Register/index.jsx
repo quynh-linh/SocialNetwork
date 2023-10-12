@@ -11,12 +11,15 @@ function Register() {
     const cx = classNames.bind(styles);
     const [checkSafetyPassWord,setCheckSafetyPassWord] = useState('');
     const [logCheckPassWord,setLogCheckPassWord] = useState('Write your password...');
-
+    const [isShowStrengthMeter,setShowStrengthMeter] = useState(false);
     // HANDLE CHANGE PASSWORD AND HANDLE LEVEL PASSWORD
     const handleChangePassword = (e)=> {
+        setShowStrengthMeter(true);
         const valuePass = e.target.value;
         if(valuePass ===''){
             setCheckSafetyPassWord('');
+            setLogCheckPassWord('Write your password...');
+            setShowStrengthMeter(false);
         } else {
             if(!checkPasswordLow(valuePass)){
                 setCheckSafetyPassWord('container__content-strengthLevelLow');
@@ -48,10 +51,14 @@ function Register() {
                             placeholder="Enter Password"
                             onChange={handleChangePassword}
                         />
-                        <div className={cx('container__content-strengthMeter')}>
-                            <div className={cx('container__content-strengthLevel',checkSafetyPassWord ? checkSafetyPassWord : '')}></div>
-                        </div>  
-                        <div className={cx('flex items-center justify-between py-5')}>
+                        {
+                            isShowStrengthMeter ? (
+                                <div className={cx('container__content-strengthMeter')}>
+                                    <div className={cx('container__content-strengthLevel',checkSafetyPassWord ? checkSafetyPassWord : '')}></div>
+                                </div>
+                            ): ''
+                        }
+                        <div className={cx('flex items-center justify-between',isShowStrengthMeter ? 'py-5' : '')}>
                             <span className={cx('container__content-log')}>{logCheckPassWord}</span>
                             <Tippy
                             content='Include at least one uppercase, one lowercase, one special character, one number and 8 characters long.'
@@ -59,6 +66,14 @@ function Register() {
                                 <FontAwesomeIcon className={cx('text-primaryColor')} icon={faCircleInfo}/>
                             </Tippy>
                         </div>
+                    </div>
+                    <div className={cx('container__content-ipPassword')}>
+                        <input 
+                            className={cx('w-full')} 
+                            type="password" 
+                            placeholder="Confirm Password"
+                            //onChange={handleChangePassword}
+                        />
                     </div>
                     <div className={cx('flex items-center','')}>
                         <input type="checkbox" className={cx('')}/>
