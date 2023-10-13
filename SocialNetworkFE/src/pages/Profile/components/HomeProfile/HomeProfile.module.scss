@@ -1,7 +1,10 @@
+$color-text: #e4e6eb;
 .wrapper{
     &__left{
         margin: 10px 0;
-        &-info{
+        &-imagesUser,
+        &-info,
+        &-friendsUser{
             border: 1px solid var(--var-border);
             border-radius: 5px;
             padding: 15px;
@@ -9,22 +12,61 @@
                 font-size: 2rem;
                 font-weight: 600;
             }
+        }
+        &-info{
             &-introduce{
                 &-des{
                     padding: 10px 0;
                 }
-                & button {
-                    width: 100%;
-                    background: #3a3b3c;
-                    padding: 10px 0;
-                    border: none;
-                    border-radius: 5px;
-                    font-size: 1.3rem;
+            }
+            &-list{
+                font-size: 1.4rem;
+                font-weight: 500;
+                color: $color-text;
+                & li{
+                    padding: 15px 0;
+                }
+                &-itemIcon{
+                    width: 20px;
+                    height: 20px;
+                }
+            }
+        }
+        &-imagesUser,
+        &-friendsUser{
+           & a{
+            font-size: 1.4rem;
+            color: var(--var-primary);
+            font-weight: 500;
+           }
+           &-list{
+             border-radius: 5px;
+           }
+        }
+        &-friendsUser{
+            &-quantityFriends{
+                font-size: 1.3rem;
+            }
+            &-list{
+                & img {
+                    border-radius: 10px;
+                }
+                &-itemName{
+                    font-size: 1.2rem;
+                    min-height: 2.5em;
+                    margin-top: 10px;
+                    font-weight: 600;
                 }
             }
         }
     }
     &__right{
         margin: 10px 20px;
+        &-createPost{
+            margin: 10px 0;
+            padding: 10px;
+            border: 1px solid var(--var-border);
+            border-radius: 5px;
+        }
     }
 }
