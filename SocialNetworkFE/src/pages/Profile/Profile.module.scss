@@ -1,0 +1,105 @@
+.wrapper{
+    position: relative;
+
+    &__BgUser{
+        position: relative;
+        border-top-right-radius: 10px;
+        border-top-left-radius: 10px;
+        & img {
+            height: 350px;
+            object-fit: cover;
+            border-top-right-radius: 10px;
+            border-top-left-radius: 10px;
+        }
+        &-uploadImg{
+            display: none;
+        }
+        &-chooseImg{
+            position: absolute;
+            right: 15px;
+            top: 85%;
+            background-color: white;
+            padding: 8px;
+            border-radius: 5px;
+            font-size: 1.4rem;
+            font-weight: 500;
+        }
+    }
+    &__detail{
+        position: relative;
+        &-info{
+            padding-bottom: 50px;
+            border-bottom: 1px solid #4c4c4c;
+            & img {
+                width: 160px;
+                height: 160px;
+                object-fit: cover;
+                border-radius: 50%;
+                position: absolute;
+                top: -27%;
+                left: 3%;
+                border: 1px solid #5d5d5dcc;
+            }
+            &-box{
+                margin-left: 18%;
+                padding-top: 23px;
+                &-menu{
+                    margin-right: 3%;
+                }
+                &-name{
+                    font-size: 3rem;
+                    font-weight: 600;
+                }
+                &-quantityFriends{
+                    font-weight: 500;
+                    font-size: 1.5rem;
+                }
+                &-editInfo{
+                    background: #3a3b3c;
+                    color: white;
+                    padding: 5px 10px;
+                    border-radius: 5px;
+                    font-size: 1.4rem;
+                }
+                &-addStory{
+                    padding: 5px 10px;
+                    border-radius: 5px; 
+                    font-size: 1.4rem;
+                }
+            }
+        }
+        &-content{
+            padding-top: 10px;
+            &-list{
+                padding: 10px 0;
+                & a{
+                    position: relative;
+                    padding: 15px 20px;
+                    border-radius: 5px;
+                    font-size: 1.4rem;
+                    font-weight: 600;
+                    &:hover{
+                        background-color: #4c4c4c;
+                    }
+                    
+                }
+                &-itemSelected{
+                    &::before{
+                        content: '';
+                        position: absolute;
+                        bottom: 0;
+                        left: 0;
+                        width: 100%;
+                        height: 3px;
+                        background-color: var(--var-primary);
+                    }
+                }
+            }
+        }
+    }
+    &__left{
+        &-about{
+
+        }
+    }
+}

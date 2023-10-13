@@ -42,7 +42,7 @@ function SideBarProfile() {
                     
                 </div>
                 <div className={cx('wrapper__profileUser-view','text-center')}>
-                    <Link to={''} className={cx('wrapper__profileUser-view-profile','')}>
+                    <Link to={'/profile'} className={cx('wrapper__profileUser-view-profile','')}>
                         View Profile
                     </Link>
                 </div>

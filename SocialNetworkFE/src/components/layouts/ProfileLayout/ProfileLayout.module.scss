@@ -1,0 +1,38 @@
+$color-text : #3a3b3c;
+.wrapper{
+    overflow-y: scroll;
+    &__container{
+        padding: 90px 10% 20px 10%;
+    }
+    &__headerUser{
+        position: fixed;
+        top: 60px;
+        width: 100%;
+        background: white;
+        left: 0;
+        padding: 0 10%;
+        z-index: 10;
+        & span{
+            font-size: 1.6rem;
+            color: #e4e6eb;
+            font-weight: 600;
+            padding-left: 10px;
+        }
+        &-box{
+            margin: 5px 0;
+            padding: 5px;
+            border-radius: 5px;
+            &:hover{
+                cursor: pointer;
+                background-color: $color-text;
+            }
+        }
+        &-icon{
+            padding: 5px 10px;
+            margin-right: 20px;
+            border: 1px solid $color-text;
+            background-color: $color-text;
+            border-radius: 5px;
+        }
+    }
+}
