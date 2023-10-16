@@ -1,0 +1,15 @@
+.wrapper{
+    &__header{
+        margin-bottom: 10px;
+        & h1{
+            font-size: 1.8rem;
+            color: white;
+            font-weight: 600;
+        }
+        & span {
+            font-size: 1.3rem;
+            line-height: 1.5;
+            font-weight: 500;
+        }
+    }
+}

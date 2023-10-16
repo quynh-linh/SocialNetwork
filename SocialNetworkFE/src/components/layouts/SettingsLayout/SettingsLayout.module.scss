@@ -1,0 +1,40 @@
+.wrapper{
+    width: 100%;
+    overflow-y: scroll;
+    height: 100%;
+    &__content{
+        padding: 90px 2% 20px 2%;
+        &-left{
+            width: 20%;
+            max-height: 250px;
+            border: 1px solid var(--var-border);
+            border-radius: 5px;
+            &-name{
+                font-size: 1.3rem;
+                font-weight: 600;
+            }
+            & ul {
+                color: var(--var-color-text);
+            }
+            & li {
+                &:hover{
+                    color: var(--var-primary);
+                    cursor: pointer;
+                }
+            }
+            &-selected{
+                background: #141e2e;
+                border: 1px solid #141e2e;
+                border-radius: 5px;
+                color: var(--var-primary);
+                cursor: pointer;
+            }
+        }
+        &-right{
+            width: 80%;
+            border: 1px solid var(--var-border);
+            border-radius: 5px;
+            margin-left: 20px;
+        }
+    }
+}

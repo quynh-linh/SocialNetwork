@@ -3,10 +3,9 @@ import styles from "./Profile.module.scss";
 import { Wrapper } from "~/components/Popper";
 import images from "~/assets/images";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCamera, faPen, faPlus } from "@fortawesome/free-solid-svg-icons";
+import { faCamera, faPen } from "@fortawesome/free-solid-svg-icons";
 import { Link, useLocation } from "react-router-dom";
 import { DATA_MENU_CHILDREN_PROFILE } from "~/const/data";
-import { useEffect, useState } from "react";
 function Profile({children}) {
     const cx = classNames.bind(styles);
     const location = useLocation();
@@ -36,10 +35,10 @@ function Profile({children}) {
                                 <FontAwesomeIcon icon={faPlus}/>
                                 <button className={cx('pl-2')} type="button">Thêm vào tin</button>
                             </div> */}
-                            <div className={cx('wrapper__detail-info-box-editInfo','flex items-center')}>
+                            <Link to='/settings' className={cx('wrapper__detail-info-box-editInfo','flex items-center')}>
                                 <FontAwesomeIcon icon={faPen}/>
                                 <button className={cx('pl-2')} type="button">Chỉnh sữa thông tin</button>
-                            </div>
+                            </Link>
                         </div>
                     </div>
                 </div>
