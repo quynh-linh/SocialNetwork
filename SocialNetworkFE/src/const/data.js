@@ -157,10 +157,48 @@ const ALL_FRIENDS_USER = [
         image: 'https://scontent.fsgn2-8.fna.fbcdn.net/v/t1.30497-1/143086968_2856368904622192_1959732218791162458_n.png?_nc_cat=1&ccb=1-7&_nc_sid=2b6aad&_nc_ohc=PXdsVcksYukAX8L3rkf&_nc_ht=scontent.fsgn2-8.fna&oh=00_AfCLS88vp5K6sJ580m3HXSko1NccjIClFEL1V0bg5UreUA&oe=6550AF38'
     }
 ]
+const DATA_SETTINGS_MENU_CONTROL = [
+    {
+        id: 'account',
+        name: 'Account',
+        image: 'https://social.webestica.com/assets/images/icon/person-outline-filled.svg',
+        path:'/settings',
+        status: true
+    },
+    {
+        id: 'notify',
+        name: 'Notification',
+        image: 'https://social.webestica.com/assets/images/icon/notification-outlined-filled.svg',
+        path:'/settings/notify',
+        status: false
+    },
+    {
+        id: 'security',
+        name: 'Privacy and safety',
+        image: 'https://social.webestica.com/assets/images/icon/shield-outline-filled.svg',
+        path:'/settings/security',
+        status: false
+    },
+    {
+        id: 'community',
+        name: 'Communications',
+        image: 'https://social.webestica.com/assets/images/icon/handshake-outline-filled.svg',
+        path:'/settings/community',
+        status: false
+    },
+    {
+        id: 'message',
+        name: 'Messaging ',
+        image: 'https://social.webestica.com/assets/images/icon/chat-alt-outline-filled.svg',
+        path:'/settings/message',
+        status: false
+    },
+];
 export {
     DATA_PAGES,DATA_MENU_PAGES,
     DATA_MENU_CHILDREN_PROFILE,
     DATA__PERSONAL__INFORMATION,
     ALL_IMAGES_USER,
-    ALL_FRIENDS_USER
+    ALL_FRIENDS_USER,
+    DATA_SETTINGS_MENU_CONTROL
 };

@@ -5,7 +5,9 @@ import { DefaultLayout } from "./components/layouts";
 import AuthLayout from "./components/layouts/AuthLayout/AuthLayout";
 import ProfileLayout from "./components/layouts/ProfileLayout/ProfileLayout";
 import Profile from "./pages/Profile";
-
+import SettingsLayout from "./components/layouts/SettingsLayout/SettingsLayout";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 function App() {
   return (
     <Router>
@@ -13,7 +15,6 @@ function App() {
         <Routes>
           {
             publicRoutes.map((route,index) => {
-              //const Layout = route.layout === null ? Fragment : DefaultLayout;
               const AuthLayouts = route.layout === null ? Fragment : AuthLayout;
               const Page = route.component;
               if(route.layout === 'Auth Layout'){
@@ -34,6 +35,7 @@ function App() {
           {
             privateRoutes.map((route,index) => {
               const ProfileLayouts = route.layout === null ? Fragment : ProfileLayout;
+              const SettingsLayouts = route.layout === null ? Fragment : SettingsLayout;
               const Layout = route.layout === null ? Fragment : DefaultLayout;
               const Page = route.component;
               if (route.layout === 'Default Layout'){
@@ -64,7 +66,6 @@ function App() {
                                   element={
                                     <subRoute.component/>
                                   }
-                                  exact={subRoute.exact}
                               />
                             ))}
                           </Routes>
@@ -74,11 +75,36 @@ function App() {
                   >
                   </Route>
                 ) 
+              } else if (route.layout === 'Settings Layout'){
+                return (
+                  <Route 
+                    key={index} 
+                    path={route.path} 
+                    element={
+                      <SettingsLayouts>
+                        <Page>
+                          <Routes>
+                              {route.routes && route.routes.map((subRoute, subIndex) => (
+                                <Route
+                                    key={subIndex}
+                                    path={subRoute.path}
+                                    element={
+                                      <subRoute.component/>
+                                    }
+                                />
+                              ))}
+                            </Routes>
+                        </Page>
+                      </SettingsLayouts>
+                    }
+                  />
+                ) 
               }
             })
           }
         </Routes>
       </div>
+      <ToastContainer/>
     </Router>
   );
 }

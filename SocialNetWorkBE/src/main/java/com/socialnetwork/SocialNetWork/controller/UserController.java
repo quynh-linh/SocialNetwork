@@ -5,14 +5,11 @@ import com.socialnetwork.SocialNetWork.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RequestMapping("/users")
+@RequestMapping("/api/v1/users")
 @RestController
 public class UserController {
     @Autowired
@@ -25,7 +22,6 @@ public class UserController {
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getUserById(@PathVariable String id){
-        System.out.println(id);
         UserDTO result = userService.getUserById(id);
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }

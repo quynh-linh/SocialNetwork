@@ -8,6 +8,7 @@
     --var-border: #343434;
     --var-bg-components: #191a1f;
     --var-primary : #0468eb;
+    --var-color-text : #e4e6eb;
 }
 *{
     box-sizing: border-box;
@@ -52,4 +53,24 @@ body {
     border-radius: 5px;
     -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
     background-color: #dfdede;
+}
+// CUS TOM TOAST IFY
+.Toastify__toast-theme--light {
+    background-color:  white;
+    color: var(--var-primary);
+    font-family: var(--var-font-family);
+    font-size: 1.4rem;
+}
+.Toastify__progress-bar {
+    background-color:  var(--var-primary);
+}
+.Toastify__progress-bar--rtl {
+    background-color:  var(--var-primary);
+}
+/** colored notifications share the same progress bar color **/
+.Toastify__progress-bar-theme--colored.Toastify__progress-bar--info,
+.Toastify__progress-bar-theme--colored.Toastify__progress-bar--success,
+.Toastify__progress-bar-theme--colored.Toastify__progress-bar--warning,
+.Toastify__progress-bar-theme--colored.Toastify__progress-bar--error {
+    background-color:  var(--var-primary);
 }
