@@ -23,6 +23,21 @@ const signInUser = createAsyncThunk('signInUser',async()=> {
         console.error('Error fetching data:', error);
     }
 });
+const signUpUser = createAsyncThunk('signUpUser',async(body)=> {
+    try {
+        const res = await fetch(URL_API+'api/v1/users/add',{
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(body),
+        })
+        return res.json();
+    } catch (error) {
+        console.error('Error fetching data:', error);
+    }
+});
 const authSlice = createSlice({
     name: "auth",
     initialState,
@@ -41,15 +56,15 @@ const authSlice = createSlice({
     },
     extraReducers : (builder) => {
         // ================= LOGIN =================
-        builder.addCase(signInUser.pending,(state,action) => {
+        builder.addCase(signUpUser.pending,(state,action) => {
             state.isLoading = true;
         });
-        builder.addCase(signInUser.fulfilled,(state,action) => {
+        builder.addCase(signUpUser.fulfilled,(state,action) => {
             state.isLoading = false;
             state.isAuthenticated = true;
             console.log(action.payload);
         });
-        builder.addCase(signInUser.rejected,(state,action) => {
+        builder.addCase(signUpUser.rejected,(state,action) => {
             state.isLoading = true;
             state.error = action.payload.error;
         });
@@ -57,5 +72,5 @@ const authSlice = createSlice({
 });
   
 export default authSlice.reducer;
-export {signInUser};
+export {signInUser,signUpUser};
 export const {logOut} = authSlice.actions; 

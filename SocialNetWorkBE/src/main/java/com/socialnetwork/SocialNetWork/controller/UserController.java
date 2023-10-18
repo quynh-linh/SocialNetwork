@@ -1,5 +1,6 @@
 package com.socialnetwork.SocialNetWork.controller;
 
+import com.socialnetwork.SocialNetWork.entity.User;
 import com.socialnetwork.SocialNetWork.model.dto.UserDTO;
 import com.socialnetwork.SocialNetWork.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,12 @@ public class UserController {
         List<UserDTO> result = userService.getListUser();
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
+
+    @PostMapping("/add")
+    public ResponseEntity<?> addUser(@RequestBody User user){
+        System.out.println(user);
+        return ResponseEntity.status(HttpStatus.OK).body(user);
+    };
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getUserById(@PathVariable String id){
