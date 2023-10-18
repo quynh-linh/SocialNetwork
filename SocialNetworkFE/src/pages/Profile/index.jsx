@@ -26,7 +26,7 @@ function Profile({children}) {
                     <div className={cx('wrapper__detail-info-box','flex items-center justify-between')}>
                         <div className={cx('','flex items-center ')}>
                             <div className={cx('text-white pl-5')}>
-                                <h1 className={cx('wrapper__detail-info-box-name')}>Nguyen Thanh Quynh Linh</h1>
+                                <h1 className={cx('wrapper__detail-info-box-name')}>Nguyen Ngoc Dinh</h1>
                                 <span className={cx('wrapper__detail-info-box-quantityFriends','text-color-text')}>269 bạn bè</span>
                             </div>
                         </div>
