@@ -1,2 +1,10 @@
-package com.socialnetwork.SocialNetWork.repository;public interface UserRepository {
+package com.socialnetwork.SocialNetWork.repository;
+
+import com.socialnetwork.SocialNetWork.entity.User;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface UserRepository extends JpaRepository<User,Long> {
+
 }

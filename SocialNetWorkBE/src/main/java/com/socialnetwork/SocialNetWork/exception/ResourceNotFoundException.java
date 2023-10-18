@@ -1,2 +1,11 @@
-package com.socialnetwork.SocialNetWork.exception;public class ResourceNotFoundException {
+package com.socialnetwork.SocialNetWork.exception;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ResponseStatus;
+
+@ResponseStatus(value = HttpStatus.NOT_FOUND)
+public class ResourceNotFoundException extends  RuntimeException {
+    public ResourceNotFoundException(String message){
+        super(message);
+    }
 }

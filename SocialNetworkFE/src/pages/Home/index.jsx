@@ -2,6 +2,7 @@ import classNames from "classnames/bind";
 import styles from "./Home.module.scss";
 import CreatePost from "~/components/form/CreatePost/CreatePost";
 import Post from "~/components/Post/Post";
+import { useDispatch } from "react-redux";
 function Home() {
     const cx = classNames.bind(styles);
     return ( 
