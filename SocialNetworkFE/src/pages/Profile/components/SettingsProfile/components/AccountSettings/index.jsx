@@ -17,12 +17,14 @@ function AccountSettings() {
                 <div className="flex items-center mt-5">
                     {/* INPUT FULLNAME */}
                     <InputTemplate
+                        typeIP="edit"
                         title="Họ"
                         type="Text"
                         placeholder="Nguyễn Thanh Quỳnh"
                         className="mr-4"
                     />
                     <InputTemplate
+                        typeIP="edit"
                         title="Tên"
                         type="Text"
                         placeholder="Linh"
@@ -30,6 +32,7 @@ function AccountSettings() {
                     />
                     {/* INPUT NICKNAME */}
                     <InputTemplate
+                        typeIP="edit"
                         title="Nickname"
                         type="Text"
                         placeholder="John Wick"
@@ -38,6 +41,7 @@ function AccountSettings() {
                 <div className="flex items-center mt-11">
                     {/* INPUT NAME USER */}
                     <InputTemplate
+                        typeIP="edit"
                         title="Tên người dùng"
                         type="text"
                         placeholder="quynhlinh2106"
@@ -45,6 +49,7 @@ function AccountSettings() {
                     />
                     {/* INPUT BIRTHDAY */}
                     <InputTemplate
+                        typeIP="edit"
                         title="Sinh nhật"
                         type="date"
                         placeholder="21/06/2002"
@@ -53,6 +58,7 @@ function AccountSettings() {
                 <div className="flex items-center mt-11">
                     {/* INPUT EMAIL */}
                     <InputTemplate
+                        typeIP="edit"
                         title="Email"
                         type="email"
                         placeholder="nguyenthanhquynhlinh@gmail.com"
@@ -60,6 +66,7 @@ function AccountSettings() {
                     />
                     {/* INPUT BIRTHDAY */}
                     <InputTemplate
+                        typeIP="edit"
                         title="Số điện thoại"
                         type="text"
                         placeholder="098 198 4623"

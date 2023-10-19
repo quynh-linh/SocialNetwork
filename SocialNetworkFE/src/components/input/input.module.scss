@@ -3,6 +3,19 @@
     font-size: 1.5rem;
     margin-bottom: 10px;
 }
+.title-auth{
+    font-size: 1.3rem;
+}
+.success{
+    
+    color: green;
+    font-weight: 500;
+}
+.error{
+    border-color: red !important;
+    color: red;
+    font-weight: 500;
+}
 .btn{
     border: 1px solid var(--var-border);
     border-radius: 5px;
