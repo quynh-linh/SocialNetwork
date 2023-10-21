@@ -37,11 +37,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDTO getUserById(String id){
-//        for (User user : users) {
-//            if(user.getId().equals(id)){
-//                return UserMapper.toUserDto(user);
-//            }
-//        }
+        for (User user : users) {
+            if(user.getId().equals(id)){
+                return UserMapper.toUserDto(user);
+            }
+        }
         return null;
     }
 }
