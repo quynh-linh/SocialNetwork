@@ -12,7 +12,9 @@ public interface UserService {
     public List<UserDTO> getListUser();
     public List<String> getListIdUser();
     public String addUser(User user);
-    public UserDTO getUserById(String id);
+    public UserDTO getUserByToken(String id);
     public AuthResponse login(String email, String password);
+    public String updateUser(User user);
+    public String checkTokenUser(String token);
 
 }

@@ -42,7 +42,7 @@ function Register() {
     const [isLoading,setLoading] = useState(false);
     const dispatch = useDispatch();
     const state = useSelector(state =>  state.auth);
-    const navigate = useNavigate();
+    //const navigate = useNavigate();
     // 
     const [valueEmailUser,setValueEmailUser] = useState('');
     const [valuePasswordUser,setValuePasswordUser] = useState('');
@@ -193,13 +193,10 @@ function Register() {
 
     useEffect(() => {
         if(state.msg === 'success'){
-            console.log(state.isLoading);
             const timer = setTimeout(() => {
-                console.log(state.isLoading);
                 setLoading(state.isLoading); 
                 const updateOb = {...logCheckConfirmPassWord , title : 'Tạo tài khoản thành công' , state:true}
                 setLogCheckConfirmPassWord(updateOb);
-                //navigate('/login');
             },3000);
             return () => clearTimeout(timer);
         }
@@ -310,7 +307,7 @@ function Register() {
                                 
                             ) : ''
                         }
-                        {isLoading ? 'Loading...' : 'Đăng ký'}
+                        {isLoading ? 'Đang tải...' : 'Đăng ký'}
                     </button>
                 </form>    
                 {isLoading ? (<div className={cx('container__process')}></div>) : ''}

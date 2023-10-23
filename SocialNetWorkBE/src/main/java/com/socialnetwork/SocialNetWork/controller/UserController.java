@@ -41,16 +41,24 @@ public class UserController {
         }
     };
 
-    @GetMapping("/{id}")
-    public ResponseEntity<?> getUserById(@PathVariable String id){
-        UserDTO result = userService.getUserById(id);
+    @PostMapping("/token/{slug}")
+    public ResponseEntity<?> getUserByToken(@PathVariable String slug){
+        UserDTO result = userService.getUserByToken(slug);
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
-
+    @PostMapping("/token/check")
+    public ResponseEntity<?> checkToken(@PathVariable String slug){
+        String result = userService.checkTokenUser(slug);
+        return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse(result));
+    }
     @PostMapping("/login")
     public ResponseEntity<?> loginUser(@RequestBody User user){
         AuthResponse result = userService.login(user.getEmail(),user.getPassword());
-        return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse(result.getToken()));
+        return ResponseEntity.status(HttpStatus.OK).body(new AuthResponse(result.getToken(),result.getMessage(), result.getUserID()));
     }
-
+    @PostMapping("/update")
+    public ResponseEntity<?> updateUser(@RequestBody User user){
+        String result = userService.updateUser(user);
+        return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse(result));
+    }
 }

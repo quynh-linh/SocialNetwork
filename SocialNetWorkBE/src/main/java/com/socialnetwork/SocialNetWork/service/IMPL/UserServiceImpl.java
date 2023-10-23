@@ -64,8 +64,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDTO getUserById(String id){
-        return null;
+    public UserDTO getUserByToken(String token){
+        JwtTokenProvider jwtTokenProvider = new JwtTokenProvider();
+        String emailUser = jwtTokenProvider.getUserIdFromJWT(token);
+        User user = userRepository.findUserByEmail(emailUser);
+        return UserMapper.toUserDto(user);
     }
 
     @Override
@@ -74,9 +77,39 @@ public class UserServiceImpl implements UserService {
         JwtTokenProvider jwtTokenProvider = new JwtTokenProvider();
         AuthResponse authResponse = null;
         if(user != null){
-            String token = jwtTokenProvider.generateToken(user.getFirstName()+user.getLastName());
-            authResponse = new AuthResponse(token);
+            String token = jwtTokenProvider.generateToken(user.getEmail());
+            authResponse = new AuthResponse(token,"success",user.getId());
+        } else {
+            authResponse = new AuthResponse("","error" , "");
         }
         return authResponse;
+    }
+
+    @Override
+    public String updateUser(User user) {
+        try{
+            System.err.println(user.getEmail()+user.getFirstName()+user.getLastName()+
+                    user.getDateOfBirth()+user.getAddress()+user.getId());
+            int userDB = userRepository.updateUser(user.getEmail(), user.getFirstName(),user.getLastName(),
+                    user.getDateOfBirth(),user.getAddress(),user.getId());
+            if(userDB > 0){
+                return "success";
+            }
+        } catch(DataAccessException e){
+            e.printStackTrace();
+            return "error";
+        }
+        return "error";
+    }
+
+    @Override
+    public String checkTokenUser(String token) {
+        JwtTokenProvider jwtTokenProvider = new JwtTokenProvider();
+        boolean checkToken = jwtTokenProvider.validateToken(token);
+        if(checkToken){
+            return "exits";
+        } else {
+            return "not exits";
+        }
     }
 }

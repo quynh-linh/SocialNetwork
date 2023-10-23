@@ -1,11 +1,15 @@
 package com.socialnetwork.SocialNetWork.service;
 
+import com.socialnetwork.SocialNetWork.model.dto.UserDTO;
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
+import java.awt.*;
 import java.util.Date;
 
 @Service
@@ -23,10 +27,13 @@ public class JwtTokenProvider {
                 .signWith(SignatureAlgorithm.HS512, SECRET_KEY)
                 .compact();
     }
-
+    public String getUserIdFromJWT(String token) {
+        Claims claims = Jwts.parser().setSigningKey(SECRET_KEY).build().parseClaimsJws(token).getBody();
+        return String.valueOf(claims.getSubject());
+    }
     public boolean validateToken(String token) {
         try {
-            Jwts.parser().build().parseSignedClaims(token);
+            Jwts.parser().setSigningKey(SECRET_KEY).build().parseClaimsJws(token);
             return true;
         } catch (Exception e) {
             return false;

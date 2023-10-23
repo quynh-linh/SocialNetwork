@@ -9,8 +9,10 @@ function InputTemplate({
     className='',
     classNameInput='',
     onChangeValue=undefined,
-    nameIp=''},
-    autoComplete='') {
+    nameIp='',
+    autoComplete='',
+    pattern='',
+    valueIP=''}) {
     const cx = classNames.bind(styles);
     return (  
         <div className={cx('w-full',className)}>
@@ -45,10 +47,11 @@ function InputTemplate({
                         } 
                         <input
                             type={type}
-                            placeholder={placeholder}
+                            placeholder={placeholder ? placeholder : ''}
                             className={cx('btn',classNameInput)}
-                            name={nameIp}
-                            autoComplete={autoComplete}
+                            name={nameIp ? nameIp : ''}
+                            value={valueIP ? valueIP : ''}
+                            onChange={onChangeValue}
                         />
                     </div>
                 ) : ''

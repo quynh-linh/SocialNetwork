@@ -4,7 +4,6 @@ import { Fragment } from "react";
 import { DefaultLayout } from "./components/layouts";
 import AuthLayout from "./components/layouts/AuthLayout/AuthLayout";
 import ProfileLayout from "./components/layouts/ProfileLayout/ProfileLayout";
-import Profile from "./pages/Profile";
 import SettingsLayout from "./components/layouts/SettingsLayout/SettingsLayout";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';

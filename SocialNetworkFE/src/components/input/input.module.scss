@@ -24,7 +24,4 @@
     color: var(--var-color-text);
     background-color: var(--var-background);
     padding: 10px;
-    &:focus{
-        outline-color: var(--var-primary) !important;
-    }
 }
