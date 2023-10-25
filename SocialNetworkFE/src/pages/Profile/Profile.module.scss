@@ -26,23 +26,39 @@
         }
     }
     &__detail{
-        position: relative;
         &-info{
-            padding-bottom: 50px;
             border-bottom: 1px solid #4c4c4c;
-            & img {
-                width: 160px;
+            &-chooseImg{
+                width: 20%;
+                position: relative;
                 height: 160px;
-                object-fit: cover;
-                border-radius: 50%;
-                position: absolute;
-                top: -27%;
-                left: 3%;
-                border: 1px solid #5d5d5dcc;
+                &-img {
+                    position: absolute;
+                    top: -30px;
+                    left: 20%;
+                    width: 160px;
+                    height: 160px;
+                    object-fit: cover;
+                    border-radius: 50%;
+                    border: 1px solid #5d5d5dcc;
+                }
+                &-icon{
+                    font-size: 1.7rem;
+                    color: white;
+                    padding: 5px;
+                    background: #3a3b3c;
+                    border-radius: 10px;
+                    position: absolute;
+                    right: 5%;
+                    bottom: 30%;
+                    &:hover{
+                        cursor: pointer;
+                    }
+                }
             }
             &-box{
-                margin-left: 18%;
-                padding-top: 23px;
+                width: 80%;
+                margin-bottom: 30px;
                 &-menu{
                     margin-right: 3%;
                 }

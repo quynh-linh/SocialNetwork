@@ -22,4 +22,6 @@ public class UserDTO {
 
     private String dateOfBirth;
 
+    private String image;
+
 }
