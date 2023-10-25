@@ -1,4 +1,4 @@
-package com.socialnetwork.SocialNetWork.model.dto;
+package com.socialnetwork.SocialNetWork.model.Response;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

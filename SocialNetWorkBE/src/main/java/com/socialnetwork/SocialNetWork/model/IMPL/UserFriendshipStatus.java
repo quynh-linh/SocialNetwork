@@ -1,26 +1,16 @@
-package com.socialnetwork.SocialNetWork.model.dto;
+package com.socialnetwork.SocialNetWork.model.IMPL;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.socialnetwork.SocialNetWork.entity.User;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-public class UserFriendshipStatus {
-    private String id;
+import java.util.List;
 
-    private String firstName;
-
-    private String lastName;
-
-    private String email;
-
-    private String address;
-
-    private String dateOfBirth;
-
-    private String image;
-
-    private String status;
+public interface UserFriendshipStatus {
+    String getId();
+    String getfirst_name();
+    String getlast_name();
+    String getEmail();
+    String getAddress();
+    String getImage();
+    String getdate_of_birth();
+    String getStatus();
 }

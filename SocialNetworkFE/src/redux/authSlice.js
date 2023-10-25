@@ -7,26 +7,33 @@ const  initialState = {
         lastName: '',
         email: '',
         address: '',
-        dateOfBirth: ''
+        dateOfBirth: '',
+        image: ''
     },
     token : '',
     isAuthenticated: false,
     isLoading: false,
     msg:'',
 }
-const getListUsers = createAsyncThunk('getListUsers',async()=> {
+// GET LIST USER BY FRIENDS STATUS
+const getListSuggestedFriends = createAsyncThunk('getListSuggestedFriends',async(body)=> {
     try {
-        const response = await fetch(URL_API+'api/v1/users');
-        if (response.ok) {
-            const data = await response.json();
-            return data;
-        } else {
-            console.error('Error fetching data:', response.status);
-        }
+        const res = await fetch(URL_API + 'api/v1/users/all', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body : JSON.stringify(body)
+        });
+        const data = await res.json();
+        return data;
     } catch (error) {
         console.error('Error fetching data:', error);
     }
 });
+
+// HANDLE REGISTER USER
 const signUpUser = createAsyncThunk('signUpUser',async(body)=> {
     try {
         const res = await fetch(URL_API + 'api/v1/users/add', {
@@ -44,6 +51,8 @@ const signUpUser = createAsyncThunk('signUpUser',async(body)=> {
         throw error;
     }
 });
+
+// HANDLE GET INFO USER BY TOKEN
 const getInfoUserByToken = createAsyncThunk('getInfoUserByToken',async(slug)=> {
     try {
         const res = await fetch(URL_API + 'api/v1/users/token/'+slug, {
@@ -60,6 +69,8 @@ const getInfoUserByToken = createAsyncThunk('getInfoUserByToken',async(slug)=> {
         throw error;
     }
 });
+
+// HANDLE UPDATE USER IN DB
 const updateUserDB = createAsyncThunk('updateUserDB',async(body)=> {
     try {
         const res = await fetch(URL_API + 'api/v1/users/update', {
@@ -77,6 +88,27 @@ const updateUserDB = createAsyncThunk('updateUserDB',async(body)=> {
         throw error;
     }
 });
+
+// HANDLE UPDATE USER BY IMAGE IN DB
+const updateImageUserDB = createAsyncThunk('updateImageUserDB',async(body)=> {
+    try {
+        const res = await fetch(URL_API + 'api/v1/users/updateImage', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(body)
+        });
+        const data = await res.json();
+        return data;
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        throw error;
+    }
+});
+
+// HANDLE SIGN IN USER
 const signInUser = createAsyncThunk('signInUser',async(body)=> {
     try {
         const res = await fetch(URL_API + 'api/v1/users/login', {
@@ -99,12 +131,13 @@ const authSlice = createSlice({
     initialState,
     reducers: {
         updateUSer : (state,action) => {
-            const {firstName,lastName,email,address,dateOfBirth} = action.payload;
+            const {firstName,lastName,email,address,dateOfBirth,image} = action.payload;
             state.user.firstName = firstName;
             state.user.lastName = lastName;
             state.user.email = email;
             state.user.address = address;
             state.user.dateOfBirth = dateOfBirth;
+            state.user.image = image;
         }
     },
     extraReducers : (builder) => {
@@ -120,7 +153,7 @@ const authSlice = createSlice({
         builder.addCase(signUpUser.rejected,(state,action) => {
             state.isLoading = true;
         });
-        // ================= SIGN UP =================
+        // ================= SIGN IN =================
         builder.addCase(signInUser.pending,(state,action) => {
             state.isLoading = true;
         });
@@ -142,7 +175,7 @@ const authSlice = createSlice({
         });
         builder.addCase(getInfoUserByToken.fulfilled,(state,action) => {
             state.isLoading = false;
-            const {id,firstName,lastName,email,address,dateOfBirth} = action.payload;
+            const {id,firstName,lastName,email,address,dateOfBirth,image} = action.payload;
             // 
             state.user.id = id;
             state.user.firstName = firstName;
@@ -150,6 +183,8 @@ const authSlice = createSlice({
             state.user.email = email;
             state.user.address = address;
             state.user.dateOfBirth = dateOfBirth;
+            state.user.image = image;
+            state.msg = '';
         });
         builder.addCase(getInfoUserByToken.rejected,(state,action) => {
             state.isLoading = true;
@@ -166,9 +201,34 @@ const authSlice = createSlice({
         builder.addCase(updateUserDB.rejected,(state,action) => {
             state.isLoading = true;
         });
+        // ================= UPDATE IMAGE USER =================
+        builder.addCase(updateImageUserDB.pending,(state,action) => {
+            state.isLoading = true;
+        });
+        builder.addCase(updateImageUserDB.fulfilled,(state,action) => {
+            state.isLoading = false;
+            const {message} = action.payload;
+            state.msg = message;
+        });
+        builder.addCase(updateImageUserDB.rejected,(state,action) => {
+            state.isLoading = true;
+        });
     }
 });
  
 export default authSlice.reducer;
-export {getListUsers,signUpUser,signInUser,getInfoUserByToken,updateUserDB};
+export {
+    // GET ALL USERS LIST
+    getListSuggestedFriends,
+    // REGISTER USER
+    signUpUser,
+    // LOGIN
+    signInUser,
+    // GET USER INFORMATION
+    getInfoUserByToken,
+    // UPDATE USER INFORMATION
+    updateUserDB,
+    // UPDATE IMAGE USER INFORMATION
+    updateImageUserDB,
+};
 export const {updateUSer} = authSlice.actions; 

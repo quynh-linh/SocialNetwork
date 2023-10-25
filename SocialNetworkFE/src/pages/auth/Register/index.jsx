@@ -168,7 +168,8 @@ function Register() {
                 "email": valueEmailUser,
                 "password": valuePasswordUser,
                 "address": '',
-                "dateOfBirth": ''
+                "dateOfBirth": '',
+                "image" : 'https://firebasestorage.googleapis.com/v0/b/socialnerwork-ac060.appspot.com/o/images%2Ffemale-avatar-girl-face-woman-user-4-svgrepo-com.png?alt=media&token=7474df74-51a1-4587-a4b8-ac9d465b8583&_gl=1*1thcfg4*_ga*MTA5MzA0MDc1My4xNjk4MTI4NTU0*_ga_CW55HF8NVT*MTY5ODEzOTE5Mi4zLjEuMTY5ODE0NDY3Ni41MC4wLjA.'
             }));
             setLogCheckEmail({
                 title : 'Chúng tôi sẽ không bao giờ chia sẻ email của bạn với bất kỳ ai khác.',

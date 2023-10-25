@@ -12,6 +12,12 @@
     }
     &-icon{
         width: 16%;
+        display: flex;
+        justify-content: center;
+        padding: 10px;
+        background: #141e2e;
+        color: #0e6eeb;
+        border-radius: 50%;
     }
     &-img{
         border-radius: 50%;
@@ -27,15 +33,13 @@
         color: #6e888e;
         font-weight: 500;
     }
-    &-add{
-        border-radius: 50%;
-        align-items: center;
-        display: flex;
-        padding: 10px;
-        background: #141e2e;
-        color: #0e6eeb;
+    &-add,
+    &-check{
+        width: 15px;
     }
     &-check{
-        
+        width: 16%;
+        color: white;
+        background: var(--var-primary);
     }
 }

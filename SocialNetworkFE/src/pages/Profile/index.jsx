@@ -1,14 +1,51 @@
 import classNames from "classnames/bind";
 import styles from "./Profile.module.scss";
-import { Wrapper } from "~/components/Popper";
 import images from "~/assets/images";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCamera, faPen } from "@fortawesome/free-solid-svg-icons";
 import { Link, useLocation } from "react-router-dom";
 import { DATA_MENU_CHILDREN_PROFILE } from "~/const/data";
+import { useEffect, useState } from "react";
+import { storage } from "~/config/firebase";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import { v4 } from 'uuid';
+import { useDispatch, useSelector } from "react-redux";
+import { getInfoUserByToken, updateImageUserDB} from "~/redux/authSlice";
 function Profile({children}) {
     const cx = classNames.bind(styles);
+    const [nameUrlImageUser,setNameUrlImageUser] = useState('');
+    const dispatch = useDispatch();
     const location = useLocation();
+
+    const state = useSelector(state => state.auth);
+
+    const handleOnChangeImageUpLoad = (e) => {
+        const imageUpload = e.target.files[0];
+        if(imageUpload !== null){
+            const uuid = v4();
+            const nameImage = imageUpload.name+ uuid;
+            const imageRef = ref(storage,`images/${nameImage}`);
+            uploadBytes(imageRef,imageUpload).then((snapshot) => {
+                getDownloadURL(snapshot.ref).then((url) => {
+                    dispatch(updateImageUserDB({
+                        image : url,
+                        id: state.user.id
+                    }));
+                    setNameUrlImageUser(url);
+                })
+            })
+        }
+    } 
+ 
+    //
+    useEffect(() => {
+        const tokenUser = localStorage.getItem('token');
+        if(tokenUser !== null) {
+            dispatch(getInfoUserByToken(tokenUser)).then((item) => {
+                setNameUrlImageUser(item.payload.image);
+            });
+        }
+    },[dispatch]);
 
     return ( 
         <div className={cx('wrapper','w-full h-full')}>
@@ -21,8 +58,17 @@ function Profile({children}) {
                 </div>
             </div>
             <div className={cx('wrapper__detail','bg-sidebar')}>
-                <div className={cx('wrapper__detail-info','')}>
-                    <img className={cx('')} src={images.user} alt="Choose User"/>
+                <div className={cx('wrapper__detail-info','flex')}>
+                    <div className={cx('wrapper__detail-info-chooseImg')}>
+                        <img className={cx('wrapper__detail-info-chooseImg-img')} src={nameUrlImageUser} alt="Choose User"/>
+                        <input onChange={(e) => handleOnChangeImageUpLoad(e)} type="file" id="ip-chooseFile" className="hidden"></input>
+                        <label htmlFor="ip-chooseFile">
+                            <FontAwesomeIcon 
+                                className={cx('wrapper__detail-info-chooseImg-icon')}  
+                                icon={faCamera}
+                            />
+                        </label>
+                    </div>
                     <div className={cx('wrapper__detail-info-box','flex items-center justify-between')}>
                         <div className={cx('','flex items-center ')}>
                             <div className={cx('text-white pl-5')}>
@@ -31,10 +77,6 @@ function Profile({children}) {
                             </div>
                         </div>
                         <div className={cx('wrapper__detail-info-box-menu')}>
-                            {/* <div className={cx('wrapper__detail-info-box-addStory','flex items-center mb-3 bg-primaryColor text-white')}>
-                                <FontAwesomeIcon icon={faPlus}/>
-                                <button className={cx('pl-2')} type="button">Thêm vào tin</button>
-                            </div> */}
                             <Link to='/settings' className={cx('wrapper__detail-info-box-editInfo','flex items-center')}>
                                 <FontAwesomeIcon icon={faPen}/>
                                 <button className={cx('pl-2')} type="button">Chỉnh sữa thông tin</button>

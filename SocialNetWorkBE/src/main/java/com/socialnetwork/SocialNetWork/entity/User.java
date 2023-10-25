@@ -30,10 +30,12 @@ public class User {
     @Column(name = "date_of_birth")
     private String dateOfBirth;
 
+    @Column(name = "image")
+    private String image;
     public User() {
     }
 
-    public User(String id, String firstName, String lastName, String email, String password, String address, String dateOfBirth) {
+    public User(String id, String firstName, String lastName, String email, String password, String address, String dateOfBirth,String image) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -41,15 +43,17 @@ public class User {
         this.password = password;
         this.address = address;
         this.dateOfBirth = dateOfBirth;
+        this.image = image;
     }
 
-    public User(String firstName, String lastName, String email, String password, String address, String dateOfBirth) {
+    public User(String firstName, String lastName, String email, String password, String address, String dateOfBirth , String image) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.password = password;
         this.address = address;
         this.dateOfBirth = dateOfBirth;
+        this.image = image;
     }
 
     public String getId() {
@@ -106,5 +110,13 @@ public class User {
 
     public void setDateOfBirth(String dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 }

@@ -1,10 +1,10 @@
 package com.socialnetwork.SocialNetWork.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.socialnetwork.SocialNetWork.entity.User;
-import com.socialnetwork.SocialNetWork.model.dto.ApiResponse;
-import com.socialnetwork.SocialNetWork.model.dto.AuthResponse;
+import com.socialnetwork.SocialNetWork.model.Response.ApiResponse;
+import com.socialnetwork.SocialNetWork.model.Response.AuthResponse;
 import com.socialnetwork.SocialNetWork.model.dto.UserDTO;
+import com.socialnetwork.SocialNetWork.model.IMPL.UserFriendshipStatus;
 import com.socialnetwork.SocialNetWork.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,6 +24,23 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
+    @PostMapping("/all")
+    public ResponseEntity<?> getListSuggestedFriends(@RequestBody String id){
+        List<User> result = userService.getListSuggestedFriends(id);
+        if(!result.isEmpty()){
+            return ResponseEntity.status(HttpStatus.OK).body(result);
+        }
+        return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED).body(new ApiResponse("error"));
+    }
+    @GetMapping("/listStatus")
+    public ResponseEntity<?> getListUserToStatus(){
+        List<UserFriendshipStatus> result = userService.getListUsersToStatus();
+        if(!result.isEmpty()){
+            return ResponseEntity.status(HttpStatus.OK).body(result);
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse("error"));
+    }
+
     @GetMapping("/listId")
     public ResponseEntity<?> getListIdUser(){
         List<String> result = userService.getListIdUser();
@@ -36,7 +53,7 @@ public class UserController {
             String result = userService.addUser(user);
             return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse(result));
         } catch(Exception e){
-            e.printStackTrace();
+            System.err.println(e.toString());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error occurred");
         }
     };
@@ -59,6 +76,12 @@ public class UserController {
     @PostMapping("/update")
     public ResponseEntity<?> updateUser(@RequestBody User user){
         String result = userService.updateUser(user);
+        return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse(result));
+    }
+
+    @PostMapping("/updateImage")
+    public ResponseEntity<?> updateImageUser(@RequestBody User user){
+        String result = userService.updateImageUser(user);
         return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse(result));
     }
 }

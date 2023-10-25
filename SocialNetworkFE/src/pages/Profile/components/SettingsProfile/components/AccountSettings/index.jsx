@@ -83,7 +83,8 @@ function AccountSettings() {
             lastName: state.user.lastName,
             email: state.user.email,
             address: state.user.address,
-            dateOfBirth: state.user.dateOfBirth
+            dateOfBirth: state.user.dateOfBirth,
+            image : state.user.image
         }));
     };
     useEffect(() => {
@@ -93,7 +94,7 @@ function AccountSettings() {
         }
     },[dispatch]);
     useEffect(() => {
-        if(state.msg === 'success') {
+        if(state.msg === 'success update') {
             Toast({type:'info',content:"Lưu thành công",position:'bottom-left',autoClose:2000,limit:1,des:'edit'});
         }
     },[state.msg]);

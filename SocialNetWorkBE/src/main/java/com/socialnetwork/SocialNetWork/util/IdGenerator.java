@@ -4,7 +4,7 @@ import java.util.Random;
 
 public class IdGenerator {
     private static final String CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-    private static final int ID_LENGTH = 10;
+    private static final int ID_LENGTH = 40;
 
     public static String generateUniqueId() {
         StringBuilder id = new StringBuilder();
@@ -14,4 +14,5 @@ public class IdGenerator {
         }
         return id.toString();
     }
+
 }

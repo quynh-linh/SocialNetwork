@@ -1,13 +1,15 @@
 package com.socialnetwork.SocialNetWork.service.IMPL;
 
 import com.socialnetwork.SocialNetWork.entity.User;
-import com.socialnetwork.SocialNetWork.model.dto.AuthResponse;
+import com.socialnetwork.SocialNetWork.model.Response.AuthResponse;
 import com.socialnetwork.SocialNetWork.model.dto.UserDTO;
+import com.socialnetwork.SocialNetWork.model.IMPL.UserFriendshipStatus;
 import com.socialnetwork.SocialNetWork.model.mapper.UserMapper;
 import com.socialnetwork.SocialNetWork.repository.UserRepository;
 import com.socialnetwork.SocialNetWork.service.JwtTokenProvider;
 import com.socialnetwork.SocialNetWork.service.UserService;
 import com.socialnetwork.SocialNetWork.util.IdGenerator;
+import com.socialnetwork.SocialNetWork.util.SplitString;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Component;
@@ -45,6 +47,31 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public List<User> getListSuggestedFriends(String id) {
+        ArrayList<User> listUser = (ArrayList<User>) userRepository.findAll();
+        ArrayList<User> result = new ArrayList<>();
+        String splitID = SplitString.splitStringToStartWithAndEndWith(id);
+        if(!splitID.isEmpty()){
+            for (User item : listUser) {
+                if(!item.getId().equals(splitID)){
+                    result.add(item);
+                }
+            }
+            return result;
+        }
+        return null;
+    }
+
+    @Override
+    public List<UserFriendshipStatus> getListUsersToStatus() {
+        ArrayList<UserFriendshipStatus> result = (ArrayList<UserFriendshipStatus>) userRepository.findAllUserToStatus();
+        if(!result.isEmpty()){
+            return result;
+        }
+        return null;
+    }
+
+    @Override
     public String addUser(User user) {
         try{
             String uniqueId = IdGenerator.generateUniqueId();
@@ -66,9 +93,13 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDTO getUserByToken(String token){
         JwtTokenProvider jwtTokenProvider = new JwtTokenProvider();
-        String emailUser = jwtTokenProvider.getUserIdFromJWT(token);
-        User user = userRepository.findUserByEmail(emailUser);
-        return UserMapper.toUserDto(user);
+        boolean checkToken = jwtTokenProvider.validateToken(token);
+        if(checkToken){
+            String emailUser = jwtTokenProvider.getUserIdFromJWT(token);
+            User user = userRepository.findUserByEmail(emailUser);
+            return UserMapper.toUserDto(user);
+        }
+        return null;
     }
 
     @Override
@@ -89,11 +120,27 @@ public class UserServiceImpl implements UserService {
     public String updateUser(User user) {
         try{
             System.err.println(user.getEmail()+user.getFirstName()+user.getLastName()+
-                    user.getDateOfBirth()+user.getAddress()+user.getId());
+                    user.getDateOfBirth()+user.getAddress()+user.getImage()+user.getId());
             int userDB = userRepository.updateUser(user.getEmail(), user.getFirstName(),user.getLastName(),
                     user.getDateOfBirth(),user.getAddress(),user.getId());
             if(userDB > 0){
-                return "success";
+                return "success update";
+            }
+        } catch(DataAccessException e){
+            e.printStackTrace();
+            return "error";
+        }
+        return "error";
+    }
+
+    @Override
+    public String updateImageUser(User user) {
+        try{
+            System.err.println(user.getEmail()+user.getFirstName()+user.getLastName()+
+                    user.getDateOfBirth()+user.getAddress()+user.getImage()+user.getId());
+            int userDB = userRepository.updateImageUser(user.getImage(),user.getId());
+            if(userDB > 0){
+                return "success update image";
             }
         } catch(DataAccessException e){
             e.printStackTrace();
