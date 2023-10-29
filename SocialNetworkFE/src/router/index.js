@@ -7,6 +7,8 @@ import SettingsProfile from "~/pages/Profile/components/SettingsProfile";
 import AccountSettings from "~/pages/Profile/components/SettingsProfile/components/AccountSettings";
 import Login from "~/pages/auth/Login";
 import Register from "~/pages/auth/Register";
+import Connections from "~/pages/Connections";
+import FriendRequest from "~/pages/Connections/components/FriendRequest/FriendRequest";
 const publicRoutes =[
     {   
         path: '/login', 
@@ -71,6 +73,33 @@ const privateRoutes = [
                 path: 'notify',
                 component: NotificationSettings,
                 name: 'Notification Settings'
+            }
+        ]
+    },
+    {   
+        path: '/friends/*', 
+        name: 'Kết nối',
+        layout : 'Connections Layout',
+        routes: [
+            {
+                path: '',
+                component: Connections,
+                name: 'Friends'
+            },
+            {
+                path: 'requests',
+                component: FriendRequest,
+                name: 'Request'
+            },
+            {
+                path: 'suggestions',
+                component: FriendRequest,
+                name: 'Suggestions'
+            },
+            {
+                path: 'list',
+                component: FriendRequest,
+                name: 'List'
             }
         ]
     },

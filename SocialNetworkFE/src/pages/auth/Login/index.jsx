@@ -2,7 +2,7 @@ import classNames from "classnames/bind";
 import styles from "./Login.module.scss";
 import AuthForm from "~/components/form/auth/authForm";
 import { useDispatch, useSelector } from "react-redux";
-import { signInUser, signUpUser } from "~/redux/authSlice";
+import { signInUser} from "~/redux/authSlice";
 import { useEffect, useState } from "react";
 import { InputTemplate } from "~/components/input";
 import { useNavigate } from "react-router-dom";

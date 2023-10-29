@@ -1,6 +1,7 @@
 package com.socialnetwork.SocialNetWork.service.IMPL;
 
 import com.socialnetwork.SocialNetWork.entity.User;
+import com.socialnetwork.SocialNetWork.model.IMPL.RequestUserFriends;
 import com.socialnetwork.SocialNetWork.model.Response.AuthResponse;
 import com.socialnetwork.SocialNetWork.model.dto.UserDTO;
 import com.socialnetwork.SocialNetWork.model.IMPL.UserFriendshipStatus;
@@ -9,7 +10,7 @@ import com.socialnetwork.SocialNetWork.repository.UserRepository;
 import com.socialnetwork.SocialNetWork.service.JwtTokenProvider;
 import com.socialnetwork.SocialNetWork.service.UserService;
 import com.socialnetwork.SocialNetWork.util.IdGenerator;
-import com.socialnetwork.SocialNetWork.util.SplitString;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Component;
@@ -47,26 +48,22 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> getListSuggestedFriends(String id) {
-        ArrayList<User> listUser = (ArrayList<User>) userRepository.findAll();
-        ArrayList<User> result = new ArrayList<>();
-        String splitID = SplitString.splitStringToStartWithAndEndWith(id);
-        if(!splitID.isEmpty()){
-            for (User item : listUser) {
-                if(!item.getId().equals(splitID)){
-                    result.add(item);
-                }
-            }
-            return result;
+    public List<UserFriendshipStatus> getListSuggestedFriends(String id) {
+        ArrayList<UserFriendshipStatus> listUser = (ArrayList<UserFriendshipStatus>) userRepository.getListSuggestedFriends(id);
+        if(!listUser.isEmpty()){
+            return listUser;
         }
         return null;
     }
 
     @Override
-    public List<UserFriendshipStatus> getListUsersToStatus() {
-        ArrayList<UserFriendshipStatus> result = (ArrayList<UserFriendshipStatus>) userRepository.findAllUserToStatus();
-        if(!result.isEmpty()){
-            return result;
+    public List<RequestUserFriends> getUserRequestFriends(String id,String limit) {
+        int convertLimit = Integer.parseInt(limit);
+        if(!id.isEmpty() && convertLimit > 0){
+            ArrayList<RequestUserFriends> result = (ArrayList<RequestUserFriends>) userRepository.getUserRequestFriends(id,convertLimit);
+            if(!result.isEmpty()){
+                return result;
+            }
         }
         return null;
     }
@@ -119,8 +116,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public String updateUser(User user) {
         try{
-            System.err.println(user.getEmail()+user.getFirstName()+user.getLastName()+
-                    user.getDateOfBirth()+user.getAddress()+user.getImage()+user.getId());
             int userDB = userRepository.updateUser(user.getEmail(), user.getFirstName(),user.getLastName(),
                     user.getDateOfBirth(),user.getAddress(),user.getId());
             if(userDB > 0){
@@ -136,8 +131,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public String updateImageUser(User user) {
         try{
-            System.err.println(user.getEmail()+user.getFirstName()+user.getLastName()+
-                    user.getDateOfBirth()+user.getAddress()+user.getImage()+user.getId());
             int userDB = userRepository.updateImageUser(user.getImage(),user.getId());
             if(userDB > 0){
                 return "success update image";
@@ -145,6 +138,26 @@ public class UserServiceImpl implements UserService {
         } catch(DataAccessException e){
             e.printStackTrace();
             return "error";
+        }
+        return "error";
+    }
+
+    @Override
+    public String updateStatusFriend(String receiverId, String senderId, String title) {
+        try{
+            if(!receiverId.isEmpty() && !senderId.isEmpty()){
+                int updateStatusByFriends;
+                if(title.equals("confirm")){
+                    updateStatusByFriends = userRepository.updateStatusByFriends(2, senderId, receiverId);
+                } else {
+                    updateStatusByFriends = userRepository.updateStatusByFriends(3, senderId, receiverId);
+                }
+                if(updateStatusByFriends > 0){
+                    return "success update";
+                }
+            }
+        } catch(DataAccessException e){
+            e.printStackTrace();
         }
         return "error";
     }
