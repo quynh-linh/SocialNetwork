@@ -5,47 +5,15 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCamera, faPen } from "@fortawesome/free-solid-svg-icons";
 import { Link, useLocation } from "react-router-dom";
 import { DATA_MENU_CHILDREN_PROFILE } from "~/const/data";
-import { useEffect, useState } from "react";
-import { storage } from "~/config/firebase";
-import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
-import { v4 } from 'uuid';
-import { useDispatch, useSelector } from "react-redux";
-import { getInfoUserByToken, updateImageUserDB} from "~/redux/authSlice";
+import useUserToken from "~/hook/user";
 function Profile({children}) {
     const cx = classNames.bind(styles);
-    const [nameUrlImageUser,setNameUrlImageUser] = useState('');
-    const dispatch = useDispatch();
     const location = useLocation();
-
-    const state = useSelector(state => state.auth);
+    const {valueIdUser,nameUrlImageUser,updateImageUser} = useUserToken();
 
     const handleOnChangeImageUpLoad = (e) => {
-        const imageUpload = e.target.files[0];
-        if(imageUpload !== null){
-            const uuid = v4();
-            const nameImage = imageUpload.name+ uuid;
-            const imageRef = ref(storage,`images/${nameImage}`);
-            uploadBytes(imageRef,imageUpload).then((snapshot) => {
-                getDownloadURL(snapshot.ref).then((url) => {
-                    dispatch(updateImageUserDB({
-                        image : url,
-                        id: state.user.id
-                    }));
-                    setNameUrlImageUser(url);
-                })
-            })
-        }
+        updateImageUser(e.target.files[0]);
     } 
- 
-    //
-    useEffect(() => {
-        const tokenUser = localStorage.getItem('token');
-        if(tokenUser !== null) {
-            dispatch(getInfoUserByToken(tokenUser)).then((item) => {
-                setNameUrlImageUser(item.payload.image);
-            });
-        }
-    },[dispatch]);
 
     return ( 
         <div className={cx('wrapper','w-full h-full')}>

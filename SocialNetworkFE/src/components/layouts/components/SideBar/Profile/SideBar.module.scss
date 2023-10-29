@@ -50,6 +50,11 @@
             border-bottom: 1px solid var(--var-border);
             &-item{
                 padding: 10px 20px;
+                &:hover{
+                    cursor: pointer;
+                    background-color: var(--var-border);
+                    border-radius: 5px;
+                }
             }
         }
         &-view{

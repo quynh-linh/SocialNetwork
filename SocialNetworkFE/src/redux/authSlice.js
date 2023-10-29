@@ -15,28 +15,30 @@ const  initialState = {
     isLoading: false,
     msg:'',
 }
-// GET LIST USER BY FRIENDS STATUS
-const getListSuggestedFriends = createAsyncThunk('getListSuggestedFriends',async(body)=> {
-    try {
-        const res = await fetch(URL_API + 'api/v1/users/all', {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body : JSON.stringify(body)
-        });
-        const data = await res.json();
-        return data;
-    } catch (error) {
-        console.error('Error fetching data:', error);
-    }
-});
 
 // HANDLE REGISTER USER
 const signUpUser = createAsyncThunk('signUpUser',async(body)=> {
     try {
         const res = await fetch(URL_API + 'api/v1/users/add', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(body),
+        });
+        const data = await res.json();
+        return data;
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        throw error;
+    }
+});
+
+// HANDLE SIGN IN USER
+const signInUser = createAsyncThunk('signInUser',async(body)=> {
+    try {
+        const res = await fetch(URL_API + 'api/v1/users/login', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -70,10 +72,28 @@ const getInfoUserByToken = createAsyncThunk('getInfoUserByToken',async(slug)=> {
     }
 });
 
-// HANDLE UPDATE USER IN DB
-const updateUserDB = createAsyncThunk('updateUserDB',async(body)=> {
+// GET LIST USER BY FRIENDS STATUS
+const getListSuggestedFriends = createAsyncThunk('getListSuggestedFriends',async(body)=> {
     try {
-        const res = await fetch(URL_API + 'api/v1/users/update', {
+        const res = await fetch(URL_API + 'api/v1/users/listSuggested', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body : JSON.stringify(body)
+        });
+        const data = await res.json();
+        return data;
+    } catch (error) {
+        console.error('Error fetching data:', error);
+    }
+});
+
+// HANDLE GET USER BY REQUEST FRIENDS
+const getUserRequestFriends = createAsyncThunk('getUserRequestFriends',async(body)=> {
+    try {
+        const res = await fetch(URL_API + 'api/v1/users/requestFriends', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -108,16 +128,16 @@ const updateImageUserDB = createAsyncThunk('updateImageUserDB',async(body)=> {
     }
 });
 
-// HANDLE SIGN IN USER
-const signInUser = createAsyncThunk('signInUser',async(body)=> {
+// HANDLE UPDATE USER IN DB
+const updateUserDB = createAsyncThunk('updateUserDB',async(body)=> {
     try {
-        const res = await fetch(URL_API + 'api/v1/users/login', {
+        const res = await fetch(URL_API + 'api/v1/users/update', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(body),
+            body: JSON.stringify(body)
         });
         const data = await res.json();
         return data;
@@ -126,6 +146,26 @@ const signInUser = createAsyncThunk('signInUser',async(body)=> {
         throw error;
     }
 });
+
+// HANDLE UPDATE USER IN DB
+const updateStatusByFriends = createAsyncThunk('updateStatusByFriends',async(body)=> {
+    try {
+        const res = await fetch(URL_API + 'api/v1/users/updateStatus', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(body)
+        });
+        const data = await res.json();
+        return data;
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        throw error;
+    }
+});
+
 const authSlice = createSlice({
     name: "auth",
     initialState,
@@ -201,18 +241,6 @@ const authSlice = createSlice({
         builder.addCase(updateUserDB.rejected,(state,action) => {
             state.isLoading = true;
         });
-        // ================= UPDATE IMAGE USER =================
-        builder.addCase(updateImageUserDB.pending,(state,action) => {
-            state.isLoading = true;
-        });
-        builder.addCase(updateImageUserDB.fulfilled,(state,action) => {
-            state.isLoading = false;
-            const {message} = action.payload;
-            state.msg = message;
-        });
-        builder.addCase(updateImageUserDB.rejected,(state,action) => {
-            state.isLoading = true;
-        });
     }
 });
  
@@ -230,5 +258,9 @@ export {
     updateUserDB,
     // UPDATE IMAGE USER INFORMATION
     updateImageUserDB,
+    // UPDATE STATUS BY FRIENDS
+    updateStatusByFriends,
+    // GET USER TO REQUEST FRIENDS
+    getUserRequestFriends
 };
 export const {updateUSer} = authSlice.actions; 

@@ -4,9 +4,10 @@ import { InputTemplate } from "~/components/input";
 import { Button } from "~/components/button/button";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getInfoUserByToken, updateUSer, updateUserDB } from "~/redux/authSlice";
+import { updateUSer, updateUserDB } from "~/redux/authSlice";
 import SettingsCalendar from "~/components/Popper/SettingsCalendar/SettingsCalendar";
 import { Toast } from "~/components/toast";
+import useUserToken from "~/hook/user";
 function AccountSettings() {
     const cx = classNames.bind(styles);
     const [valueFirstName,setValueFirstName] = useState('');
@@ -21,6 +22,7 @@ function AccountSettings() {
     const [valueNameUser,setValueNameUser] = useState('');
     const state = useSelector(state => state.auth);
     const dispatch = useDispatch();
+    const {valueIdUser} = useUserToken();
 
     // HANDLE CHANGE VALUE FIRST NAME
     const handleChangeValueFirstName = (e) => {
@@ -66,7 +68,7 @@ function AccountSettings() {
 
     // HANDLE CHANGE VALUE  BIRTHDAY
     const handleChangeValueBirthday = (e) => {
-        const birthDay = e.target.value;
+        
     };
 
 
@@ -76,7 +78,6 @@ function AccountSettings() {
     };
     const handleClickUpdateInfoUser = (event) => {
         event.preventDefault();
-        console.log(state.user);
         dispatch(updateUserDB({
             id: state.user.id,
             firstName: state.user.firstName,
@@ -87,12 +88,7 @@ function AccountSettings() {
             image : state.user.image
         }));
     };
-    useEffect(() => {
-        const tokenUser = localStorage.getItem('token');
-        if(tokenUser !== null) {
-            dispatch(getInfoUserByToken(tokenUser));
-        }
-    },[dispatch]);
+
     useEffect(() => {
         if(state.msg === 'success update') {
             Toast({type:'info',content:"Lưu thành công",position:'bottom-left',autoClose:2000,limit:1,des:'edit'});

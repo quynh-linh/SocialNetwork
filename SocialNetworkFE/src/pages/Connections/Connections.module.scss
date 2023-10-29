@@ -1,0 +1,36 @@
+$color-test : #5695e7;
+.wrapper{
+    padding: 40px;
+    overflow-y: scroll;
+    height: 100%;
+    &__FriendsRequest,
+    &__friendsSuggestions{
+        padding-bottom: 10px;
+        border-bottom: 1px solid var(--var-border);
+    }
+    &__header{
+        margin-bottom: 20px;
+        color: white;
+        & h1{
+            font-size: 1.8rem;
+            font-weight: 500;
+        }
+        & a{
+            font-size: 1.5rem;
+            color: $color-test;
+            font-weight: 600;
+        }
+    }
+    &__seeMore{
+        margin-top: 20px;
+        padding: 10px 0;
+        font-size: 1.5rem;
+        font-weight: 600;
+        border-radius: 5px;
+        color: $color-test;
+        &:hover{
+            cursor: pointer;
+            background-color: var(--var-secondary);
+        }
+    }
+}

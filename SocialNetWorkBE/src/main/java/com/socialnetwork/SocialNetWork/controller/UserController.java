@@ -1,11 +1,13 @@
 package com.socialnetwork.SocialNetWork.controller;
 
 import com.socialnetwork.SocialNetWork.entity.User;
+import com.socialnetwork.SocialNetWork.model.IMPL.RequestUserFriends;
 import com.socialnetwork.SocialNetWork.model.Response.ApiResponse;
 import com.socialnetwork.SocialNetWork.model.Response.AuthResponse;
 import com.socialnetwork.SocialNetWork.model.dto.UserDTO;
 import com.socialnetwork.SocialNetWork.model.IMPL.UserFriendshipStatus;
 import com.socialnetwork.SocialNetWork.service.UserService;
+import com.socialnetwork.SocialNetWork.util.ConvertJSON;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,17 +26,22 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
-    @PostMapping("/all")
-    public ResponseEntity<?> getListSuggestedFriends(@RequestBody String id){
-        List<User> result = userService.getListSuggestedFriends(id);
+    @PostMapping("/listSuggested")
+    public ResponseEntity<?> getListSuggestedFriends(@RequestBody String body){
+        String id = ConvertJSON.converJsonToString(body,"id");
+        List<UserFriendshipStatus> result = userService.getListSuggestedFriends(id);
         if(!result.isEmpty()){
             return ResponseEntity.status(HttpStatus.OK).body(result);
         }
         return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED).body(new ApiResponse("error"));
     }
-    @GetMapping("/listStatus")
-    public ResponseEntity<?> getListUserToStatus(){
-        List<UserFriendshipStatus> result = userService.getListUsersToStatus();
+
+    @PostMapping("/requestFriends")
+    public ResponseEntity<?> getUserRequestFriends(@RequestBody String body){
+        String id = ConvertJSON.converJsonToString(body,"id");
+        String limit = ConvertJSON.converJsonToString(body,"limit");
+        System.err.println(id + " " + limit);
+        List<RequestUserFriends> result = userService.getUserRequestFriends(id,limit);
         if(!result.isEmpty()){
             return ResponseEntity.status(HttpStatus.OK).body(result);
         }
@@ -84,4 +91,17 @@ public class UserController {
         String result = userService.updateImageUser(user);
         return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse(result));
     }
+
+    @PostMapping("/updateStatus")
+    public ResponseEntity<?> updateStatusByFriends(@RequestBody String body){
+        String convertSender = ConvertJSON.converJsonToString(body,"senderId");
+        String convertReceiver = ConvertJSON.converJsonToString(body,"receiverId");
+        String convertTitle = ConvertJSON.converJsonToString(body,"title");
+        String result = userService.updateStatusFriend(convertReceiver,convertSender,convertTitle);
+        if(result.equals("success update")){
+            return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse(result));
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Error");
+    }
+
 }

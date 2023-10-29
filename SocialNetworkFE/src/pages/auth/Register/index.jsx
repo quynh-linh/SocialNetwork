@@ -11,7 +11,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { signUpUser } from "~/redux/authSlice";
 import { InputTemplate } from "~/components/input";
 import { isValidEmail } from "~/const/checkEmail";
-import { useNavigate } from "react-router-dom";
 function Register() {
     const cx = classNames.bind(styles);
     const [checkSafetyPassWord,setCheckSafetyPassWord] = useState('');
