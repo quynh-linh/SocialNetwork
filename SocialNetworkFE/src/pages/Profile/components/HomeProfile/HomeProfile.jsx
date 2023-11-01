@@ -10,7 +10,6 @@ import CreatePost from "~/components/form/CreatePost/CreatePost";
 
 function HomeProfile() {
     const cx = classNames.bind(styles);
-
     return (  
         <div className={cx('wrapper','flex')} >
             <div className={cx('wrapper__left','w-2/6')}>

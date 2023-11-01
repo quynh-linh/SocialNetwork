@@ -7,6 +7,7 @@ import { faMessage } from "@fortawesome/free-solid-svg-icons";
 import SidebarContact from "../components/SideBar/Contact/Contact";
 function DefaultLayout({children}) {
     const cx = classNames.bind(styles);
+    
     return (  
         <div className={cx('container')}>
             <Header/>

@@ -1,0 +1,56 @@
+$color-test : #88888e;
+.wrapper{
+    &__header{
+        margin: 10px;
+        &-icon{
+            color: $color-test;
+            padding: 10px;
+            &:hover{
+                border-radius: 50%;
+                background-color: var(--var-border);
+                cursor: pointer;
+            }
+        }
+        &-request{
+            border-bottom: 1px solid var(--var-border);
+        }
+        &-content{
+            &-friends{
+                color: $color-test;
+                font-size: 1.3rem;
+            }
+            &-title{
+                font-size: 1.8rem;
+                font-weight: 700;
+                line-height: 2;
+                color: #cdcdcd;
+            }
+        }
+    }
+    &__content{
+        &:hover::-webkit-scrollbar-thumb{
+            background-color: white !important;
+        }
+        &-request{
+            padding: 0 10px;
+            &-quantityRequest{
+                font-size: 1.4rem;
+                font-weight: 600;
+                line-height: 2;
+            }
+            
+        }
+        &-requestFriends{
+            height: 100%;
+        }
+    }
+}
+::-webkit-scrollbar{
+    background-color: #141519;
+}
+::-webkit-scrollbar-track{
+    background-color: #141519;
+}
+::-webkit-scrollbar-thumb{
+    background-color: #141519 ;
+}

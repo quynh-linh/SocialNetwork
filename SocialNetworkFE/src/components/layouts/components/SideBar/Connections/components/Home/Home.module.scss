@@ -1,0 +1,54 @@
+.wrapper{
+    &__header{
+        padding: 0 5px;
+        & h1{
+            font-size: 22px;
+            font-weight: 700;
+        }
+        &-icon{
+            font-size: 2rem;
+            padding: 5px;
+            background: #3a3b3c;
+            border-radius: 50%;
+        }
+    }
+    &__list{
+        margin-top: 10px;
+        color: #e4e6ea;
+        &-itemSelected{
+            background: #3a3b3c;
+            padding: 5px;
+            margin: 5px 0;
+            border-radius: 5px;
+        }
+        &-icon{
+            margin-right: 5px;
+        }
+        &-name{
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+        & li {
+            padding: 5px;
+            margin: 5px 0;
+            border-radius: 5px;
+            &:hover{
+                cursor: pointer;
+                background: #3a3b3c;
+            }
+        }
+        &-itemIcon,
+        &-itemIconSelected{
+            padding: 10px;
+            border-radius: 50px;
+            background: #3a3b3c;
+            margin-right: 10px;
+            width: 18px;
+            height: 18px;
+        }
+        &-itemIconSelected{
+            background-color: var(--var-primary);
+            color: white;
+        }
+    }
+}

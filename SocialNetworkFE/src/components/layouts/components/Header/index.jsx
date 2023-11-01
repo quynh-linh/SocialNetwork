@@ -62,43 +62,43 @@ function Header() {
       }, []);
 
     return (
-        <div className={cx('flex justify-center bg-black','header')}>
+        <div className={cx('flex justify-center bg-sidebar','header')}>
             <header className={cx('w-full flex items-center justify-between text-white','header__content')}>
                 <Link to={'/'}><img src={images.logo} alt="Logo"></img></Link>
                 <div className={cx('flex items-center justify-around')}>
                     <div className={cx('flex items-center justify-between')}>
                         {/* PAGES */}
                         <FlyOutsMenu
-                            title={'Pages'}
+                            title={'Trang'}
                             items={DATA_MENU_PAGES}
                             state={isOpenMenuPage}
                         >
                             <div ref={menuPageRef} className={cx('header__MenuItems')} 
                                 onClick={handleClickOpenMenuPage}
                             >
-                                <span>Pages</span>
+                                <span>Trang</span>
                                 <FontAwesomeIcon className={cx('header__MenuItems-icon')} icon={faChevronDown}/>
                             </div>
                         </FlyOutsMenu>
                         {/* ACCOUNT */}
                         <FlyOutsMenu
-                            title={'Account'}
+                            title={'Tài khoản'}
                             items={DATA_MENU_PAGES}
                             state={isOpenMenuAccount}
                         >
                             <div ref={menuAccountRef} className={cx('header__MenuItems')} onClick={handleClickOpenMenuAccount}>
-                                <span>Account</span>
+                                <span>Tài khoản</span>
                                 <FontAwesomeIcon className={cx('header__MenuItems-icon')} icon={faChevronDown}/>
                             </div>
                         </FlyOutsMenu>
                         {/* MY NETWORKS */}
                         <FlyOutsMenu
-                            title={'My Networks'}
+                            title={'Công nghệ'}
                             items={DATA_MENU_PAGES}
                             state={false}
                         >
                             <div className={cx('header__MenuItems')}>
-                                <span>My Networks</span>
+                                <span>Công nghệ</span>
                                 <FontAwesomeIcon className={cx('header__MenuItems-icon')} icon={faChevronDown}/>
                             </div>
                         </FlyOutsMenu>

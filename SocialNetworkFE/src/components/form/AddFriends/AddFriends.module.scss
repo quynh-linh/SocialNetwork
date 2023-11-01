@@ -1,3 +1,4 @@
+$color-test : #88888e;
 .wrapper{
     width: 100%;
     height: 50px;
@@ -12,6 +13,12 @@
     }
     &-icon{
         width: 16%;
+        display: flex;
+        justify-content: center;
+        padding: 10px;
+        background: #141e2e;
+        color: #0e6eeb;
+        border-radius: 50%;
     }
     &-img{
         border-radius: 50%;
@@ -27,15 +34,56 @@
         color: #6e888e;
         font-weight: 500;
     }
-    &-add{
-        border-radius: 50%;
-        align-items: center;
-        display: flex;
-        padding: 10px;
-        background: #141e2e;
-        color: #0e6eeb;
+    &-add,
+    &-check{
+        width: 15px;
     }
     &-check{
-        
+        width: 16%;
+        color: white;
+        background: var(--var-primary);
+    }
+    // REQUEST FRIENDS
+    &__request{
+        padding: 10px;
+        &-content{
+            &-createdAt{
+                font-size: 1.3rem;
+                color: $color-test;
+            }
+            & h1{
+                font-size: 1.6rem;
+                font-weight: 700;
+                padding-left: 10px;
+            }
+            &-resultSend{
+                padding: 10px;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                overflow: hidden;
+                background-color: var(--var-secondary) !important;
+                border-radius: 5px;
+                margin: 10px;
+                font-size: 1.3rem;
+                color: #9c9d9e;
+            }
+        }
+        &-btn{
+            padding: 10px 0 0 10px;
+            &-confirm,
+            &-cancel{
+                padding: 9px 18px;
+                font-size: 1.4rem;
+                border-radius: 5px;
+                font-weight: 600;
+                width: 110px;
+            }
+            &-confirm{
+                background-color: var(--var-primary) !important;
+            }
+            &-cancel{
+                background-color: #3a3b3c !important;
+            }
+        }
     }
 }

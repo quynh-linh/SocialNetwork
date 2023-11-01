@@ -2,6 +2,8 @@
 @import 'tailwindcss/base';
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
+@import 'react-calendar/dist/Calendar.css';
+//@import "simplebar/src/simplebar.css";
 :root { 
     --var-background : #191a1f;
     --var-font-family: 'Inter', sans-serif;
@@ -9,6 +11,7 @@
     --var-bg-components: #191a1f;
     --var-primary : #0468eb;
     --var-color-text : #e4e6eb;
+    --var-secondary : #3a3b3c;
 }
 *{
     box-sizing: border-box;
@@ -73,4 +76,13 @@ body {
 .Toastify__progress-bar-theme--colored.Toastify__progress-bar--warning,
 .Toastify__progress-bar-theme--colored.Toastify__progress-bar--error {
     background-color:  var(--var-primary);
+}
+// REACT CALENDAR
+.react-calendar{
+    width: 250px !important;
+    font-size: 1.3rem !important;
+}
+.react-calendar__tile--active{
+    background-color: var(--var-primary) !important;
+    color: white !important;
 }

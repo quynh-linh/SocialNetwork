@@ -33,10 +33,10 @@ function SideBarProfile() {
                 <div className={cx('wrapper__profileUser-page','text-white text-center ')}>
                     {DATA_PAGES.map((item,index)=> {
                         return (
-                            <div key={index} className={cx('flex items-center text-white font-semibold','wrapper__profileUser-page-item')}>
+                            <Link to={item.path} key={index} className={cx('flex items-center text-white font-semibold','wrapper__profileUser-page-item')}>
                                 <img className={cx('w-10 h-10')} src={item.icon} alt="Home page" />
                                 <span className={cx('pl-10')}>{item.name}</span>
-                            </div>
+                            </Link>
                         )
                     })}
                     

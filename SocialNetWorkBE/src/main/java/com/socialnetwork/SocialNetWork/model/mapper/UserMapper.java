@@ -12,6 +12,7 @@ public class UserMapper {
         tmp.setEmail(user.getEmail());
         tmp.setAddress(user.getAddress());
         tmp.setDateOfBirth(user.getDateOfBirth());
+        tmp.setImage(user.getImage());
         return tmp;
     }
 }

@@ -1,14 +1,19 @@
 import classNames from "classnames/bind";
 import styles from "./Profile.module.scss";
-import { Wrapper } from "~/components/Popper";
 import images from "~/assets/images";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCamera, faPen } from "@fortawesome/free-solid-svg-icons";
 import { Link, useLocation } from "react-router-dom";
 import { DATA_MENU_CHILDREN_PROFILE } from "~/const/data";
+import useUserToken from "~/hook/user";
 function Profile({children}) {
     const cx = classNames.bind(styles);
     const location = useLocation();
+    const {valueIdUser,nameUrlImageUser,updateImageUser} = useUserToken();
+
+    const handleOnChangeImageUpLoad = (e) => {
+        updateImageUser(e.target.files[0]);
+    } 
 
     return ( 
         <div className={cx('wrapper','w-full h-full')}>
@@ -21,8 +26,17 @@ function Profile({children}) {
                 </div>
             </div>
             <div className={cx('wrapper__detail','bg-sidebar')}>
-                <div className={cx('wrapper__detail-info','')}>
-                    <img className={cx('')} src={images.user} alt="Choose User"/>
+                <div className={cx('wrapper__detail-info','flex')}>
+                    <div className={cx('wrapper__detail-info-chooseImg')}>
+                        <img className={cx('wrapper__detail-info-chooseImg-img')} src={nameUrlImageUser} alt="Choose User"/>
+                        <input onChange={(e) => handleOnChangeImageUpLoad(e)} type="file" id="ip-chooseFile" className="hidden"></input>
+                        <label htmlFor="ip-chooseFile">
+                            <FontAwesomeIcon 
+                                className={cx('wrapper__detail-info-chooseImg-icon')}  
+                                icon={faCamera}
+                            />
+                        </label>
+                    </div>
                     <div className={cx('wrapper__detail-info-box','flex items-center justify-between')}>
                         <div className={cx('','flex items-center ')}>
                             <div className={cx('text-white pl-5')}>
@@ -31,10 +45,6 @@ function Profile({children}) {
                             </div>
                         </div>
                         <div className={cx('wrapper__detail-info-box-menu')}>
-                            {/* <div className={cx('wrapper__detail-info-box-addStory','flex items-center mb-3 bg-primaryColor text-white')}>
-                                <FontAwesomeIcon icon={faPlus}/>
-                                <button className={cx('pl-2')} type="button">Thêm vào tin</button>
-                            </div> */}
                             <Link to='/settings' className={cx('wrapper__detail-info-box-editInfo','flex items-center')}>
                                 <FontAwesomeIcon icon={faPen}/>
                                 <button className={cx('pl-2')} type="button">Chỉnh sữa thông tin</button>

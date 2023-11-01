@@ -10,9 +10,9 @@ function AuthForm({children,title='',des='',toWith=''}) {
                 <div className={cx('container__header','text-center')}>
                     <div className={cx('flex justify-center')}><img src={images.logoLogin}/></div>
                     <h1>{title}</h1>
-                    <div>
+                    <div className={cx('text-2xl')}>
                         <span>{des} </span>
-                        <Link to={title === 'Sign in' ?'/register' : '/login'} className={cx('text-primaryColor font-semibold cursor-pointer')}>{toWith}</Link>
+                        <Link to={title === 'Đăng nhập' ?'/register' : '/login'} className={cx('text-primaryColor font-semibold cursor-pointer')}>{toWith}</Link>
                     </div>
                 </div>
                 {children}
