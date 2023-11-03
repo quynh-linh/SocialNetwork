@@ -13,14 +13,15 @@ import java.util.List;
 public interface UserService {
     public List<UserDTO> getListUser();
     public List<String> getListIdUser();
-    public List<UserFriendshipStatus> getListSuggestedFriends(String id);
-    public List<RequestUserFriends> getUserRequestFriends(String id,String limit);
+    public List<UserDTO> getListSuggestedFriends(String id,String limit);
+    public List<UserDTO> getListUserRequestSent(String id,String limit);
+    public List<UserDTO> getListUserVerifyRequest(String id,String limit);
     public String addUser(User user);
     public UserDTO getUserByToken(String id);
     public AuthResponse login(String email, String password);
     public String updateUser(User user);
     public String updateImageUser(User user);
-    public String updateStatusFriend(String receiverId, String senderId, String title);
+    public String updateStatusFriend(String updateAt , String delectedAt,String senderId , String receiverID , String title);
     public String checkTokenUser(String token);
 
 }

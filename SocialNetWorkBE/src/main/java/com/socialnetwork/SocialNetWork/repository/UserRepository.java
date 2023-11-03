@@ -35,26 +35,37 @@ public interface UserRepository extends JpaRepository<User,Long> {
 
     @Modifying
     @Transactional
-    @Query(value = "UPDATE frindship AS fr \n " +
-            "SET status= ?1 \n " +
-            "WHERE \n" +
-            "fr.sender_id = ?2 \n" +
-            "AND \n" +
-            "fr.receiver_id = ?3 ",nativeQuery = true)
-    int updateStatusByFriends(int status,String senderId , String receiverId);
-    @Query(value = "SELECT u.id , u.first_name , u.last_name , u.image , fr.receiver_id , fr.status , fr.created_at \n" +
+    @Query(value = "UPDATE frindship AS fr " +
+            "SET status= ?1 , update_at= ?2 , delected_at= ?3 " +
+            "WHERE " +
+            "fr.sender_id = ?4 " +
+            "AND " +
+            "fr.receiver_id = ?5 ",nativeQuery = true)
+    int updateStatusByFriends(int status,String updateAt , String delectedAt,String senderId , String receiverID);
+    @Query(value = "SELECT u.* \n" +
             "FROM `user` as u \n" +
             "CROSS JOIN frindship as fr \n" +
             "ON u.id = fr.receiver_id \n" +
             "WHERE fr.sender_id =?1 AND fr.status = 1 \n" +
-            "ORDER BY fr.created_at \n" +
+            "ORDER BY fr.created_at DESC \n" +
             "LIMIT ?2", nativeQuery = true)
-    List<RequestUserFriends> getUserRequestFriends(String id,int limit);
+    List<User> getUserRequestFriends(String id,int limit);
 
-    @Query(value = "SELECT u.* , fr.status \n" +
-            "FROM user as u \n" +
-            "LEFT JOIN frindship as fr \n" +
-            "ON u.id = fr.receiver_id \n" +
-            "WHERE (fr.status IS NULL OR fr.status = 3) AND u.id != ?1",nativeQuery = true)
-    List<UserFriendshipStatus> getListSuggestedFriends(String id);
+    @Query(value = "SELECT u.* " +
+            "FROM user as u " +
+            "WHERE u.id NOT IN " +
+            "(SELECT f.receiver_id FROM frindship as f WHERE f.sender_id = ?1 AND f.status = 1) " +
+            "AND u.id NOT IN " +
+            "(SELECT f.sender_id FROM frindship as f WHERE f.receiver_id = ?1 AND f.status = 1) " +
+            "AND u.id NOT IN (SELECT f.receiver_id FROM frindship as f WHERE (f.sender_id = ?1 OR f.receiver_id =?1) AND f.status = 2) " +
+            "AND u.id != ?1 " +
+            "LIMIT ?2", nativeQuery = true)
+    List<User> getListSuggestedFriends(String id, int limit);
+
+    @Query(value = "SELECT u.* FROM user as u " +
+            "WHERE u.id IN (SELECT f.sender_id FROM frindship as f WHERE f.receiver_id = ?1 AND f.status = 1 " +
+            "ORDER BY f.created_at DESC) " +
+            "LIMIT ?2", nativeQuery = true)
+    List<User> getListUserVerifyRequest(String id, int limit);
+
 }

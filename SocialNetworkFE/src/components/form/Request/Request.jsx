@@ -9,7 +9,7 @@ function RequestFriends({data,senderId='',type=''}) {
         <form className={cx('form')} method="POST">
             <img className={cx('form__imgUser')} src={data.image} alt="Request Friends"/>
             <div className={cx('form__content')}>
-                <h2>{data.first_name+ ' ' + data.last_name}</h2>
+                <h2>{data.firstName+ ' ' + data.lastName}</h2>
                 <div className={cx('form__content-mutualFriends')}>
                     <span>60 bạn chung</span>
                 </div>

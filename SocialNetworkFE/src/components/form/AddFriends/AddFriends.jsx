@@ -12,7 +12,7 @@ function AddFriends({data,type='',senderId=''}) {
             <div className={cx('wrapper','flex items-center justify-between')}>
                 <div className={cx('wrapper-boxImg')}><img src={data.image} alt="Add user" className={cx('w-16 h-16','wrapper-img')}/></div>
                 <div className={cx('wrapper-title')}>
-                    <div className={cx('wrapper-name')}>{data.first_name + ' ' + data.last_name}</div>
+                    <div className={cx('wrapper-name')}>{data.firstName + ' ' + data.lastName}</div>
                     <div className={cx('wrapper-mutualFriends')}>60 bạn bè chung</div>
                 </div>
                 <div className={cx('wrapper-icon', data.accept ? 'wrapper-check' : '')}>
@@ -27,14 +27,11 @@ function AddFriends({data,type='',senderId=''}) {
             </div>  
         ) : (
             <div className={cx('wrapper__request','flex')}>
-                <img className={cx('w-1/5 h-24')} src={data.image}/>
+                <img className={cx('w-1/5 h-28 object-contain')} alt="user" src={data.image}/>
                 <div className={cx('wrapper__request-content','w-4/5 px-1')}>
                     <div className={cx('flex items-center justify-between')}>
-                        <h1 className={cx('w-9/12')}>{data.first_name + ' ' + data.last_name}</h1>
+                        <h1 className={cx('w-9/12')}>{data.firstName + ' ' + data.lastName}</h1>
                         <span className={cx('wrapper__request-content-createdAt')}>2 years</span>
-                    </div>
-                    <div className={cx('')}>
-
                     </div>
                     {
                         data.id === valueResultRequest.id ? (

@@ -48,21 +48,52 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserFriendshipStatus> getListSuggestedFriends(String id) {
-        ArrayList<UserFriendshipStatus> listUser = (ArrayList<UserFriendshipStatus>) userRepository.getListSuggestedFriends(id);
-        if(!listUser.isEmpty()){
-            return listUser;
+    public List<UserDTO> getListSuggestedFriends(String id,String limit) {
+        int convertLimit = Integer.parseInt(limit);
+        System.err.println(id +" :cc: "+ limit);
+        if(!id.isEmpty() && convertLimit > 0){
+            ArrayList<User> listUser = (ArrayList<User>) userRepository.getListSuggestedFriends(id,convertLimit);
+            if(!listUser.isEmpty()){
+                ArrayList<UserDTO> userDTOS = new ArrayList<UserDTO>();
+                // Convert users -> result
+                for (User user : listUser) {
+                    userDTOS.add(UserMapper.toUserDto(user));
+                }
+                return userDTOS;
+            }
         }
         return null;
     }
 
     @Override
-    public List<RequestUserFriends> getUserRequestFriends(String id,String limit) {
+    public List<UserDTO> getListUserRequestSent(String id,String limit) {
         int convertLimit = Integer.parseInt(limit);
         if(!id.isEmpty() && convertLimit > 0){
-            ArrayList<RequestUserFriends> result = (ArrayList<RequestUserFriends>) userRepository.getUserRequestFriends(id,convertLimit);
+            ArrayList<User> result = (ArrayList<User>) userRepository.getUserRequestFriends(id,convertLimit);
             if(!result.isEmpty()){
-                return result;
+                ArrayList<UserDTO> userDTOS = new ArrayList<UserDTO>();
+                // Convert users -> result
+                for (User user : result) {
+                    userDTOS.add(UserMapper.toUserDto(user));
+                }
+                return userDTOS;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public List<UserDTO> getListUserVerifyRequest(String id,String limit) {
+        int convertLimit = Integer.parseInt(limit);
+        if(!id.isEmpty() && convertLimit > 0){
+            ArrayList<User> result = (ArrayList<User>) userRepository.getListUserVerifyRequest(id,convertLimit);
+            if(!result.isEmpty()){
+                ArrayList<UserDTO> userDTOS = new ArrayList<UserDTO>();
+                // Convert users -> result
+                for (User user : result) {
+                    userDTOS.add(UserMapper.toUserDto(user));
+                }
+                return userDTOS;
             }
         }
         return null;
@@ -143,14 +174,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String updateStatusFriend(String receiverId, String senderId, String title) {
+    public String updateStatusFriend(String updateAt , String delectedAt,String senderId , String receiverID , String title) {
         try{
-            if(!receiverId.isEmpty() && !senderId.isEmpty()){
+            if(!receiverID.isEmpty() && !senderId.isEmpty()){
                 int updateStatusByFriends;
                 if(title.equals("confirm")){
-                    updateStatusByFriends = userRepository.updateStatusByFriends(2, senderId, receiverId);
+                    updateStatusByFriends = userRepository.updateStatusByFriends(2,updateAt, null, senderId, receiverID);
                 } else {
-                    updateStatusByFriends = userRepository.updateStatusByFriends(3, senderId, receiverId);
+                    updateStatusByFriends = userRepository.updateStatusByFriends(3, null,delectedAt,senderId, receiverID);
                 }
                 if(updateStatusByFriends > 0){
                     return "success update";
