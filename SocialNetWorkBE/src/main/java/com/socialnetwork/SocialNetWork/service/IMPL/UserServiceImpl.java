@@ -48,21 +48,29 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-<<<<<<< HEAD
-    public UserDTO getUserById(String id){
-        for (User user : users) {
-            if(user.getId().equals(id)){
-                return UserMapper.toUserDto(user);
-            }
-=======
     public List<UserFriendshipStatus> getListSuggestedFriends(String id) {
-        ArrayList<UserFriendshipStatus> listUser = (ArrayList<UserFriendshipStatus>) userRepository.getListSuggestedFriends(id);
-        if(!listUser.isEmpty()){
-            return listUser;
->>>>>>> 411619b7a2a97a1978f481422002a3bb164342c3
-        }
         return null;
     }
+
+    public UserDTO getUserById(String id){
+        return null;
+    }
+//    @Override
+//<<<<<<< HEAD
+//    public UserDTO getUserById(String id){
+//        for (User user : users) {
+//            if(user.getId().equals(id)){
+//                return UserMapper.toUserDto(user);
+//            }
+//=======
+//    public List<UserFriendshipStatus> getListSuggestedFriends(String id) {
+//        ArrayList<UserFriendshipStatus> listUser = (ArrayList<UserFriendshipStatus>) userRepository.getListSuggestedFriends(id);
+//        if(!listUser.isEmpty()){
+//            return listUser;
+//>>>>>>> 411619b7a2a97a1978f481422002a3bb164342c3
+//        }
+//        return null;
+//    }
 
     @Override
     public List<RequestUserFriends> getUserRequestFriends(String id,String limit) {
