@@ -3,13 +3,27 @@ import styles from "./CreatePost.module.scss";
 import images from "~/assets/images";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsisVertical } from "@fortawesome/free-solid-svg-icons";
-function CreatePost() {
+import useUserToken from "~/hook/user";
+import { useSelector } from "react-redux";
+function CreatePost({onShow=undefined}) {
     const cx = classNames.bind(styles);
+    const {valueIdUser} = useUserToken();
+    const state = useSelector(state => state.auth);
+    const handleLClickShowCreatePost = () => {
+        onShow(true);
+        localStorage.setItem('isShowCreate', true);
+    }
     return ( 
         <div className={cx('wrapper','w-full')}>
             <div className={cx('wrapper__inputPost','flex')}>
                 <span className={cx('wrapper__inputPost-img','')}><img src={images.user} className={cx('w-20 h-20 rounded-full','selection:')} alt="User Post"/></span>
-                <input className={cx('bg-background','wrapper__inputPost-input')} type="text" placeholder="Share your thoughts..." />
+                <input 
+                    className={cx('bg-background','wrapper__inputPost-input')} 
+                    type="text" 
+                    placeholder={state.user && state.user.lastName !== '' ? state.user.lastName +" ơi," +" bạn đang nghĩ gì thế !" : ''}
+                    readOnly
+                    onClick={handleLClickShowCreatePost}
+                />
             </div>
             <div className={cx('wrapper__menuPost','flex items-center justify-between')}>
                 <div className={cx('','flex items-center')}>

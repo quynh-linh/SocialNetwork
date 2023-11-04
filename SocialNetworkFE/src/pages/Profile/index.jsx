@@ -6,11 +6,13 @@ import { faCamera, faPen } from "@fortawesome/free-solid-svg-icons";
 import { Link, useLocation } from "react-router-dom";
 import { DATA_MENU_CHILDREN_PROFILE } from "~/const/data";
 import useUserToken from "~/hook/user";
+import { useSelector } from "react-redux";
 function Profile({children}) {
     const cx = classNames.bind(styles);
     const location = useLocation();
-    const {valueIdUser,nameUrlImageUser,updateImageUser} = useUserToken();
+    const {nameUrlImageUser,updateImageUser} = useUserToken();
 
+    const state = useSelector(state => state.auth);
     const handleOnChangeImageUpLoad = (e) => {
         updateImageUser(e.target.files[0]);
     } 
@@ -40,7 +42,7 @@ function Profile({children}) {
                     <div className={cx('wrapper__detail-info-box','flex items-center justify-between')}>
                         <div className={cx('','flex items-center ')}>
                             <div className={cx('text-white pl-5')}>
-                                <h1 className={cx('wrapper__detail-info-box-name')}>Nguyen Thanh Quynh Linh</h1>
+                                <h1 className={cx('wrapper__detail-info-box-name')}>{state.user && (state.user.firstName !== '' && state.user.lastName !== '') ? state.user.firstName + " " + state.user.lastName : ''}</h1>
                                 <span className={cx('wrapper__detail-info-box-quantityFriends','text-color-text')}>269 bạn bè</span>
                             </div>
                         </div>
@@ -71,9 +73,7 @@ function Profile({children}) {
                     
                 </div>
             </div>
-            <div>
-                {children}
-            </div>
+            {children}
         </div>
     );
 }

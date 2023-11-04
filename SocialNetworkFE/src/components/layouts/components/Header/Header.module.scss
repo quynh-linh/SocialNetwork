@@ -3,6 +3,7 @@
     position: fixed;
     width: 100%;
     z-index: 100;
+    top: 0;
     border-bottom: 1px solid var(--var-border);
     &__content{
         padding: 10px 2%;

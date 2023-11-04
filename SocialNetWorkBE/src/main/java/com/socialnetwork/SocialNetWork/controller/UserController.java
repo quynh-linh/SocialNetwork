@@ -59,6 +59,17 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse("error"));
     }
 
+    @PostMapping("/listFriends")
+    public ResponseEntity<?> getListUserFriends(@RequestBody String body){
+        String id = ConvertJSON.converJsonToString(body,"id");
+        String limit = ConvertJSON.converJsonToString(body,"limit");
+        List<UserDTO> result = userService.getListUserFriends(id,limit);
+        if(!result.isEmpty()){
+            return ResponseEntity.status(HttpStatus.OK).body(result);
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse("error"));
+    }
+
     @GetMapping("/listId")
     public ResponseEntity<?> getListIdUser(){
         List<String> result = userService.getListIdUser();

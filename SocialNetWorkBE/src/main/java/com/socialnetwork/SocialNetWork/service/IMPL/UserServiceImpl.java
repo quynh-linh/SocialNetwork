@@ -100,6 +100,23 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public List<UserDTO> getListUserFriends(String id, String limit) {
+        int convertLimit = Integer.parseInt(limit);
+        if(!id.isEmpty() && convertLimit > 0){
+            ArrayList<User> result = (ArrayList<User>) userRepository.getListUserFriends(id,convertLimit);
+            if(!result.isEmpty()){
+                ArrayList<UserDTO> userDTOS = new ArrayList<UserDTO>();
+                // Convert users -> result
+                for (User user : result) {
+                    userDTOS.add(UserMapper.toUserDto(user));
+                }
+                return userDTOS;
+            }
+        }
+        return null;
+    }
+
+    @Override
     public String addUser(User user) {
         try{
             String uniqueId = IdGenerator.generateUniqueId();

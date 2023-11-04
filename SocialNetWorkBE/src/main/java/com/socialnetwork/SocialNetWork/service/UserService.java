@@ -16,6 +16,7 @@ public interface UserService {
     public List<UserDTO> getListSuggestedFriends(String id,String limit);
     public List<UserDTO> getListUserRequestSent(String id,String limit);
     public List<UserDTO> getListUserVerifyRequest(String id,String limit);
+    public List<UserDTO> getListUserFriends(String id,String limit);
     public String addUser(User user);
     public UserDTO getUserByToken(String id);
     public AuthResponse login(String email, String password);

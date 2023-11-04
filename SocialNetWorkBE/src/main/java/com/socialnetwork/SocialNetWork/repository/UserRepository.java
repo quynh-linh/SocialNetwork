@@ -68,4 +68,12 @@ public interface UserRepository extends JpaRepository<User,Long> {
             "LIMIT ?2", nativeQuery = true)
     List<User> getListUserVerifyRequest(String id, int limit);
 
+    @Query(value = "SELECT u.* " +
+            "FROM user as u " +
+            "CROSS JOIN frindship as fr " +
+            "ON u.id = fr.receiver_id " +
+            "WHERE fr.sender_id = ?1 "  +
+            "ORDER BY fr.created_at " +
+            "LIMIT ?2 ",nativeQuery = true)
+    List<User> getListUserFriends(String id ,int limit);
 }

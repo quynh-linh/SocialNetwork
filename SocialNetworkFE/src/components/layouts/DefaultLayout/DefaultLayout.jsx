@@ -5,20 +5,21 @@ import SideBarProfile  from "../components/SideBar/Profile/SideBarProfile";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMessage } from "@fortawesome/free-solid-svg-icons";
 import SidebarContact from "../components/SideBar/Contact/Contact";
+import { useState } from "react";
 function DefaultLayout({children}) {
     const cx = classNames.bind(styles);
-    
+
     return (  
-        <div className={cx('container')}>
+        <div className={cx('container','relative')}>
             <Header/>
             <div className={cx('container__content','flex justify-between')}>
                 <SideBarProfile/>
                 <div className={cx('container__content-children')}>{children}</div>
                 <SidebarContact/>
             </div>
-            <div className={cx('container__message')}>
+            {/* <div className={cx('container__message')}>
                 <FontAwesomeIcon className={cx('container__message-icon')} icon={faMessage} />
-            </div>
+            </div> */}
         </div>
     );
 }

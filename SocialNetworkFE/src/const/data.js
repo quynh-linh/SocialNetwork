@@ -220,6 +220,50 @@ const DATA_CONNECTIONS = [
         status: false
     }
 ];
+const DATA_MENU_FRIENDS_PROFILE = [
+    {
+        id: 'friends',
+        name: 'Tất cả bạn bè',
+        type : 'AllFriends',
+        status: true
+    },
+    {
+        id: 'request',
+        name: 'Sinh nhật',
+        type : 'birthday',
+        status: false
+    },
+    {
+        id: 'suggestions',
+        name: 'Đại học',
+        type : 'university',
+        status: false
+    },
+    {
+        id: 'list',
+        name: 'Trường trung học',
+        type : 'highSchool',
+        status: false
+    },
+    {
+        id: 'list',
+        name: 'Tỉnh/Thành phố hiện tại',
+        type : 'CityPresent',
+        status: false
+    },
+    {
+        id: 'list',
+        name: 'Quên quán',
+        type: 'domicile',
+        status: false
+    },
+    {
+        id: 'list',
+        name: 'Đang theo dõi',
+        type: 'following',
+        status: false
+    }
+];
 export {
     DATA_PAGES,DATA_MENU_PAGES,
     DATA_MENU_CHILDREN_PROFILE,
@@ -227,5 +271,6 @@ export {
     ALL_IMAGES_USER,
     ALL_FRIENDS_USER,
     DATA_SETTINGS_MENU_CONTROL,
-    DATA_CONNECTIONS
+    DATA_CONNECTIONS,
+    DATA_MENU_FRIENDS_PROFILE
 };

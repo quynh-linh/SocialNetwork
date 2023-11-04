@@ -9,6 +9,7 @@ import Login from "~/pages/auth/Login";
 import Register from "~/pages/auth/Register";
 import Connections from "~/pages/Connections";
 import FriendRequest from "~/pages/Connections/components/FriendRequest/FriendRequest";
+import FriendsProfile from "~/pages/Profile/components/Friends/Friends";
 const publicRoutes =[
     {   
         path: '/login', 
@@ -43,7 +44,7 @@ const privateRoutes = [
             },
             {
                 path: 'friends',
-                component: AboutProfile,
+                component: FriendsProfile,
                 name: 'Bạn bè'
             },
             {
