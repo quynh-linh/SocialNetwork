@@ -11,10 +11,13 @@ function useFriends(receiverId,senderId) {
     // HANDLE CLICK CONFIRM REQUEST
     const handleClickConfirmRequest = () => {
         if(receiverId !== null && senderId !== null){
+            const dateTime = currentTime();
             dispatch(updateStatusByFriends({
-                title : 'confirm',
-                receiverId : receiverId,
-                senderId : senderId
+                title: 'confirm',
+                receiverId: senderId,
+                senderId: receiverId,
+                updateAt:dateTime,
+                delectedAt: ''
             })).then((item) => {
                 const msg = item.payload && item.payload.message ? item.payload.message : '';
                 if(msg === "success update"){
@@ -28,10 +31,13 @@ function useFriends(receiverId,senderId) {
     // HANDLE CLICK CANCEL REQUEST
     const handleClickCancelRequest = () => {
         if(receiverId !== null && senderId !== null){
+            const dateTime = currentTime();
             dispatch(updateStatusByFriends({
                 title : 'cancel',
                 receiverId : receiverId,
-                senderId : senderId
+                senderId : senderId,
+                updateAt: '',
+                delectedAt: dateTime
             })).then((item) => {
                 const msg = item.payload && item.payload.message ? item.payload.message : '';
                 if(msg === "success update"){

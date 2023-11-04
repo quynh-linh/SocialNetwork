@@ -29,7 +29,8 @@ public class UserController {
     @PostMapping("/listSuggested")
     public ResponseEntity<?> getListSuggestedFriends(@RequestBody String body){
         String id = ConvertJSON.converJsonToString(body,"id");
-        List<UserFriendshipStatus> result = userService.getListSuggestedFriends(id);
+        String limit = ConvertJSON.converJsonToString(body,"limit");
+        List<UserDTO> result = userService.getListSuggestedFriends(id,limit);
         if(!result.isEmpty()){
             return ResponseEntity.status(HttpStatus.OK).body(result);
         }
@@ -37,11 +38,32 @@ public class UserController {
     }
 
     @PostMapping("/requestFriends")
-    public ResponseEntity<?> getUserRequestFriends(@RequestBody String body){
+    public ResponseEntity<?> getListUserRequestSent(@RequestBody String body){
         String id = ConvertJSON.converJsonToString(body,"id");
         String limit = ConvertJSON.converJsonToString(body,"limit");
-        System.err.println(id + " " + limit);
-        List<RequestUserFriends> result = userService.getUserRequestFriends(id,limit);
+        List<UserDTO> result = userService.getListUserRequestSent(id,limit);
+        if(!result.isEmpty()){
+            return ResponseEntity.status(HttpStatus.OK).body(result);
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse("error"));
+    }
+
+    @PostMapping("/verifyRequest")
+    public ResponseEntity<?> getListUserVerifyRequest(@RequestBody String body){
+        String id = ConvertJSON.converJsonToString(body,"id");
+        String limit = ConvertJSON.converJsonToString(body,"limit");
+        List<UserDTO> result = userService.getListUserVerifyRequest(id,limit);
+        if(!result.isEmpty()){
+            return ResponseEntity.status(HttpStatus.OK).body(result);
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse("error"));
+    }
+
+    @PostMapping("/listFriends")
+    public ResponseEntity<?> getListUserFriends(@RequestBody String body){
+        String id = ConvertJSON.converJsonToString(body,"id");
+        String limit = ConvertJSON.converJsonToString(body,"limit");
+        List<UserDTO> result = userService.getListUserFriends(id,limit);
         if(!result.isEmpty()){
             return ResponseEntity.status(HttpStatus.OK).body(result);
         }
@@ -97,7 +119,9 @@ public class UserController {
         String convertSender = ConvertJSON.converJsonToString(body,"senderId");
         String convertReceiver = ConvertJSON.converJsonToString(body,"receiverId");
         String convertTitle = ConvertJSON.converJsonToString(body,"title");
-        String result = userService.updateStatusFriend(convertReceiver,convertSender,convertTitle);
+        String updateAt = ConvertJSON.converJsonToString(body,"updateAt");
+        String delectedAt = ConvertJSON.converJsonToString(body,"delectedAt");
+        String result = userService.updateStatusFriend(updateAt,delectedAt,convertSender,convertReceiver,convertTitle);
         if(result.equals("success update")){
             return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse(result));
         }

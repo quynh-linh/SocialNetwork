@@ -90,10 +90,47 @@ const getListSuggestedFriends = createAsyncThunk('getListSuggestedFriends',async
     }
 });
 
-// HANDLE GET USER BY REQUEST FRIENDS
-const getUserRequestFriends = createAsyncThunk('getUserRequestFriends',async(body)=> {
+// GET LIST USER FRIENDS
+const getListUserFriends = createAsyncThunk('getListUserFriends',async(body)=> {
+    try {
+        const res = await fetch(URL_API + 'api/v1/users/listFriends', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body : JSON.stringify(body)
+        });
+        const data = await res.json();
+        return data;
+    } catch (error) {
+        console.error('Error fetching data:', error);
+    }
+});
+
+// HANDLE GET USER BY REQUEST SENT
+const getListUserRequestSent = createAsyncThunk('getListUserRequestSent',async(body)=> {
     try {
         const res = await fetch(URL_API + 'api/v1/users/requestFriends', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(body)
+        });
+        const data = await res.json();
+        return data;
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        throw error;
+    }
+});
+
+// HANDLE GET USER BY VERIFY REQUEST
+const getListUserVerifyRequest = createAsyncThunk('getListUserVerifyRequest',async(body)=> {
+    try {
+        const res = await fetch(URL_API + 'api/v1/users/verifyRequest', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -260,7 +297,11 @@ export {
     updateImageUserDB,
     // UPDATE STATUS BY FRIENDS
     updateStatusByFriends,
-    // GET USER TO REQUEST FRIENDS
-    getUserRequestFriends
+    // GET USER TO REQUEST VERIFY
+    getListUserVerifyRequest,
+    // GET LIST USER TO REQUEST SENT
+    getListUserRequestSent,
+    // GET LIST USER FRIENDS
+    getListUserFriends
 };
 export const {updateUSer} = authSlice.actions; 

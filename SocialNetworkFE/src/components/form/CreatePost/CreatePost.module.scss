@@ -5,11 +5,16 @@
         }
         &-input{
             color: white;
+            border-radius: 10px;
             width: 90%;
             padding: 10px 10px 50px 20px;
             box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
             &:focus{
                 outline: none;
+            }
+            &:hover{
+                cursor: pointer;
+                background-color: var(--var-secondary);
             }
         }
     }
@@ -25,6 +30,10 @@
             & span{
                 font-size: 1.4rem;
                 padding-left: 10px;
+            }
+            &:hover{
+                cursor: pointer;
+                background-color: var(--var-secondary);
             }
         }
         &-uploadPhoto{

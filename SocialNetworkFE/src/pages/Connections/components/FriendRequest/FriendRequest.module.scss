@@ -1,0 +1,11 @@
+.wrapper{
+    & h1{
+        font-size: 2.5rem;
+        color: var(--var-color-text);
+        font-weight: 500;
+    }
+    &__icon{
+        font-size: 9.5rem;
+        color: var(--var-color-text);
+    }
+}

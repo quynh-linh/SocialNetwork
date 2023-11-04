@@ -1,0 +1,81 @@
+.wrapper{
+    &__header{
+        & h1{
+            font-size: 2rem;
+            color: white;
+            font-weight: 600;
+        }
+        &-search{
+            font-size: 1.5rem;
+            padding: 8px 0 8px 35px;
+            font-family: var(--var-font-family);
+            background: var(--var-secondary);
+            color: white;
+            &:focus{
+                outline: none;
+            }
+        }
+        &-iconSearch{
+            font-size: 1.9rem;
+            color: #9a9797;
+        }
+        &-iconVertical{
+            font-size: 17px;
+            padding: 10px 15px;
+            background: var(--var-secondary);
+            color: white;
+            border-radius: 5px;
+        }
+    }
+    &__content{
+        & ul{
+            color: var(--var-color-text);
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin: 20px 0;
+            & li {
+                &:hover{
+                    cursor: pointer;
+                }
+            }
+        }
+        &-menuItem{
+            position: relative;
+            background: var(--var-secondary);
+            border-top-right-radius: 5px;
+            border-top-left-radius: 5px;
+            &::before{
+                content: '';
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                height: 3px;
+                background: var(--var-primary);
+            }
+        }
+        &-listFriends{
+            &-item{
+                border: 1px solid #1c1c1c;
+                border-radius: 10px;
+                & img{
+                    border-radius: 10px;
+                    background: var(--var-secondary);
+                    object-fit: cover;
+                }
+                & h1{
+                    font-size: 2rem;
+                    color: white;
+                    font-weight: 600;
+                }
+                & span{
+                    color: var(--var-color-text);
+                    font-size: 1.4rem;
+                }
+                &-icon{
+                    color: var(--var-color-text); 
+                }
+            }
+        }
+    }
+}

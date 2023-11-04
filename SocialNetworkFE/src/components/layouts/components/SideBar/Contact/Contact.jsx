@@ -16,19 +16,21 @@ function SidebarContact() {
 
     useEffect(() =>{
         if(valueIdUser !== undefined){
-            dispatch(getListSuggestedFriends({id : valueIdUser})).then((items) => {
+            dispatch(getListSuggestedFriends({id : valueIdUser , limit : 8})).then((items) => {
                 const newList = items.payload ? items.payload : [];
                 setListUsersDb(newList);
             })
         }
     },[dispatch,valueIdUser]);
+
+    console.log(listUsersDb);
     
     return ( 
         <div className={cx('wrapper','bg-sidebar shadow-bsd-bottom')}>
             <div>
                 <h2 className={cx("wrapper__titleFollow")}>Bạn có thể biết</h2>
                 {
-                    listUsersDb.map((items,index) => {
+                    listUsersDb.length > 0 && listUsersDb.map((items,index) => {
                         return <AddFriends type='add friends' key={index} data={items} onClickItem={(e) => handleClickAddFriends}/>
                     })
                 }

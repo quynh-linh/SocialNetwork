@@ -5,11 +5,14 @@ import Header from "../components/Header";
 import { useLocation } from "react-router-dom";
 import HomeConnections from "../components/SideBar/Connections/components/Home";
 import FriendsConnections from "../components/SideBar/Connections/components/Friends";
+import RequestSent from "~/components/Popper/RequestSent/RequestSent";
+import { useState } from "react";
 function ConnectionsLayout({children}) {
     const cx = classNames.bind(styles);
     const location = useLocation();
+    const [isShowRequestSent,setIsShowRequestSent] = useState(false);
     return (  
-        <div className={cx('wrapper')}>
+        <div className={cx('wrapper','relative')}>
             <Header/>
             <SideBarConnections>
                 {
@@ -22,6 +25,7 @@ function ConnectionsLayout({children}) {
                         <FriendsConnections 
                             title="Lời mời kết bạn"
                             type= 'request'
+                            onShow={(e) => setIsShowRequestSent(e)}
                         />
                     )
                 }
@@ -29,6 +33,7 @@ function ConnectionsLayout({children}) {
             <div className={cx('wrapper-children')}>
                 {children}
             </div>
+            {isShowRequestSent ? <RequestSent onClose={(e) => setIsShowRequestSent(e)} /> : ''}
         </div>
     );
 }
