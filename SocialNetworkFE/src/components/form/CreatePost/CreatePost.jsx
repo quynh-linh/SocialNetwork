@@ -7,16 +7,15 @@ import useUserToken from "~/hook/user";
 import { useSelector } from "react-redux";
 function CreatePost({onShow=undefined}) {
     const cx = classNames.bind(styles);
-    const {valueIdUser} = useUserToken();
+    const {nameUrlImageUser} = useUserToken();
     const state = useSelector(state => state.auth);
     const handleLClickShowCreatePost = () => {
         onShow(true);
-        localStorage.setItem('isShowCreate', true);
     }
     return ( 
         <div className={cx('wrapper','w-full')}>
             <div className={cx('wrapper__inputPost','flex')}>
-                <span className={cx('wrapper__inputPost-img','')}><img src={images.user} className={cx('w-20 h-20 rounded-full','selection:')} alt="User Post"/></span>
+                <span className={cx('wrapper__inputPost-img','')}><img src={nameUrlImageUser} className={cx('w-20 h-20 rounded-full','selection:')} alt="User Post"/></span>
                 <input 
                     className={cx('bg-background','wrapper__inputPost-input')} 
                     type="text" 
@@ -28,7 +27,7 @@ function CreatePost({onShow=undefined}) {
             <div className={cx('wrapper__menuPost','flex items-center justify-between')}>
                 <div className={cx('','flex items-center')}>
                     <div className={cx('wrapper__menuPost-uploadPhoto','flex items-center bg-background text-white')}>
-                        <img className={cx('w-7 h-7')} src={images.uploadPhoto} alt="Upload Photo"/>
+                        <img className={cx('w-7 h-7')} src={images.uploadPhoto} alt="djpqwjdpwqjdpqwdjqwp"/>
                         <span>Photo</span>
                     </div>
                     <div className={cx('wrapper__menuPost-uploadVideo','flex items-center bg-background text-white')}>

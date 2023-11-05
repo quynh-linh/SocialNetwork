@@ -11,7 +11,7 @@ function SidebarContact() {
     const [listUsersDb,setListUsersDb] = useState([]);
     const {valueIdUser} = useUserToken();
     const handleClickAddFriends = (e) => {
-
+        
     };
 
     useEffect(() =>{
@@ -22,8 +22,6 @@ function SidebarContact() {
             })
         }
     },[dispatch,valueIdUser]);
-
-    console.log(listUsersDb);
     
     return ( 
         <div className={cx('wrapper','bg-sidebar shadow-bsd-bottom')}>

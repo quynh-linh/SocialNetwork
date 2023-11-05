@@ -11,7 +11,7 @@ function Profile({children}) {
     const cx = classNames.bind(styles);
     const location = useLocation();
     const {nameUrlImageUser,updateImageUser} = useUserToken();
-
+    
     const state = useSelector(state => state.auth);
     const handleOnChangeImageUpLoad = (e) => {
         updateImageUser(e.target.files[0]);
