@@ -2,7 +2,7 @@ import classNames from "classnames/bind";
 import styles from "./Home.module.scss";
 import CreatePost from "~/components/form/CreatePost/CreatePost";
 import Post from "~/components/Post/Post";
-import CreatePostWrapper from "~/components/Popper/CreatePostWrapper/CreatePostWrapper";
+import CreatePostWrapper from "~/components/Popper/CreatePostWrapper";
 import { useState } from "react";
 function Home() {
     const cx = classNames.bind(styles);
@@ -15,7 +15,7 @@ function Home() {
             <div className={cx('wrapper_listPost')}>
                 <Post/>
             </div>
-            {isShowCreatePost ? <CreatePostWrapper/> : ''}
+            {isShowCreatePost ? <CreatePostWrapper onShow={(e) => setIsShowCreatePost(e)}/> : ''}
         </div>
     );
 }

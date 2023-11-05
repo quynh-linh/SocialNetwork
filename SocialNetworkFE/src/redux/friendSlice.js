@@ -5,7 +5,7 @@ const  initialState = {
     msg:'',
 }
 
-// HANDLE REGISTER USER
+// HANDLE ADD FRIENDS
 const addFriends = createAsyncThunk('addFriends',async(body)=> {
     try {
         const res = await fetch(URL_API + 'api/v1/frindship/add', {
@@ -28,12 +28,9 @@ const friendSlice = createSlice({
     name: "friends",
     initialState,
     reducers: {
-        updateFriend: (state,action) =>{
-
-        }
     },
     extraReducers : (builder) => {
-        // ================= SIGN UP =================
+        // ================= ADD FRIENDS =================
         builder.addCase(addFriends.pending,(state,action) => {
             state.isLoading = true;
         });
@@ -51,4 +48,4 @@ export {
     // ADD FRIENDS
     addFriends,
 };
-export const {updateFriend} = friendSlice.actions; 
+//export const {} = friendSlice.actions; 

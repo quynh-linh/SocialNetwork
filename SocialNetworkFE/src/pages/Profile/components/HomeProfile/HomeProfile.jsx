@@ -1,15 +1,25 @@
 import classNames from "classnames/bind";
 import styles from "./HomeProfile.module.scss";
 import Post from "~/components/Post/Post";
-import {ALL_FRIENDS_USER, ALL_IMAGES_USER, DATA__PERSONAL__INFORMATION as personalInfo } from "~/const/data";
+import {ALL_FRIENDS_USER, DATA__PERSONAL__INFORMATION as personalInfo } from "~/const/data";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import {Button as ButtonEdit} from "~/components/button/button";
 import { Link } from "react-router-dom";
 import CreatePost from "~/components/form/CreatePost/CreatePost";
+import { useEffect} from "react";
+import useUserToken from "~/hook/user";
 
 function HomeProfile() {
     const cx = classNames.bind(styles);
+    const {listMediaToUser,listUserFriends,valueIdUser,getListMediaToUser,getListFriendsToUser} = useUserToken();
+    
+    useEffect(() => {
+        if(valueIdUser !== undefined){
+            getListMediaToUser(6);
+            getListFriendsToUser(50);
+        }
+    },[valueIdUser])
     return (  
         <div className={cx('wrapper','flex')} >
             <div className={cx('wrapper__left','w-2/6')}>
@@ -95,10 +105,10 @@ function HomeProfile() {
                         <Link to='/profile/photos'>Xem tất cả ảnh</Link>
                     </div>
                     <div className={cx('wrapper__left-imagesUser-list','mt-5')}>
-                        <div className="grid grid-rows-3 grid-flow-col gap-3">
+                        <div className="grid grid-rows-3 grid-cols-3 gap-3">
                             {
-                                ALL_IMAGES_USER.images.map((item,index) =>{
-                                    return <img key={index} className={cx('w-40 h-40 object-cover')} src={item} alt="all image"/>
+                                listMediaToUser.length > 0 && listMediaToUser.map((item,index) =>{
+                                    return <img key={index} className={cx('w-40 h-40 object-cover')} src={item.mediaUrl} alt="all image"/>
                                 })
                             }
                         </div>
@@ -111,13 +121,13 @@ function HomeProfile() {
                     </div>
                     <div className={cx('wrapper__left-friendsUser-quantityFriends','text-color-text')}>269 bạn bè</div>
                     <div className={cx('wrapper__left-friendsUser-list','mt-5')}>
-                        <div className="grid grid-rows-3 grid-flow-col gap-3">
+                        <div className="grid grid-rows-3 grid-cols-3 gap-3">
                             {
-                                ALL_FRIENDS_USER.map((item,index) =>{
+                                listUserFriends.length > 0 && listUserFriends.map((item,index) =>{
                                     return (
                                         <div key={index}>
                                             <img key={index} className={cx('w-40 h-40 object-cover')} src={item.image} alt="all image"/>
-                                            <div className={cx('w-full','wrapper__left-friendsUser-list-itemName')}>{item.name}</div>
+                                            <div className={cx('w-full','wrapper__left-friendsUser-list-itemName')}>{item.firstName + " " + item.lastName}</div>
                                         </div>
                                     )
                                 })

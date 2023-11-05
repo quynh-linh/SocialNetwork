@@ -1,0 +1,113 @@
+$color-checked:#232e3b;
+.wrapper{
+    &__container{
+        width: 500px;
+        height: 350px;
+        border-radius: 10px;
+        overflow: hidden;
+        border: 1px solid #403f3f;
+        background-color: var(--var-secondary);
+        &-header{
+            border-bottom: 1px solid #595959;
+            & h1{
+                font-size: 1.7rem;
+                font-weight: 600;
+            }
+            &-icon{
+                position: absolute;
+                left: 3%;
+                font-size: 2rem;
+                padding: 6px;
+                &:hover{
+                    cursor: pointer;
+                    border-radius: 50%;
+                    background-color: #595959;   
+                }
+            }
+        }
+        &-content{
+            height: 230px;
+            overflow-y: scroll;
+            & h1{
+                font-size: 1.5rem;
+                font-weight: 600;
+                color: var(--var-color-text);
+            }
+            &-header{
+                & p{
+                    font-size: 1.3rem;
+                    line-height: 1.5;
+                    padding: 5px;
+                    color: var(--var-color-text);
+                }
+            }
+            &-public,
+            &-private,
+            &-friends{
+                padding: 10px;
+                margin: 10px 0;
+                background: var(--var-background);
+                border-radius: 5px;
+                &:hover{
+                    cursor: pointer;
+                    background: $color-checked;
+                }
+            }
+            &-checked{
+                background: $color-checked !important;
+            }
+        }
+        &-footer{
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            left: 0;
+            height: 52px;
+            border-top: 1px solid var(--var-secondary);
+            box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+            &-btnConfirm,
+            &-btnCancel{
+                width: 100px;
+                padding: 5px 10px;
+                border-radius: 5px;
+                font-size: 1.4rem;
+                font-weight: 500;
+                &:hover{
+                    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+                }
+            }
+            &-btnConfirm{
+                background: var(--var-primary) !important;
+            }
+            &-btnCancel{
+                background: var(--var-border) !important;
+            }
+        }
+    }
+}
+.animation{
+    -webkit-animation-delay: .04s;
+    animation-delay: .04s;
+    -webkit-animation-duration: .28s;
+    animation-duration: .28s;
+    -webkit-animation-fill-mode: backwards;
+    animation-fill-mode: backwards;
+    -webkit-animation-name: faDaIn;
+    animation-name: faDaIn;
+    -webkit-animation-timing-function: cubic-bezier(.8,0,.2,1);
+    animation-timing-function: cubic-bezier(.8,0,.2,1);
+}
+@keyframes faDaIn {
+    0% {
+        opacity: 0;
+        -webkit-transform: translate(80px);
+        -ms-transform: translate(80px);
+        transform: translate(80px);
+    }
+    100% {
+        opacity: 1;
+        -webkit-transform: translate(0);
+        -ms-transform: translate(0);
+        transform: translate(0);
+    }
+}

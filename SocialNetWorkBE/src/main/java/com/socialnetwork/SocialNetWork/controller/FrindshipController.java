@@ -1,10 +1,8 @@
 package com.socialnetwork.SocialNetWork.controller;
 
 import com.socialnetwork.SocialNetWork.entity.Frindship;
-import com.socialnetwork.SocialNetWork.entity.User;
 import com.socialnetwork.SocialNetWork.model.Response.ApiResponse;
 import com.socialnetwork.SocialNetWork.service.FrindshipService;
-import com.socialnetwork.SocialNetWork.service.UserService;
 import com.socialnetwork.SocialNetWork.util.ConvertJSON;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

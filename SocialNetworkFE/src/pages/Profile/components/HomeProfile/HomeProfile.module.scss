@@ -40,7 +40,14 @@ $color-text: #e4e6eb;
             font-weight: 500;
            }
            &-list{
-             border-radius: 5px;
+                border-radius: 5px;
+                & img {
+                    border-radius: 5px;
+                    border: 1px solid var(--var-border);
+                    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+                    background-size: cover;
+                    background-repeat: no-repeat;
+                }
            }
         }
         &-friendsUser{

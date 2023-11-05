@@ -1,0 +1,158 @@
+$color-border:#666666;
+.wrapper{
+    &__container{
+        width: 500px;
+        min-height: 350px;
+        border-radius: 10px;
+        border: 1px solid #403f3f;
+        background-color: var(--var-secondary);
+        &-header{
+            border-bottom: 1px solid #595959;
+            & h1{
+                font-size: 1.7rem;
+                font-weight: 600;
+            }
+            &-icon{
+                position: absolute;
+                right: 3%;
+                font-size: 2rem;
+                padding: 6px;
+                &:hover{
+                    cursor: pointer;
+                    border-radius: 50%;
+                    background-color: #595959;   
+                }
+            }
+        }
+        &-content{
+            &-role{
+                padding: 5px;
+                background: var(--var-background);
+                border-radius: 5px;
+                font-size: 1rem;
+                font-weight: 600;
+                &:hover{
+                    cursor: pointer;
+                    background-color: var(--var-border);
+                    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+                }
+            }
+            & h1{
+                font-size: 1.5rem;
+                font-weight: 600;
+                color: var(--var-color-text);
+            }
+            &-box{
+                min-height: 100px;
+                overflow-y: auto;
+                &-input {
+                    width: 100%;
+                    padding: 10px 0;
+                    background: var(--var-secondary);
+                    height: 100px !important;
+                    font-size: 2rem;
+                    color: var(--var-color-text);
+                    font-weight: 500;
+                    &:focus{
+                        outline: none;
+                    }
+                }
+                &-choosePhoto{
+                    text-align: center;
+                    border: 1px solid $color-border;
+                    padding: 5px;
+                    border-radius: 5px;
+                    & div{
+                        background: var(--var-background);
+                        border-radius: 5px;
+                        padding: 5px;
+                    }
+                    & label{
+                        &:hover{
+                            cursor: pointer;
+                        }
+                        & h3{
+                            font-size: 1.5rem;
+                            margin-top: 5px;
+                            font-weight: 600;
+                            color: var(--var-color-text);
+                        }
+                    }
+                    &-iconClose{
+                        position: absolute;
+                        top: 0;
+                        right: 0;
+                        margin: 3px;
+                        padding: 5px;
+                        border-radius: 50%;
+                        background: var(--var-border);
+                        &:hover{
+                            cursor: pointer;
+                            background: var(--var-secondary);
+                        }
+                    }
+                }
+            }
+            &-addControlToPost{
+                padding: 10px;
+                border: 1px solid $color-border;
+                border-radius: 5px;
+                padding: 10px;
+                height: 50px;
+                margin-bottom: 50px;
+                margin-top: 20px;
+            }
+            &-btn{
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                display: flex;
+                justify-content: center;
+                &-btnSelected,
+                &-btnUnSelected{
+                    width: 95%;
+                    padding: 5px 10px;
+                    border-radius: 5px;
+                    margin-bottom: 10px;
+                    font-size: 1.5rem;
+                    font-weight: 500;
+                }
+                &-btnSelected{
+                    background: var(--var-primary) !important;
+                }
+                &-btnUnSelected{
+                    background: #555555 !important;
+                    color: #737374;
+                    font-style: oblique;
+                }
+            }
+        }
+    } 
+}
+.animation{
+    -webkit-animation-delay: .04s;
+    animation-delay: .04s;
+    -webkit-animation-duration: .28s;
+    animation-duration: .28s;
+    -webkit-animation-fill-mode: backwards;
+    animation-fill-mode: backwards;
+    -webkit-animation-name: faDaIn;
+    animation-name: faDaIn;
+    -webkit-animation-timing-function: cubic-bezier(.8,0,.2,1);
+    animation-timing-function: cubic-bezier(.8,0,.2,1);
+}
+@keyframes faDaIn {
+    0% {
+        opacity: 0;
+        -webkit-transform: translate(80px);
+        -ms-transform: translate(80px);
+        transform: translate(80px);
+    }
+    100% {
+        opacity: 1;
+        -webkit-transform: translate(0);
+        -ms-transform: translate(0);
+        transform: translate(0);
+    }
+}

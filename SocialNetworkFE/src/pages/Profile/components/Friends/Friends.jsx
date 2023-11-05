@@ -10,16 +10,12 @@ import { getListUserFriends } from "~/redux/authSlice";
 import { DATA_MENU_FRIENDS_PROFILE } from "~/const/data";
 function FriendsProfile() {
     const cx = classNames.bind(styles);
-    const [listUserFriends,setListUserFriends] = useState([]);
     const [valueMenu,setValueMenu] = useState('AllFriends');
-    const {valueIdUser} = useUserToken();
-    const dispatch = useDispatch();
+    const {listUserFriends , getListFriendsToUser, valueIdUser} = useUserToken();
+    
     useEffect(() => {
         if(valueIdUser !== undefined){
-            dispatch(getListUserFriends({id : valueIdUser , limit : 50})).then((item) => {
-                const newArr = item.payload ? item.payload : [];
-                setListUserFriends(newArr);
-            })
+            getListFriendsToUser(50);
         }
     },[valueIdUser])
     return ( 
