@@ -24,7 +24,7 @@ public class MediaController {
     public ResponseEntity<?> getListUser(@RequestBody String body){
         String userId = ConvertJSON.converJsonToString(body,"id");
         String limit = ConvertJSON.converJsonToString(body,"limit");
-        List<Media> result = mediaService.getListMedia(userId,limit);
+        List<Media> result = mediaService.getListImageMedia(userId,limit);
         if(!result.isEmpty()){
             return ResponseEntity.status(HttpStatus.OK).body(result);
         } else {
@@ -33,7 +33,7 @@ public class MediaController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<?> addUser(@RequestBody String body){
+    public ResponseEntity<?> addMedia(@RequestBody String body){
         try{
             // CONVERT JSON TO STRING
             Timestamp createdAt = Timestamp.valueOf(ConvertJSON.converJsonToString(body,"createdAt"));
@@ -42,9 +42,13 @@ public class MediaController {
             String mediaType = ConvertJSON.converJsonToString(body,"mediaType");
             String title = ConvertJSON.converJsonToString(body,"title");
             // INIT Media
-            Media media = new Media(userId,mediaUrl,mediaType,createdAt,title,null);
-            String result = mediaService.addMedia(media);
-            return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse(result));
+            if(!userId.isEmpty() && !mediaUrl.isEmpty() && !title.isEmpty()){
+                Media media = new Media(userId,mediaUrl,mediaType,createdAt,title,null);
+                Media result = mediaService.addMedia(media);
+                return ResponseEntity.status(HttpStatus.OK).body(result);
+            } else {
+                return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Data cannot be left blank"));
+            }
         } catch(Exception e){
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error occurred");
         }
