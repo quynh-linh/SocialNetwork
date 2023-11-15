@@ -14,6 +14,26 @@ function useUserToken() {
     const [listMediaToUser,setListMediaToUser] = useState([]);
     const [listUserFriends,setListUserFriends] = useState([]);
 
+    // UPLOAD IMAGE TO FIREBASE
+    const upLoadFileToFireBase = (valueIdUser, imageUpload,typeFile) => {
+        return new Promise((resolve, reject) => {
+            const uuid = v4();
+            const nameImage = imageUpload.name + uuid;
+            const imageRef = ref(storage, `${typeFile}/${valueIdUser}/${nameImage}`);
+            uploadBytes(imageRef, imageUpload)
+                .then((upLoad) => getDownloadURL(upLoad.ref))
+                .then((url) => {
+                    if (url) {
+                        resolve(url);
+                    } else {
+                        reject('error upload');
+                    }
+                })
+                .catch((error) => {
+                    reject(error);
+                });
+        });
+    };
     // UPDATE IMAGE USER
     const updateImageUser = async (imageUpload) => {
         try {
@@ -32,14 +52,15 @@ function useUserToken() {
                         createdAt: createdAt,
                         title: 'Avatar',
                     }));
-                    const msgAddMedia = respAddMedia.payload ? respAddMedia.payload.message : '';
-                    if(msgAddMedia !== '' && msgAddMedia === 'success'){
+                    console.log(respAddMedia);
+                    const msgAddMedia = respAddMedia.payload ? respAddMedia.payload : null;
+                    if(msgAddMedia !== null && msgAddMedia.mediaUrl !== ''){
                         const respUpdate = await dispatch(updateImageUserDB({
-                            image : url,
+                            image : msgAddMedia.mediaUrl,
                             id: valueIdUser
                         }));
                         const msg = respUpdate.payload ? respUpdate.payload.message : '';
-                        if(msg === 'success update image') setNameUrlImageUser(url);
+                        if(msg === 'success update image') setNameUrlImageUser(msgAddMedia.mediaUrl);
                     }
                 }
             }
@@ -95,13 +116,22 @@ function useUserToken() {
     },[dispatch]);
 
     return {
+        //  VALUE ID USER BY GET TOKEN
         valueIdUser,
+        // VALUE URL IMAGE USER
         nameUrlImageUser,
-        updateImageUser,
-        getListMediaToUser,
+        // VALUE LIST MEDIA TO USER
         listMediaToUser,
+        // VALUE LIST USER FRIENDS
         listUserFriends,
-        getListFriendsToUser
+        // GET LIST FRIENDS TO USER
+        getListFriendsToUser,
+        // GET LIST MEDIA TO USER
+        getListMediaToUser,
+        // UP LOAD IMAGE TO FIREBASE
+        upLoadFileToFireBase,
+        // UPDATE AVATAR BY USER
+        updateImageUser
     };
 }
 export default useUserToken;

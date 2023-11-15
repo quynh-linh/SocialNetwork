@@ -19,9 +19,6 @@ public class Post {
     @Column(name = "content",nullable = false)
     private String content;
 
-    @Column(name = "media_id ",nullable = false)
-    private int mediaId;
-
     @Column(name = "created_at",nullable = false)
     private Timestamp createdAt;
 
@@ -31,14 +28,16 @@ public class Post {
     @Column(name = "privacy_id",nullable = false)
     private int privacyId;
 
-    public Post(String userId, String content, int mediaId, Timestamp createdAt, Timestamp deleteAt, int privacyId) {
+    public Post(String userId, String content, Timestamp createdAt, Timestamp deleteAt, int privacyId) {
         this.userId = userId;
         this.content = content;
-        this.mediaId = mediaId;
         this.createdAt = createdAt;
         this.deleteAt = deleteAt;
         this.privacyId = privacyId;
     }
+    public Post() {
+    }
+
 
     public int getId() {
         return id;
@@ -62,14 +61,6 @@ public class Post {
 
     public void setContent(String content) {
         this.content = content;
-    }
-
-    public int getMediaId() {
-        return mediaId;
-    }
-
-    public void setMediaId(int mediaId) {
-        this.mediaId = mediaId;
     }
 
     public Timestamp getCreatedAt() {

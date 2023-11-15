@@ -25,9 +25,9 @@ public class MediaServiceImpl implements MediaService {
     }
 
     @Override
-    public List<Media> getListMedia(String id , String limit) {
+    public List<Media> getListImageMedia(String id , String limit) {
         int convertLimit = Integer.parseInt(limit);
-        ArrayList<Media> result = (ArrayList<Media>) postRepository.getListMedia(id,convertLimit);
+        ArrayList<Media> result = (ArrayList<Media>) postRepository.getListImageMedia(id,convertLimit);
         if(!result.isEmpty()){
             return result;
         }
@@ -35,18 +35,16 @@ public class MediaServiceImpl implements MediaService {
     }
 
     @Override
-    public String addMedia(Media media) {
+    public Media addMedia(Media media) {
         try{
-            System.err.println("URL:"+ media.getMediaUrl() +"ID"+ media.getUserId() + "Title:" + media.getTitle());
             if(isMediaValid(media)){
-                postRepository.save(media);
-                return "success";
+                return postRepository.save(media);
             }else {
-                return "Invalid media data";
+                return null;
             }
         } catch(DataAccessException ex){
             ex.printStackTrace();
-            return "error";
+            return null;
         }
     }
     private boolean isMediaValid(Media media) {

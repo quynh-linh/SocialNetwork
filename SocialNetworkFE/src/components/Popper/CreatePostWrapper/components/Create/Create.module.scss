@@ -67,7 +67,7 @@ $color-border:#666666;
                         border-radius: 5px;
                         padding: 5px;
                     }
-                    & label{
+                    &-labelChoose{
                         &:hover{
                             cursor: pointer;
                         }
@@ -86,9 +86,32 @@ $color-border:#666666;
                         padding: 5px;
                         border-radius: 50%;
                         background: var(--var-border);
+                        z-index: 50;
                         &:hover{
                             cursor: pointer;
                             background: var(--var-secondary);
+                        }
+                    }
+                    &-labelAdd{
+                        position: absolute;
+                        left: 2%;
+                        background: var(--var-primary);
+                        padding: 2px 5px;
+                        border-radius: 5px;
+                        color: white;
+                        font-weight: 600;
+                        z-index: 50;
+                        &:hover{
+                            cursor: pointer;
+                            background: var(--var-border);
+                        }
+                    }
+                    &-listPhotoOrVideo{
+                        & img{
+                            height: 200px;
+                            width: 100%;
+                            background-size: cover;
+                            object-fit: contain;
                         }
                     }
                 }
