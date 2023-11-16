@@ -24,8 +24,17 @@ public class PostServiceImpl implements PostService{
     }
 
     @Override
-    public List<Media> getListPost(String id, String limit) {
-        return null;
+    public List<Post> getListPost(String userId) {
+        try {
+            ArrayList<Post> result = (ArrayList<Post>) postRepository.getListPost(userId);
+            if(result.isEmpty()){
+                return null;
+            }
+            return result;
+        }catch (DataAccessException e){
+            e.printStackTrace();
+        }
+        return  null;
     }
 
     @Override

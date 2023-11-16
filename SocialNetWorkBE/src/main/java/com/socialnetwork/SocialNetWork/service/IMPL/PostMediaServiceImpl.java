@@ -1,11 +1,13 @@
 package com.socialnetwork.SocialNetWork.service.IMPL;
-
+import com.socialnetwork.SocialNetWork.entity.Media;
 import com.socialnetwork.SocialNetWork.entity.PostMedia;
 import com.socialnetwork.SocialNetWork.repository.PostMediaRepository;
 import com.socialnetwork.SocialNetWork.service.PostMediaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Component;
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
 public class PostMediaServiceImpl implements PostMediaService {
@@ -15,6 +17,7 @@ public class PostMediaServiceImpl implements PostMediaService {
     public PostMediaServiceImpl(PostMediaRepository postMediaRepository) {
         this.postMediaRepository = postMediaRepository;
     }
+
     @Override
     public String addPostMedia(PostMedia postMedia) {
         try{
