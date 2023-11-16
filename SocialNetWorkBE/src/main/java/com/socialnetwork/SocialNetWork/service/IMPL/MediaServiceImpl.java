@@ -35,6 +35,20 @@ public class MediaServiceImpl implements MediaService {
     }
 
     @Override
+    public List<Media> getListMediaByPost(String userId){
+        try {
+            ArrayList<Media> result = (ArrayList<Media>) postRepository.getListMediaByPost(userId);
+            if(result.isEmpty()){
+                return null;
+            }
+            return result;
+        }catch (DataAccessException ex){
+            ex.printStackTrace();
+            return null;
+        }
+    }
+
+    @Override
     public Media addMedia(Media media) {
         try{
             if(isMediaValid(media)){
