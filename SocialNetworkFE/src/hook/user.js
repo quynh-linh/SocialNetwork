@@ -11,6 +11,7 @@ function useUserToken() {
     const dispatch = useDispatch();
     const [valueIdUser,setValueIdUser] = useState();
     const [nameUrlImageUser,setNameUrlImageUser] = useState('');
+    const [valueDetailUserById,setValueDetailUserById] = useState({});
     const [listMediaToUser,setListMediaToUser] = useState([]);
     const [listUserFriends,setListUserFriends] = useState([]);
 
@@ -107,6 +108,18 @@ function useUserToken() {
         }
     };
 
+    // GET DETAIL USER BY ID
+    const getDetailUserById = async (id) => {
+        try {
+            const response = await dispatch(getDetailUserById(id));
+            const detail = response.payload ? response.payload : '';
+            setValueDetailUserById(detail);
+        } catch (error) {
+            console.error(error);
+            return [];
+        }
+    };
+
 
     useEffect(() => {
         const token = localStorage.getItem('token');
@@ -124,6 +137,8 @@ function useUserToken() {
         listMediaToUser,
         // VALUE LIST USER FRIENDS
         listUserFriends,
+        // VALUE DETAIL USER BY ID
+        valueDetailUserById,
         // GET LIST FRIENDS TO USER
         getListFriendsToUser,
         // GET LIST MEDIA TO USER
@@ -131,7 +146,9 @@ function useUserToken() {
         // UP LOAD IMAGE TO FIREBASE
         upLoadFileToFireBase,
         // UPDATE AVATAR BY USER
-        updateImageUser
+        updateImageUser,
+        // GET DETAIL USER BY ID
+        getDetailUserById
     };
 }
 export default useUserToken;

@@ -1,12 +1,14 @@
 package com.socialnetwork.SocialNetWork.controller;
 
+import com.socialnetwork.SocialNetWork.entity.Media;
 import com.socialnetwork.SocialNetWork.entity.Post;
+import com.socialnetwork.SocialNetWork.model.IMPL.PostById;
 import com.socialnetwork.SocialNetWork.model.Response.ApiResponse;
-import com.socialnetwork.SocialNetWork.service.MediaService;
-import com.socialnetwork.SocialNetWork.service.PostMediaService;
+import com.socialnetwork.SocialNetWork.model.dto.UserDTO;
 import com.socialnetwork.SocialNetWork.service.PostService;
 import com.socialnetwork.SocialNetWork.util.ConvertJSON;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,48 +21,26 @@ import java.util.List;
 public class PostController {
     @Autowired
     public PostService postService;
-    @Autowired
-    public MediaService mediaService;
-    @Autowired
-    public PostMediaService postMediaService;
 
-    // get list post display at home
-    @PostMapping("/getListPost")
-    public ResponseEntity<?> getListPost(@RequestBody String body){
+    @GetMapping("/getListPost/{id}")
+    public ResponseEntity<?> getListPost(@PathVariable String id) {
         try {
-            String userId = ConvertJSON.converJsonToString(body,"id");
-            if(userId.isEmpty()){
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("userId not exist");
+            if (id.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApiResponse("userId is required"));
             }
-            List<Post> result = postService.getListPost(userId);
-            if(result.isEmpty()){
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Data does not exist");
+            List<PostById> result = postService.getListPost(id);
+            if (result == null) {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ApiResponse("Error occurred"));
+            }
+            if (result.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse("No data found"));
             }
             return ResponseEntity.status(HttpStatus.OK).body(result);
-        }catch (Exception e){
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error occurred");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ApiResponse("Error occurred"));
         }
     }
 
-    // get list post of user display at profile
-    @GetMapping("/getListPostOfUser")
-    public  ResponseEntity<?> getListPostOfUser(@RequestBody String body){
-        try {
-            String userId = ConvertJSON.converJsonToString(body, "id");
-            if(userId.isEmpty()){
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("userId not exist");
-            }
-            List<Post> result = postService.getListPostOfUser(userId);
-            if(result.isEmpty()){
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Data does not exit");
-            }
-            return ResponseEntity.status(HttpStatus.OK).body(result);
-        }catch (Exception e){
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error Occurred");
-        }
-    }
-
-    // create post
     @PostMapping("/add")
     public ResponseEntity<?> addMedia(@RequestBody String body){
         try{
@@ -81,25 +61,4 @@ public class PostController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error occurred");
         }
     };
-
-    // get list post of user display at profile
-    @GetMapping("/deletePost")
-    public  ResponseEntity<?> deletePost(@RequestBody String body){
-        try {
-            String postId = ConvertJSON.converJsonToString(body, "id");
-            if(postId.isEmpty()){
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("userId not exist");
-            }
-            List<String> mediaId = postMediaService.getListMediaIdByPost(postId);
-            if (mediaId != null) {
-                postMediaService.deletePostMediaByPost(postId);
-                mediaService.deleteMediaOfPost(mediaId);
-            }
-            postService.deletePost(postId);
-            return ResponseEntity.status(HttpStatus.OK).body("delete success !");
-        } catch (Exception e) {
-            // Handle generic exception
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error occurred");
-        }
-    }
 }

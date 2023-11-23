@@ -5,8 +5,6 @@ import { faEllipsisVertical, faSearch } from "@fortawesome/free-solid-svg-icons"
 import { Link } from "react-router-dom";
 import { useState , useEffect } from "react";
 import useUserToken from "~/hook/user";
-import { useDispatch } from "react-redux";
-import { getListUserFriends } from "~/redux/authSlice";
 import { DATA_MENU_FRIENDS_PROFILE } from "~/const/data";
 function FriendsProfile() {
     const cx = classNames.bind(styles);

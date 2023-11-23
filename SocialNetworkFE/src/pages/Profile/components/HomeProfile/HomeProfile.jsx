@@ -1,7 +1,7 @@
 import classNames from "classnames/bind";
 import styles from "./HomeProfile.module.scss";
 import Post from "~/components/Post/Post";
-import {ALL_FRIENDS_USER, DATA__PERSONAL__INFORMATION as personalInfo } from "~/const/data";
+import { DATA__PERSONAL__INFORMATION as personalInfo } from "~/const/data";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import {Button as ButtonEdit} from "~/components/button/button";
@@ -108,7 +108,7 @@ function HomeProfile() {
                         <div className="grid grid-rows-3 grid-cols-3 gap-3">
                             {
                                 listMediaToUser.length > 0 && listMediaToUser.map((item,index) =>{
-                                    return <img key={index} className={cx('w-40 h-40 object-cover')} src={item.mediaUrl} alt="all image"/>
+                                    return <img key={index} className={cx('w-40 h-40 object-cover')} src={item.mediaUrl} alt="all media"/>
                                 })
                             }
                         </div>
@@ -126,7 +126,7 @@ function HomeProfile() {
                                 listUserFriends.length > 0 && listUserFriends.map((item,index) =>{
                                     return (
                                         <div key={index}>
-                                            <img key={index} className={cx('w-40 h-40 object-cover')} src={item.image} alt="all image"/>
+                                            <img key={index} className={cx('w-40 h-40 object-cover')} src={item.image} alt="all friends"/>
                                             <div className={cx('w-full','wrapper__left-friendsUser-list-itemName')}>{item.firstName + " " + item.lastName}</div>
                                         </div>
                                     )

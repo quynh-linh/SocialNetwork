@@ -1,10 +1,14 @@
 .wrapper{
-    width: 20%;
-    height: 600px;
+    width: 290px;
+    position: fixed;
+    height: 100%;
+    right: 0;
+    top: 61px;
+    z-index: 50;
     &__titleFollow{
         border-bottom: 1px solid #343434;
         color: white;
-        font-size: 1.7rem;
+        font-size: 1.5rem;
         text-align: center;
         padding: 10px 0;
         font-weight: 600;

@@ -4,16 +4,16 @@ const  initialState = {
     isLoading: false,
     msg:'',
 }
-// HANDLE ADD MEDIA TO DB
+// GET LIST POST BY USER ID
 const getListPost = createAsyncThunk('getListPost',async(body)=> {
     try {
-        const res = await fetch(URL_API + 'api/v1/post/media', {
-            method: 'POST',
+        const {id} = body;
+        const res = await fetch(URL_API + `api/v1/post/getListPost/${id}`, {
+            method: 'GET',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(body),
+            }
         });
         const data = await res.json();
         return data;

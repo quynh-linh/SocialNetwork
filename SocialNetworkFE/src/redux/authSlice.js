@@ -146,6 +146,25 @@ const getListUserVerifyRequest = createAsyncThunk('getListUserVerifyRequest',asy
     }
 });
 
+// HANDLE GET DETAIL USER BY ID
+const getDetailUserById = createAsyncThunk('getListUserVerifyRequest',async(body)=> {
+    try {
+        const {id} = body;
+        const res = await fetch(URL_API + `api/v1/users/getDetailUser/${id}`, {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        });
+        const data = await res.json();
+        return data;
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        throw error;
+    }
+});
+
 // HANDLE UPDATE USER BY IMAGE IN DB
 const updateImageUserDB = createAsyncThunk('updateImageUserDB',async(body)=> {
     try {
@@ -302,6 +321,8 @@ export {
     // GET LIST USER TO REQUEST SENT
     getListUserRequestSent,
     // GET LIST USER FRIENDS
-    getListUserFriends
+    getListUserFriends,
+    // GET DETAIL USER BY ID
+    getDetailUserById
 };
 export const {updateUSer} = authSlice.actions; 

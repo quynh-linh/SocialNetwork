@@ -17,17 +17,17 @@ import java.util.List;
 
 @Component
 public class MediaServiceImpl implements MediaService {
-    private final MediaRepository mediatRepository;
+    private final MediaRepository postRepository;
 
     @Autowired
     public MediaServiceImpl(MediaRepository postRepository) {
-        this.mediatRepository = postRepository;
+        this.postRepository = postRepository;
     }
 
     @Override
     public List<Media> getListImageMedia(String id , String limit) {
         int convertLimit = Integer.parseInt(limit);
-        ArrayList<Media> result = (ArrayList<Media>) mediatRepository.getListImageMedia(id,convertLimit);
+        ArrayList<Media> result = (ArrayList<Media>) postRepository.getListImageMedia(id,convertLimit);
         if(!result.isEmpty()){
             return result;
         }
@@ -35,9 +35,9 @@ public class MediaServiceImpl implements MediaService {
     }
 
     @Override
-    public List<Media> getListMediaByPost(String userId){
+    public List<Media> getListMediaByPost(int postId){
         try {
-            ArrayList<Media> result = (ArrayList<Media>) mediatRepository.getListMediaByPost(userId);
+            ArrayList<Media> result = (ArrayList<Media>) postRepository.getListMediaByPost(postId);
             if(result.isEmpty()){
                 return null;
             }
@@ -52,7 +52,7 @@ public class MediaServiceImpl implements MediaService {
     public Media addMedia(Media media) {
         try{
             if(isMediaValid(media)){
-                return mediatRepository.save(media);
+                return postRepository.save(media);
             }else {
                 return null;
             }
@@ -66,15 +66,5 @@ public class MediaServiceImpl implements MediaService {
                 media.getTitle() != null && !media.getTitle().isEmpty() &&
                 media.getMediaUrl() != null && !media.getMediaUrl().isEmpty() &&
                 media.getUserId() != null && !media.getUserId().isEmpty();
-    }
-
-    // delete media of post
-    @Override
-    public void deleteMediaOfPost(List<String> mediaId){
-        try{
-            mediatRepository.deleteMediaOfPost(mediaId);
-        }catch (DataAccessException e){
-            e.printStackTrace();
-        }
     }
 }

@@ -17,11 +17,11 @@ public interface MediaRepository extends JpaRepository<Media,Long> {
             "LIMIT ?2",nativeQuery = true)
     List<Media> getListImageMedia(String id , int limit);
 
-    @Query(value = "SELECT m.* FROM media as m " +
-            "INNER JOIN post_media as pm ON m.id = pm.media_id " +
-            "INNER JOIN posts as p ON pm.post_id = p.id " +
-            "WHERE m.user_id = ?1", nativeQuery = true)
-    List<Media> getListMediaByPost(String userId);
+    @Query(value = "SELECT m.* " +
+            "FROM post_media AS pm " +
+            "JOIN media AS m ON pm.media_id = m.id " +
+            "WHERE pm.post_id = ?1 ", nativeQuery = true)
+    List<Media> getListMediaByPost(int postId);
 
     // delete post media by post
     @Modifying

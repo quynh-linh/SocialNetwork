@@ -18,9 +18,9 @@ function BoxCreate({onShow=undefined,forwardTo=undefined,valueDecentralization='
     const [onChangeValuePost,setOnChangeValuePost] = useState('');
     const [isShowUploadPhoto,setIsShowUploadPhoto] = useState(false);
     const [pickListPhoto,setPickListPhoto] = useState([]);
-    const [idMediaResp,setIdMediaResp] = useState([]);
     const {valueIdUser,upLoadFileToFireBase} = useUserToken();
     const dispatch = useDispatch();
+    
     //
     const handleChangeValuePost = (e) => {
         setOnChangeValuePost(e.target.value);
@@ -132,7 +132,9 @@ function BoxCreate({onShow=undefined,forwardTo=undefined,valueDecentralization='
             return "error";
         }
     }
-    //
+
+
+    // HANDLE UP POSTS
     const handleClickUpPosts = (e) => {
         e.preventDefault();
         const createdAt = currentTime();
@@ -144,7 +146,7 @@ function BoxCreate({onShow=undefined,forwardTo=undefined,valueDecentralization='
                         if(url !== '' && url !== 'error upload'){
                             handleAddMedia(valueIdUser,url,createdAt,item.type).then((media) => {
                                 if(media && media.id > 0){
-                                    handleAddPostMedia(id,obID).then((msg) => {
+                                    handleAddPostMedia(media.id,object.id).then((msg) => {
                                         console.log(msg);
                                     })
                                 }
@@ -155,7 +157,10 @@ function BoxCreate({onShow=undefined,forwardTo=undefined,valueDecentralization='
             }         
         });
     }
-    //
+
+
+
+    // FOCUS TEXTAREA
     useEffect(() => {
         textareaRef.current.focus();
     },[]);
