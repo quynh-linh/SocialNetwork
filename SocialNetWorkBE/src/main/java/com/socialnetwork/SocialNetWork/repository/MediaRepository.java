@@ -3,7 +3,9 @@ package com.socialnetwork.SocialNetWork.repository;
 import com.socialnetwork.SocialNetWork.entity.Media;
 import com.socialnetwork.SocialNetWork.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -21,4 +23,9 @@ public interface MediaRepository extends JpaRepository<Media,Long> {
             "WHERE m.user_id = ?1", nativeQuery = true)
     List<Media> getListMediaByPost(String userId);
 
+    // delete post media by post
+    @Modifying
+    @Transactional
+    @Query(value = "DELETE FROM media WHERE id IN ?1", nativeQuery = true)
+    void deleteMediaOfPost(List<String> mediaId);
 }
