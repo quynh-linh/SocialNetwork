@@ -3,7 +3,6 @@ $color-text : #88888e;
     margin-top: 15px;
     border: 1px solid var(--var-border);
     border-radius: 5px;
-    padding: 20px;
     &__header{
         &-info{
             &-name{
@@ -36,16 +35,17 @@ $color-text : #88888e;
     }
     &__content{
         &-des{
-            margin-top: 10px;
             color: white;
             height: auto;
         }
         &-imgPost{
-            margin-top: 10px;
-            min-height: 360px;
+            max-height: 350px;
+            background: #555251;
+            padding: 20px;
         }
         &-interactWith{
-            margin-top: 10px;
+            border-top: 1px solid var(--var-border);
+            border-bottom: 1px solid var(--var-border);
             &-Likes,
             &-Comments,
             &-Share{

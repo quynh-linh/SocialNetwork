@@ -1,8 +1,22 @@
 
 .wrapper{
-    width: 25%;
-    height: 600px;
+    width: 290px;
+    height: 100%;
     border-radius: 5px;
+    position: fixed;
+    left: 0;
+    top: 61px;
+    overflow-y: auto;
+    border-radius: 5px;
+    &::-webkit-scrollbar
+    {
+        display: none;
+    }
+    &:hover::-webkit-scrollbar
+    {
+        display: block;
+        background-color: #141519;
+    }
     &__profileUser{
         &-background{
             background: url('https://c4.wallpaperflare.com/wallpaper/16/671/726/lionel-messi-football-barcelona-hd-wallpaper-preview.jpg') center center no-repeat;
@@ -58,11 +72,10 @@
             }
         }
         &-view{
-            padding: 20px;
+            height: 75px;
             &-profile{
                 text-align: center;
                 color: #0f6fec;
-                font-size: 1.4rem;
                 font-weight: 500;
             }
         }

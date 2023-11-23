@@ -3,10 +3,10 @@
     overflow-y: scroll;
     height: 100%;
     &__content{
-        margin: 90px 2% 20px 2%;
-        &-children{
-            width: 55%;
-        }
+        margin-left: 300px;
+        margin-right: 300px;
+        margin-top: 81px;
+        margin-bottom: 20px;
     }
     &__message{
         position: absolute;

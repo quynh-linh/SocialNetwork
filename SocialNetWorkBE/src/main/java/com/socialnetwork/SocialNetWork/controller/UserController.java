@@ -1,11 +1,10 @@
 package com.socialnetwork.SocialNetWork.controller;
 
+import com.socialnetwork.SocialNetWork.entity.Post;
 import com.socialnetwork.SocialNetWork.entity.User;
-import com.socialnetwork.SocialNetWork.model.IMPL.RequestUserFriends;
 import com.socialnetwork.SocialNetWork.model.Response.ApiResponse;
 import com.socialnetwork.SocialNetWork.model.Response.AuthResponse;
 import com.socialnetwork.SocialNetWork.model.dto.UserDTO;
-import com.socialnetwork.SocialNetWork.model.IMPL.UserFriendshipStatus;
 import com.socialnetwork.SocialNetWork.service.UserService;
 import com.socialnetwork.SocialNetWork.util.ConvertJSON;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +40,7 @@ public class UserController {
     public ResponseEntity<?> getListUserRequestSent(@RequestBody String body){
         String id = ConvertJSON.converJsonToString(body,"id");
         String limit = ConvertJSON.converJsonToString(body,"limit");
+        System.err.println(id + " cc " + limit);
         List<UserDTO> result = userService.getListUserRequestSent(id,limit);
         if(!result.isEmpty()){
             return ResponseEntity.status(HttpStatus.OK).body(result);
@@ -59,15 +59,25 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse("error"));
     }
 
+    @GetMapping("/getDetailUser/{id}")
+    public ResponseEntity<?> getDetailUserById(@PathVariable String id){
+        try {
+            if (id.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApiResponse("userId is required"));
+            }
+            UserDTO userDTO = userService.getDetailUserById(id);
+            return userDTO == null ? ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("null")) : ResponseEntity.status(HttpStatus.OK).body(userDTO);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ApiResponse("Error occurred"));
+        }
+    }
+
     @PostMapping("/listFriends")
     public ResponseEntity<?> getListUserFriends(@RequestBody String body){
         String id = ConvertJSON.converJsonToString(body,"id");
         String limit = ConvertJSON.converJsonToString(body,"limit");
-        List<UserDTO> result = userService.getListUserFriends(id,limit);
-        if(!result.isEmpty()){
-            return ResponseEntity.status(HttpStatus.OK).body(result);
-        }
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse("error"));
+        List<UserDTO> result = userService.getListUserFriends(id,Integer.parseInt(limit));
+        return result != null && !result.isEmpty() ? ResponseEntity.status(HttpStatus.OK).body(result) : ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("No friends"));
     }
 
     @GetMapping("/listId")

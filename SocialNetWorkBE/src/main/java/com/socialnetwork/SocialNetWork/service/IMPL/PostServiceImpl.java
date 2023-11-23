@@ -3,6 +3,7 @@ package com.socialnetwork.SocialNetWork.service.IMPL;
 import com.socialnetwork.SocialNetWork.entity.Media;
 import com.socialnetwork.SocialNetWork.entity.Post;
 import com.socialnetwork.SocialNetWork.entity.User;
+import com.socialnetwork.SocialNetWork.model.IMPL.PostById;
 import com.socialnetwork.SocialNetWork.repository.PostRepository;
 import com.socialnetwork.SocialNetWork.repository.UserRepository;
 import com.socialnetwork.SocialNetWork.service.PostService;
@@ -24,17 +25,18 @@ public class PostServiceImpl implements PostService{
     }
 
     @Override
-    public List<Post> getListPost(String userId) {
+    public List<PostById> getListPost(String userId) {
         try {
-            ArrayList<Post> result = (ArrayList<Post>) postRepository.getListPost(userId);
+            ArrayList<PostById> result = (ArrayList<PostById>) postRepository.getListPost(userId);
             if(result.isEmpty()){
                 return null;
+            } else {
+                return result;
             }
-            return result;
         }catch (DataAccessException e){
             e.printStackTrace();
         }
-        return  null;
+        return null;
     }
 
     @Override

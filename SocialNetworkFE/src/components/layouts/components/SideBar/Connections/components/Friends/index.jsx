@@ -1,12 +1,10 @@
 import classNames from "classnames/bind";
-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import SimpleBarReact from "simplebar-react";
-
 import { getListUserVerifyRequest} from "~/redux/authSlice";
 import AddFriends from "~/components/form/AddFriends/AddFriends";
 import styles from "./Friends.module.scss";
@@ -28,13 +26,13 @@ function FriendsConnections({type='',title='',onShow=undefined}) {
         if(type === 'request') { 
             if(valueIdUser){
                 dispatch(getListUserVerifyRequest({id : valueIdUser , limit : 1000})).then((item) => {
+                    console.log(item);
                     setListDataRequestFriends(item.payload ? item.payload : [])
                 })
             }
-        }
-        
+        }  
     },[dispatch,type,valueIdUser]);
-    console.log(listDataRequestFriends);
+
     // GET THE HEIGHT SIZE OF THE WINDOW THEN SUBTRACT 2 HEADER SIZES
     useEffect(() => {
         const withBodyWindow = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
@@ -59,7 +57,7 @@ function FriendsConnections({type='',title='',onShow=undefined}) {
                             <div className={cx('wrapper__content-request')}>
                                 <div className={cx('wrapper__content-request-quantityRequest')}>{listDataRequestFriends.length} Lời mời kết bạn</div>
                                 <div 
-                                    className={cx('text-primaryColor text-xl font-semibold')}
+                                    className={cx('text-primaryColor text-xl font-semibold cursor-pointer')}
                                     onClick={handleShowRequestSent}
                                 >Xem lời mời đã gửi</div>
                             </div>

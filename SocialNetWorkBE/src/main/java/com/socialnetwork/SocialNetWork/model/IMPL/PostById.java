@@ -1,9 +1,16 @@
 package com.socialnetwork.SocialNetWork.model.IMPL;
 
-public interface MediaByPost {
-    String getId();
-    String getPostId();
+import java.sql.Timestamp;
+
+public interface PostById {
+    int getId();
+    String getUserID();
     String getMediaId();
-    String getMediaUrl();
-    String getMedia_type();
+    String getContent();
+    String getCreatedAt();
+    String getDeleteAt();
+    int getPrivacyId();
+    String getFirstName();
+    String getLastName();
+    String getAvatarUser();
 }

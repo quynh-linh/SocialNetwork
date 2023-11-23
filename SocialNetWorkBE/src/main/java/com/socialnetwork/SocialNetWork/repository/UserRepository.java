@@ -1,8 +1,6 @@
 package com.socialnetwork.SocialNetWork.repository;
 
 import com.socialnetwork.SocialNetWork.entity.User;
-import com.socialnetwork.SocialNetWork.model.IMPL.RequestUserFriends;
-import com.socialnetwork.SocialNetWork.model.IMPL.UserFriendshipStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -42,24 +40,27 @@ public interface UserRepository extends JpaRepository<User,Long> {
             "AND " +
             "fr.receiver_id = ?5 ",nativeQuery = true)
     int updateStatusByFriends(int status,String updateAt , String delectedAt,String senderId , String receiverID);
-    @Query(value = "SELECT u.* \n" +
-            "FROM `user` as u \n" +
-            "CROSS JOIN frindship as fr \n" +
-            "ON u.id = fr.receiver_id \n" +
-            "WHERE fr.sender_id =?1 AND fr.status = 1 \n" +
-            "ORDER BY fr.created_at DESC \n" +
+    @Query(value = "SELECT u.* " +
+            "FROM `user` as u " +
+            "CROSS JOIN frindship as fr " +
+            "ON u.id = fr.receiver_id " +
+            "WHERE fr.sender_id = ?1 AND fr.status = 1 " +
+            "ORDER BY fr.created_at DESC " +
             "LIMIT ?2", nativeQuery = true)
     List<User> getUserRequestFriends(String id,int limit);
 
     @Query(value = "SELECT u.* " +
-            "FROM user as u " +
-            "WHERE u.id NOT IN " +
-            "(SELECT f.receiver_id FROM frindship as f WHERE f.sender_id = ?1 AND f.status = 1) " +
-            "AND u.id NOT IN " +
-            "(SELECT f.sender_id FROM frindship as f WHERE f.receiver_id = ?1 AND f.status = 1) " +
-            "AND u.id NOT IN (SELECT f.receiver_id FROM frindship as f WHERE (f.sender_id = ?1 OR f.receiver_id =?1) AND f.status = 2) " +
-            "AND u.id != ?1 " +
-            "LIMIT ?2", nativeQuery = true)
+            "FROM user AS u " +
+            "LEFT JOIN frindship AS f1 ON u.id = f1.receiver_id AND f1.sender_id = ?1 AND f1.status = 1 " +
+            "LEFT JOIN frindship AS f2 ON u.id = f2.sender_id AND f2.receiver_id = ?1 AND f2.status = 1 " +
+            "LEFT JOIN frindship AS f3 ON u.id = f3.receiver_id AND f3.sender_id = ?1 AND f3.status = 2 " +
+            "LEFT JOIN frindship AS f4 ON u.id = f4.sender_id AND f4.receiver_id = ?1 AND f4.status = 2 " +
+            "WHERE u.id != 'MuE0AOLipZHatRumrEW6qQXDvd4y6GryUp2eWth1' " +
+            "AND f1.receiver_id IS NULL " +
+            "AND f2.sender_id IS NULL " +
+            "AND f3.receiver_id IS NULL " +
+            "AND f4.sender_id IS NULL " +
+            "LIMIT ?2 ", nativeQuery = true)
     List<User> getListSuggestedFriends(String id, int limit);
 
     @Query(value = "SELECT u.* FROM user as u " +
@@ -69,11 +70,16 @@ public interface UserRepository extends JpaRepository<User,Long> {
     List<User> getListUserVerifyRequest(String id, int limit);
 
     @Query(value = "SELECT u.* " +
-            "FROM user as u " +
-            "CROSS JOIN frindship as fr " +
-            "ON u.id = fr.receiver_id " +
-            "WHERE fr.sender_id = ?1 "  +
-            "ORDER BY fr.created_at " +
+            "FROM user AS u " +
+            "JOIN frindship AS f ON (u.id = f.sender_id OR u.id = f.receiver_id) " +
+            "WHERE (f.sender_id = ?1 OR f.receiver_id = ?1) " +
+            "AND u.id != ?1 " +
+            "AND f.status = 2 " +
             "LIMIT ?2 ",nativeQuery = true)
     List<User> getListUserFriends(String id ,int limit);
+
+    @Query(value = "SELECT u.* " +
+            "FROM user AS u " +
+            "WHERE u.id = ?1 ",nativeQuery = true)
+    User getDetailUserById(String id);
 }

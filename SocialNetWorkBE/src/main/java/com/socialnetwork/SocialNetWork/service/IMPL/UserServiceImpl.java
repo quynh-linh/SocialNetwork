@@ -1,10 +1,8 @@
 package com.socialnetwork.SocialNetWork.service.IMPL;
 
 import com.socialnetwork.SocialNetWork.entity.User;
-import com.socialnetwork.SocialNetWork.model.IMPL.RequestUserFriends;
 import com.socialnetwork.SocialNetWork.model.Response.AuthResponse;
 import com.socialnetwork.SocialNetWork.model.dto.UserDTO;
-import com.socialnetwork.SocialNetWork.model.IMPL.UserFriendshipStatus;
 import com.socialnetwork.SocialNetWork.model.mapper.UserMapper;
 import com.socialnetwork.SocialNetWork.repository.UserRepository;
 import com.socialnetwork.SocialNetWork.service.JwtTokenProvider;
@@ -50,7 +48,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<UserDTO> getListSuggestedFriends(String id,String limit) {
         int convertLimit = Integer.parseInt(limit);
-        System.err.println(id +" :cc: "+ limit);
         if(!id.isEmpty() && convertLimit > 0){
             ArrayList<User> listUser = (ArrayList<User>) userRepository.getListSuggestedFriends(id,convertLimit);
             if(!listUser.isEmpty()){
@@ -100,18 +97,27 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserDTO> getListUserFriends(String id, String limit) {
-        int convertLimit = Integer.parseInt(limit);
-        if(!id.isEmpty() && convertLimit > 0){
-            ArrayList<User> result = (ArrayList<User>) userRepository.getListUserFriends(id,convertLimit);
+    public List<UserDTO> getListUserFriends(String id, int limit) {
+        if(!id.isEmpty() && limit > 0){
+            ArrayList<User> result = (ArrayList<User>) userRepository.getListUserFriends(id,limit);
             if(!result.isEmpty()){
                 ArrayList<UserDTO> userDTOS = new ArrayList<UserDTO>();
                 // Convert users -> result
                 for (User user : result) {
+                    System.err.println(user);
                     userDTOS.add(UserMapper.toUserDto(user));
                 }
                 return userDTOS;
             }
+        }
+        return null;
+    }
+
+    @Override
+    public UserDTO getDetailUserById(String id) {
+        if(!id.isEmpty()){
+            User result = userRepository.getDetailUserById(id);
+            return UserMapper.toUserDto(result);
         }
         return null;
     }

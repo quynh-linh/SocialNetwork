@@ -23,6 +23,24 @@ const getListMedia = createAsyncThunk('getListMedia',async(body)=> {
     }
 });
 // HANDLE ADD MEDIA TO DB
+const getListMediaByPost = createAsyncThunk('getListMediaByPost',async(body)=> {
+    try {
+        const {id} = body;
+        const res = await fetch(URL_API + `api/v1/media/getListMediaByPost/${id}`, {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        });
+        const data = await res.json();
+        return data;
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        throw error;
+    }
+});
+// HANDLE ADD MEDIA TO DB
 const addMedia = createAsyncThunk('addMedia',async(body)=> {
     try {
         const res = await fetch(URL_API + 'api/v1/media/add', {
@@ -64,5 +82,7 @@ export {
     // ADD FRIENDS
     addMedia,
     // GET LIST MEDIA
-    getListMedia
+    getListMedia,
+    // GET LIST MEDIA BY POST
+    getListMediaByPost
 };

@@ -20,21 +20,16 @@ public class MediaController {
     @Autowired
     public MediaService mediaService;
 
-    @PostMapping("/getListMediaByPost")
-    public ResponseEntity<?> getListMediaByPost(@RequestBody String body){
+    @GetMapping("/getListMediaByPost/{id}")
+    public ResponseEntity<?> getListMediaByPost(@PathVariable int id){
         try {
-            String userId = ConvertJSON.converJsonToString(body,"id");
-            System.err.println((userId));
-            if(userId.isEmpty()){
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("userId not exist");
+            if(id <= 0){
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ApiResponse("userId not exist"));
             }
-            List<Media> result = mediaService.getListMediaByPost(userId);
-            if(result.isEmpty()){
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Data does not exist");
-            }
-            return ResponseEntity.status(HttpStatus.OK).body(result);
+            List<Media> result = mediaService.getListMediaByPost(id);
+            return result == null ? ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Data does not exist")) :  ResponseEntity.status(HttpStatus.OK).body(result);
         }catch (Exception e){
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error occurred");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ApiResponse("Error occurred"));
         }
     }
 

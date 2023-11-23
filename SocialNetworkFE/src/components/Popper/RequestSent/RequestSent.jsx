@@ -20,6 +20,7 @@ function RequestSent({onClose=undefined}) {
     useEffect(() => {    
         if(valueIdUser){
             dispatch(getListUserRequestSent({id : valueIdUser , limit : 50})).then((item) => {
+                console.log(item);
                 setListDataRequestFriends(item.payload ? item.payload : [])
             })
         }

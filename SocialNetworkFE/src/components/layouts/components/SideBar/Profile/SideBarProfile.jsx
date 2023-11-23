@@ -34,15 +34,15 @@ function SideBarProfile() {
                     {DATA_PAGES.map((item,index)=> {
                         return (
                             <Link to={item.path} key={index} className={cx('flex items-center text-white font-semibold','wrapper__profileUser-page-item')}>
-                                <img className={cx('w-10 h-10')} src={item.icon} alt="Home page" />
-                                <span className={cx('pl-10')}>{item.name}</span>
+                                <img className={cx('w-7 h-w-7')} src={item.icon} alt="Home page" />
+                                <span className={cx('pl-10 text-lg')}>{item.name}</span>
                             </Link>
                         )
                     })}
                     
                 </div>
                 <div className={cx('wrapper__profileUser-view','text-center')}>
-                    <Link to={'/profile'} className={cx('wrapper__profileUser-view-profile','')}>
+                    <Link to={'/profile'} className={cx('wrapper__profileUser-view-profile','text-lg')}>
                         View Profile
                     </Link>
                 </div>
