@@ -1,5 +1,6 @@
 package com.socialnetwork.SocialNetWork.service.IMPL;
 import com.socialnetwork.SocialNetWork.entity.Media;
+import com.socialnetwork.SocialNetWork.entity.Post;
 import com.socialnetwork.SocialNetWork.entity.PostMedia;
 import com.socialnetwork.SocialNetWork.repository.PostMediaRepository;
 import com.socialnetwork.SocialNetWork.service.PostMediaService;
@@ -18,6 +19,32 @@ public class PostMediaServiceImpl implements PostMediaService {
         this.postMediaRepository = postMediaRepository;
     }
 
+    // get list mediaId by post
+    @Override
+    public List<String> getListMediaIdByPost(String postId){
+        try{
+            ArrayList<String> result = (ArrayList<String>) postMediaRepository.getListMediaIdByPost(postId);
+            if(result.isEmpty()){
+                return null;
+            }
+            return result;
+        }catch (DataAccessException e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    // delete postMedia by post
+    @Override
+    public void deletePostMediaByPost(String postId){
+        try{
+            postMediaRepository.deletePostMediaByPost(postId);
+        }catch (DataAccessException e){
+            e.printStackTrace();
+        }
+    }
+
+    // create post media
     @Override
     public String addPostMedia(PostMedia postMedia) {
         try{

@@ -1,7 +1,5 @@
 package com.socialnetwork.SocialNetWork.controller;
 
-import com.socialnetwork.SocialNetWork.entity.Media;
-import com.socialnetwork.SocialNetWork.entity.Post;
 import com.socialnetwork.SocialNetWork.entity.PostMedia;
 import com.socialnetwork.SocialNetWork.model.Response.ApiResponse;
 import com.socialnetwork.SocialNetWork.service.PostMediaService;
@@ -14,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
 
 @RequestMapping("/api/v1/post_media")
 @RestController

@@ -1,9 +1,7 @@
 package com.socialnetwork.SocialNetWork.controller;
 
-import com.socialnetwork.SocialNetWork.entity.Frindship;
 import com.socialnetwork.SocialNetWork.entity.Media;
 import com.socialnetwork.SocialNetWork.model.Response.ApiResponse;
-import com.socialnetwork.SocialNetWork.model.dto.UserDTO;
 import com.socialnetwork.SocialNetWork.service.MediaService;
 import com.socialnetwork.SocialNetWork.util.ConvertJSON;
 import org.springframework.beans.factory.annotation.Autowired;
