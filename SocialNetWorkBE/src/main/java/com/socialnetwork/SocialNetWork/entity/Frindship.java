@@ -1,7 +1,6 @@
 package com.socialnetwork.SocialNetWork.entity;
 
 import jakarta.persistence.*;
-import org.hibernate.type.descriptor.DateTimeUtils;
 
 import java.sql.Timestamp;
 

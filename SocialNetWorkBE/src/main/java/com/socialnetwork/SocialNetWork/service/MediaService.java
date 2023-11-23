@@ -9,6 +9,6 @@ import java.util.List;
 public interface MediaService {
     public List<Media> getListImageMedia(String id , String limit);
     public Media addMedia(Media media);
-
     public List<Media> getListMediaByPost(String userId);
+    public void deleteMediaOfPost(List<String> mediaId);
 }

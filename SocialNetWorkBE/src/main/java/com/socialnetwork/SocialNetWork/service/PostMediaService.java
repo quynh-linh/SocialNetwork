@@ -8,6 +8,7 @@ import java.util.List;
 
 @Service
 public interface PostMediaService {
-
     public String addPostMedia(PostMedia postMedia);
+    public List<String> getListMediaIdByPost(String postId);
+    public void deletePostMediaByPost(String postId);
 }

@@ -1,11 +1,8 @@
 package com.socialnetwork.SocialNetWork.controller;
 
 import com.socialnetwork.SocialNetWork.entity.Comments;
-import com.socialnetwork.SocialNetWork.entity.Media;
-import com.socialnetwork.SocialNetWork.entity.Post;
 import com.socialnetwork.SocialNetWork.model.Response.ApiResponse;
 import com.socialnetwork.SocialNetWork.service.CommentsService;
-import com.socialnetwork.SocialNetWork.service.PostService;
 import com.socialnetwork.SocialNetWork.util.ConvertJSON;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
