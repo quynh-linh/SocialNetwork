@@ -55,7 +55,7 @@ public interface UserRepository extends JpaRepository<User,Long> {
             "LEFT JOIN frindship AS f2 ON u.id = f2.sender_id AND f2.receiver_id = ?1 AND f2.status = 1 " +
             "LEFT JOIN frindship AS f3 ON u.id = f3.receiver_id AND f3.sender_id = ?1 AND f3.status = 2 " +
             "LEFT JOIN frindship AS f4 ON u.id = f4.sender_id AND f4.receiver_id = ?1 AND f4.status = 2 " +
-            "WHERE u.id != 'MuE0AOLipZHatRumrEW6qQXDvd4y6GryUp2eWth1' " +
+            "WHERE u.id != ?1 " +
             "AND f1.receiver_id IS NULL " +
             "AND f2.sender_id IS NULL " +
             "AND f3.receiver_id IS NULL " +
@@ -82,4 +82,9 @@ public interface UserRepository extends JpaRepository<User,Long> {
             "FROM user AS u " +
             "WHERE u.id = ?1 ",nativeQuery = true)
     User getDetailUserById(String id);
+
+    @Query(value = "SELECT * FROM user " +
+            "WHERE first_name LIKE %?1% OR last_name LIKE %?1%", nativeQuery = true)
+    List<User> getListUserBySearch(String name);
+
 }

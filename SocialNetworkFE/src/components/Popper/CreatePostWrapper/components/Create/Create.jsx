@@ -17,21 +17,23 @@ function BoxCreate({onShow=undefined,forwardTo=undefined,valueDecentralization='
     const textareaRef = useRef();
     const [onChangeValuePost,setOnChangeValuePost] = useState('');
     const [isShowUploadPhoto,setIsShowUploadPhoto] = useState(false);
+    const [isLoading,setIsLoading] = useState(false);
     const [pickListPhoto,setPickListPhoto] = useState([]);
     const {valueIdUser,upLoadFileToFireBase} = useUserToken();
     const dispatch = useDispatch();
+    const stateMedia = useSelector(state => state.media);
     
-    //
+    // HANDLE CHANGE VALUE POST
     const handleChangeValuePost = (e) => {
         setOnChangeValuePost(e.target.value);
     };
 
-    // 
+    //  HANDLE CHANGE FO WARD DECENTRALIZATION POST
     const handleChangeForwardDecentralization = () => {
         forwardTo(true);
     }
 
-    // 
+    // HANDEL CLICK CHOOSE UP LOAD PHOTO
     const handleClickChooseUploadPhoto =() => {
         if(pickListPhoto.length > 0) {
             setIsShowUploadPhoto(false);
@@ -40,12 +42,13 @@ function BoxCreate({onShow=undefined,forwardTo=undefined,valueDecentralization='
         }
     }
 
-    // 
+    // HANDLE CLOSE CHOOSE UPLOAD FILE
     const handleCloseChooseUploadFile = () => {
         setIsShowUploadPhoto(false);
         setPickListPhoto([]);
     }
 
+    // HANDLE CHANGE FILE PHOTO
     const handleChangeFilePhoto = (e) => {
         const selectedFile =e.target.files[0];
         if (selectedFile) {
@@ -71,6 +74,7 @@ function BoxCreate({onShow=undefined,forwardTo=undefined,valueDecentralization='
         }
     };
 
+    // GET ID DECENTRALIZATION
     const getIdDecentralization = (item) => {
         if(item === 'Công khai' || item === ''){
             return 1;
@@ -80,6 +84,8 @@ function BoxCreate({onShow=undefined,forwardTo=undefined,valueDecentralization='
             return 3;
         }
     }
+
+    // HANDLE ADD POST
     const handleAddPost = async (createdAt,valueContent,valueIdUser,valuePrivacy) => {
         try {
             if (createdAt && valueContent && valueIdUser && valuePrivacy) {
@@ -98,6 +104,7 @@ function BoxCreate({onShow=undefined,forwardTo=undefined,valueDecentralization='
         }
     };
 
+    // HANDLE ADD MEDIA
     const handleAddMedia = async (valueIdUser,url,createdAt,type) =>{
         try {
             if(valueIdUser && url && createdAt && type){
@@ -117,6 +124,7 @@ function BoxCreate({onShow=undefined,forwardTo=undefined,valueDecentralization='
         }
     }
 
+    // HANDLE ADD POST MEDIA
     const handleAddPostMedia = async (mediaId,postId) =>{
         try {
             if(mediaId && postId){
@@ -141,20 +149,27 @@ function BoxCreate({onShow=undefined,forwardTo=undefined,valueDecentralization='
         const privacy = getIdDecentralization(valueDecentralization);
         handleAddPost(createdAt,onChangeValuePost,valueIdUser,privacy).then((object) => {
             if(object && object.id > 0){
-                pickListPhoto.map((item) => {
-                    return upLoadFileToFireBase(valueIdUser,item.file,item.type).then((url) => {
-                        if(url !== '' && url !== 'error upload'){
-                            handleAddMedia(valueIdUser,url,createdAt,item.type).then((media) => {
-                                if(media && media.id > 0){
-                                    handleAddPostMedia(media.id,object.id).then((msg) => {
-                                        console.log(msg);
-                                    })
-                                }
-                            });
-                        }
-                    });
-                })
-            }         
+                if(pickListPhoto.length > 0){
+                    pickListPhoto.map((item) => {
+                        return upLoadFileToFireBase(valueIdUser,item.file,item.type).then((url) => {
+                            if(url !== '' && url !== 'error upload'){
+                                handleAddMedia(valueIdUser,url,createdAt,item.type).then((media) => {
+                                    if(media && media.id > 0){
+                                        handleAddPostMedia(media.id,object.id).then((msg) => {
+                                            console.log(msg);
+                                            if(msg && msg.message && msg.message === "success"){
+                                                onShow(false);
+                                            }
+                                        })
+                                    }
+                                });
+                            }
+                        });
+                    })
+                } else {
+                    onShow(false);
+                }
+            }     
         });
     }
 
@@ -164,6 +179,7 @@ function BoxCreate({onShow=undefined,forwardTo=undefined,valueDecentralization='
     useEffect(() => {
         textareaRef.current.focus();
     },[]);
+
     return (  
         <form method="POST" className={cx('wrapper__container','relative')}>
             <div className={cx('animation')}>

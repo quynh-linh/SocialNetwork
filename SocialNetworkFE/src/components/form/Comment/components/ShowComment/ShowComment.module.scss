@@ -1,0 +1,36 @@
+$color-text : #88888e;
+.wrapper{
+    &__img{
+        width: 10%;
+        &-imgUser{
+            border-radius: 50%;
+        }
+    }
+    &__showComment{
+        width: 100%;
+        &-content{
+            width: 90%;
+            padding: 10px;
+            border: 1px solid var(--var-border);
+            border-radius: 20px;
+            &-des{
+                line-height: 1.5;
+                font-size: 1.3rem;
+                color: $color-text;
+            }
+            &-timeAt{
+                color: $color-text;
+                font-size: 1.3rem;
+            }
+        }
+        &-menu,
+        &-seeAll{
+            color: $color-text;
+            font-size: 1.3rem;
+            margin-top: 10px;
+        }
+        &-seeAll{
+            margin-top: 20px;
+        }
+    }
+}

@@ -17,7 +17,19 @@ import java.util.List;
 public class MediaController {
     @Autowired
     public MediaService mediaService;
-
+    @GetMapping("")
+    public ResponseEntity<?> getListMediaById(@RequestParam String id , @RequestParam int limit){
+        try {
+            System.err.println(id +"-ccc-" + limit);
+            if(id.isEmpty()){
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ApiResponse("userId not exist"));
+            }
+            List<Media> result = mediaService.getListImageMedia(id,limit);
+            return result == null ? ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Data does not exist")) :  ResponseEntity.status(HttpStatus.OK).body(result);
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ApiResponse("Error occurred"));
+        }
+    }
     @GetMapping("/getListMediaByPost/{id}")
     public ResponseEntity<?> getListMediaByPost(@PathVariable int id){
         try {

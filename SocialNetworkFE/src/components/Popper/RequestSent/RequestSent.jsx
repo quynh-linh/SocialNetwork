@@ -20,8 +20,9 @@ function RequestSent({onClose=undefined}) {
     useEffect(() => {    
         if(valueIdUser){
             dispatch(getListUserRequestSent({id : valueIdUser , limit : 50})).then((item) => {
-                console.log(item);
-                setListDataRequestFriends(item.payload ? item.payload : [])
+                if(item && item.payload && !item.payload.message){
+                    setListDataRequestFriends(item.payload)
+                }
             })
         }
        
@@ -60,7 +61,7 @@ function RequestSent({onClose=undefined}) {
                                     <button className={cx('wrapper__content-request-btn','w-2/6 p-4 mr-6')} type='button'>Hủy yêu cầu</button>
                                 </div>
                             )
-                        }) : 'Lời mời kết bạn mà bạn gửi đi sẽ hiển thị ở đây.'
+                        }) : <div className='text-2xl text-center p-5'>Bạn chưa gửi lời mời kết bạn nào.</div>
                     }
                 </div>
             </div>

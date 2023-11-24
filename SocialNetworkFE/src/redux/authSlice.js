@@ -127,6 +127,25 @@ const getListUserRequestSent = createAsyncThunk('getListUserRequestSent',async(b
     }
 });
 
+// HANDLE GET USER BY REQUEST SENT
+const getListUserBySearch = createAsyncThunk('getListUserBySearch',async(body)=> {
+    try {
+        const {name} = body;
+        const res = await fetch(URL_API + `api/v1/users/searchByName?name=${name}`, {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        });
+        const data = await res.json();
+        return data;
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        throw error;
+    }
+});
+
 // HANDLE GET USER BY VERIFY REQUEST
 const getListUserVerifyRequest = createAsyncThunk('getListUserVerifyRequest',async(body)=> {
     try {
@@ -297,6 +316,16 @@ const authSlice = createSlice({
         builder.addCase(updateUserDB.rejected,(state,action) => {
             state.isLoading = true;
         });
+        // ================= SEARCH USER =================
+        builder.addCase(getListUserBySearch.pending,(state,action) => {
+            state.isLoading = true;
+        });
+        builder.addCase(getListUserBySearch.fulfilled,(state,action) => {
+            state.isLoading = false;
+        });
+        builder.addCase(getListUserBySearch.rejected,(state,action) => {
+            state.isLoading = true;
+        });
     }
 });
  
@@ -322,6 +351,8 @@ export {
     getListUserRequestSent,
     // GET LIST USER FRIENDS
     getListUserFriends,
+    // GET LIST USER BY SEARCH
+    getListUserBySearch,
     // GET DETAIL USER BY ID
     getDetailUserById
 };

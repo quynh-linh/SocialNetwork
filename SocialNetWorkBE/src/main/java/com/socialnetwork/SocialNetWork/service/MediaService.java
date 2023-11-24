@@ -7,7 +7,7 @@ import java.util.List;
 
 @Service
 public interface MediaService {
-    public List<Media> getListImageMedia(String id , String limit);
+    public List<Media> getListImageMedia(String id , int limit);
     public Media addMedia(Media media);
 
     public List<Media> getListMediaByPost(int postId);

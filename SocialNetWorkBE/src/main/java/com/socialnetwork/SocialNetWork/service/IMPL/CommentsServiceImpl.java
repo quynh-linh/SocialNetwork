@@ -2,6 +2,7 @@ package com.socialnetwork.SocialNetWork.service.IMPL;
 
 import com.socialnetwork.SocialNetWork.entity.Comments;
 import com.socialnetwork.SocialNetWork.entity.Media;
+import com.socialnetwork.SocialNetWork.model.IMPL.CommentById;
 import com.socialnetwork.SocialNetWork.repository.CommentsRepository;
 import com.socialnetwork.SocialNetWork.service.CommentsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,9 +35,9 @@ public class CommentsServiceImpl implements CommentsService {
         }
     }
     @Override
-    public List<Comments> getListCommentByPost(int postId){
+    public List<CommentById> getListCommentByPost(int postId,int limmit){
         try{
-            ArrayList<Comments> result = (ArrayList<Comments>) commentsRepository.getListCommentByPost(postId);
+            ArrayList<CommentById> result = (ArrayList<CommentById>) commentsRepository.getListCommentByPost(postId,limmit);
             if(result.isEmpty()){
                 return null;
             }
@@ -49,9 +50,9 @@ public class CommentsServiceImpl implements CommentsService {
     }
 
     @Override
-    public List<Comments> getListParentCommentByPost(int postId){
+    public List<CommentById> getListParentCommentByPost(int postId,int commentId , int limit){
         try{
-            ArrayList<Comments> result = (ArrayList<Comments>) commentsRepository.getListParentCommentByPost(postId);
+            ArrayList<CommentById> result = (ArrayList<CommentById>) commentsRepository.getListParentCommentByPost(postId,commentId,limit);
             if(result.isEmpty()){
                 return null;
             }

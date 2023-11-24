@@ -40,22 +40,6 @@ public class PostServiceImpl implements PostService{
         return null;
     }
 
-    // get list post display at profile
-    @Override
-    public List<Post> getListPostOfUser(String userId){
-        try{
-            ArrayList<Post> result = (ArrayList<Post>) postRepository.getListPostOfUser(userId);
-            if(result.isEmpty()){
-                return null;
-            }
-            return result;
-        }catch (DataAccessException e){
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-
     // create post
     @Override
     public Post addPost(Post post) {
@@ -71,13 +55,4 @@ public class PostServiceImpl implements PostService{
         }
     }
 
-    // delete post
-    @Override
-    public void deletePost(String postId){
-        try{
-           postRepository.deletePost(postId);
-        } catch(DataAccessException ex){
-            ex.printStackTrace();
-        }
-    }
 }

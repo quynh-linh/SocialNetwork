@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RequestMapping("/api/v1/users")
@@ -38,25 +39,39 @@ public class UserController {
 
     @PostMapping("/requestFriends")
     public ResponseEntity<?> getListUserRequestSent(@RequestBody String body){
-        String id = ConvertJSON.converJsonToString(body,"id");
-        String limit = ConvertJSON.converJsonToString(body,"limit");
-        System.err.println(id + " cc " + limit);
-        List<UserDTO> result = userService.getListUserRequestSent(id,limit);
-        if(!result.isEmpty()){
-            return ResponseEntity.status(HttpStatus.OK).body(result);
+        try {
+            String id = ConvertJSON.converJsonToString(body,"id");
+            String limit = ConvertJSON.converJsonToString(body,"limit");
+            List<UserDTO> result = userService.getListUserRequestSent(id,limit);
+            return result == null ? ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("No data")) : ResponseEntity.status(HttpStatus.OK).body(result);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ApiResponse("Error occurred"));
         }
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse("error"));
     }
 
     @PostMapping("/verifyRequest")
     public ResponseEntity<?> getListUserVerifyRequest(@RequestBody String body){
-        String id = ConvertJSON.converJsonToString(body,"id");
-        String limit = ConvertJSON.converJsonToString(body,"limit");
-        List<UserDTO> result = userService.getListUserVerifyRequest(id,limit);
-        if(!result.isEmpty()){
-            return ResponseEntity.status(HttpStatus.OK).body(result);
+        try {
+            String id = ConvertJSON.converJsonToString(body,"id");
+            String limit = ConvertJSON.converJsonToString(body,"limit");
+            List<UserDTO> result = userService.getListUserVerifyRequest(id,limit);
+            return result == null ? ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("No data")) : ResponseEntity.status(HttpStatus.OK).body(result);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ApiResponse("Error occurred"));
         }
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse("error"));
+    }
+
+    @GetMapping("/searchByName")
+    public ResponseEntity<?> getListUserBySearch(@RequestParam String name){
+        try {
+            if (name.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApiResponse("name is required"));
+            }
+            ArrayList<UserDTO> userDTO = (ArrayList<UserDTO>) userService.getListUserBySearch(name);
+            return userDTO == null ? ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("null")) : ResponseEntity.status(HttpStatus.OK).body(userDTO);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ApiResponse("Error occurred"));
+        }
     }
 
     @GetMapping("/getDetailUser/{id}")
@@ -74,16 +89,14 @@ public class UserController {
 
     @PostMapping("/listFriends")
     public ResponseEntity<?> getListUserFriends(@RequestBody String body){
-        String id = ConvertJSON.converJsonToString(body,"id");
-        String limit = ConvertJSON.converJsonToString(body,"limit");
-        List<UserDTO> result = userService.getListUserFriends(id,Integer.parseInt(limit));
-        return result != null && !result.isEmpty() ? ResponseEntity.status(HttpStatus.OK).body(result) : ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("No friends"));
-    }
-
-    @GetMapping("/listId")
-    public ResponseEntity<?> getListIdUser(){
-        List<String> result = userService.getListIdUser();
-        return ResponseEntity.status(HttpStatus.OK).body(result);
+        try {
+            String id = ConvertJSON.converJsonToString(body,"id");
+            String limit = ConvertJSON.converJsonToString(body,"limit");
+            List<UserDTO> result = userService.getListUserFriends(id,Integer.parseInt(limit));
+            return result != null ? ResponseEntity.status(HttpStatus.OK).body(result) : ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("No friends"));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ApiResponse("Error occurred"));
+        }
     }
 
     @PostMapping("/add")
@@ -92,15 +105,18 @@ public class UserController {
             String result = userService.addUser(user);
             return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse(result));
         } catch(Exception e){
-            System.err.println(e.toString());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error occurred");
         }
     };
 
     @PostMapping("/token/{slug}")
     public ResponseEntity<?> getUserByToken(@PathVariable String slug){
-        UserDTO result = userService.getUserByToken(slug);
-        return ResponseEntity.status(HttpStatus.OK).body(result);
+        try{
+            UserDTO result = userService.getUserByToken(slug);
+            return result != null ? ResponseEntity.status(HttpStatus.OK).body(result) : ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Error"));
+        } catch(Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error occurred");
+        }
     }
     @PostMapping("/token/check")
     public ResponseEntity<?> checkToken(@PathVariable String slug){

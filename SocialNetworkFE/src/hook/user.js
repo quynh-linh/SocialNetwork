@@ -98,28 +98,16 @@ function useUserToken() {
     const getInfoUserByTokenToUser = async (token) => {
         try {
             const response = await dispatch(getInfoUserByToken(token));
-            const id = response.payload ? response.payload.id : '';
+            const ob = response.payload ? response.payload : '';
             const image = response.payload ? (response.payload.image ? response.payload.image : null) : null;
-            if(id) setValueIdUser(id);
+            if(ob) setValueDetailUserById(ob);
+            if(ob.id) setValueIdUser(ob.id);
             if(image) setNameUrlImageUser(image);
         } catch (error) {
             console.error(error);
             return [];
         }
     };
-
-    // GET DETAIL USER BY ID
-    const getDetailUserById = async (id) => {
-        try {
-            const response = await dispatch(getDetailUserById(id));
-            const detail = response.payload ? response.payload : '';
-            setValueDetailUserById(detail);
-        } catch (error) {
-            console.error(error);
-            return [];
-        }
-    };
-
 
     useEffect(() => {
         const token = localStorage.getItem('token');
@@ -146,9 +134,7 @@ function useUserToken() {
         // UP LOAD IMAGE TO FIREBASE
         upLoadFileToFireBase,
         // UPDATE AVATAR BY USER
-        updateImageUser,
-        // GET DETAIL USER BY ID
-        getDetailUserById
+        updateImageUser
     };
 }
 export default useUserToken;

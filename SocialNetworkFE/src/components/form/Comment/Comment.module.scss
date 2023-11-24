@@ -12,8 +12,10 @@ $color-text : #88888e;
         & input {
             width: 100%;
             padding: 10px;
-            border-radius: 5px;
+            border-radius: 20px;
             border: 1px solid var(--var-border);
+            color: white;
+            font-size: 1.3rem;
         }
         &-icon{
             position: absolute;
@@ -21,28 +23,6 @@ $color-text : #88888e;
             font-size: 1.7rem;
             right: 15px;
             color: $color-text;
-        }
-    }
-    &__replyComment{
-        width: 90%;
-        &-content{
-            padding: 10px;
-            border: 1px solid var(--var-border);
-            border-radius: 5px;
-            &-des{
-                line-height: 2;
-                font-size: 1.4rem;
-                color: $color-text;
-            }
-            &-timeAt{
-                color: $color-text;
-                font-size: 1.3rem;
-            }
-        }
-        &-menu{
-            color: $color-text;
-            font-size: 1.5rem;
-            margin-top: 10px;
         }
     }
 }
