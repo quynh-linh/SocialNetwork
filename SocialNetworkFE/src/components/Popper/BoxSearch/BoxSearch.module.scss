@@ -1,0 +1,27 @@
+.content{
+    width: 355px;
+    background: #141519;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    border: 1px solid var(--var-border);
+    border-radius: 10px;
+    & h1{
+        padding: 20px;
+        text-align: center;
+        font-size: 1.5rem;
+        color: #88888e;
+    }
+}
+.menu-box{
+    li {
+        padding: 10px;
+    }
+    &-iconSearch{
+        padding: 11px;
+        background: #2e2e2e;
+        border-radius: 50%;
+    }
+    &:hover{
+        cursor: pointer;
+        background: #393939;
+    }
+}

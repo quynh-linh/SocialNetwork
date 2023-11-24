@@ -1,4 +1,4 @@
-
+$color-text:#88888e;
 .header{
     position: fixed;
     width: 100%;
@@ -7,6 +7,56 @@
     border-bottom: 1px solid var(--var-border);
     &__content{
         padding: 10px 2%;
+        &-search{
+            width: 355px;
+            &-icon{
+                padding: 8px 10px;
+                border-radius: 50%;
+                &:hover{
+                    background: #2e2e2e;
+                    cursor: pointer;
+                }
+            }
+        }
+        &-boxSearch{
+            position: relative;
+            &::before{
+                content: "";
+                position: absolute;
+                width: 100%;
+                height: 300px;
+                background: #141519;
+                top: 40px;
+                box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+                border: 1px solid var(--var-border);
+                border-radius: 10px;
+            }
+            &-search{
+                & input {
+                    width: 100%;
+                    padding: 7px 0 7px 30px;
+                    border-radius: 20px;
+                    font-size: 1.4rem;
+                    color: white;
+                    background: #191a1f;
+                    border: 1px solid var(--var-border);
+                    &:focus{
+                        outline: none;
+                    }
+                    &::placeholder{
+                        color: $color-text;
+                    }
+                }
+                &-icon{
+                    position: absolute;
+                    left: 0;
+                    margin-left: 10px;
+                    font-size: 1.4rem;
+                    top: 32%;
+                    color: $color-text;
+                }
+            }
+        }
     }
     &__MenuItems{
         font-size: 1.4rem;

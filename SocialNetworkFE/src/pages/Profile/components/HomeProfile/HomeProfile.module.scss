@@ -48,6 +48,12 @@ $color-text: #e4e6eb;
                     background-size: cover;
                     background-repeat: no-repeat;
                 }
+                & h3{
+                    color: #88888e;
+                    text-align: center;
+                    font-size: 1.3rem;
+                    padding: 10px;
+                }
            }
         }
         &-friendsUser{

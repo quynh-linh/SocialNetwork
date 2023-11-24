@@ -8,6 +8,5 @@ import java.util.List;
 public interface PostService {
     public List<PostById> getListPost(String userId);
     public Post addPost(Post post);
-    public List<Post> getListPostOfUser(String userId);
-    public void deletePost(String postId);
+
 }

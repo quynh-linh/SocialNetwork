@@ -114,6 +114,23 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public List<UserDTO> getListUserBySearch(String name) {
+        if(!name.isEmpty()){
+            ArrayList<User> result = (ArrayList<User>) userRepository.getListUserBySearch(name);
+            if(!result.isEmpty()){
+                ArrayList<UserDTO> userDTOS = new ArrayList<UserDTO>();
+                // Convert users -> result
+                for (User user : result) {
+                    System.err.println(user);
+                    userDTOS.add(UserMapper.toUserDto(user));
+                }
+                return userDTOS;
+            }
+        }
+        return null;
+    }
+
+    @Override
     public UserDTO getDetailUserById(String id) {
         if(!id.isEmpty()){
             User result = userRepository.getDetailUserById(id);

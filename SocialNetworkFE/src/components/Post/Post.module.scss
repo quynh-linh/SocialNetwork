@@ -3,6 +3,7 @@ $color-text : #88888e;
     margin-top: 15px;
     border: 1px solid var(--var-border);
     border-radius: 5px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
     &__header{
         &-info{
             &-name{
@@ -28,8 +29,12 @@ $color-text : #88888e;
                 color: $color-text ;
             }
             &-jobAt{
-                font-size: 1.3rem;
-                color: $color-text ;
+                color: $color-text;
+                &-box{
+                    padding: 2px 5px;
+                    background: #2e2e2e;
+                    border-radius: 5px;
+                }
             }
         }
     }
@@ -39,9 +44,15 @@ $color-text : #88888e;
             height: auto;
         }
         &-imgPost{
-            max-height: 350px;
+            max-height: 400px;
             background: #555251;
             padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            & img {
+                height: 350px;
+            }
         }
         &-interactWith{
             border-top: 1px solid var(--var-border);
@@ -49,7 +60,13 @@ $color-text : #88888e;
             &-Likes,
             &-Comments,
             &-Share{
-                font-size: 1.4rem;
+                font-size: 1.3rem;
+                padding: 5px 10px;
+                border-radius: 5px;
+                &:hover{
+                    cursor: pointer;
+                    background-color: rgb(50 49 49 / 50%);
+                }
                 &-quantity{
                     padding-left: 5px;
                 }
@@ -61,6 +78,9 @@ $color-text : #88888e;
             &-Share{
                 color: $color-text ;
             }
+        }
+        &-seeAll{
+            color: $color-text ;
         }
     }
 }

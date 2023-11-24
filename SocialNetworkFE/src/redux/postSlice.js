@@ -60,25 +60,41 @@ const addPostMedia = createAsyncThunk('addPostMedia',async(body)=> {
     }
 });
 
-const friendSlice = createSlice({
-    name: "media",
+const postSlice = createSlice({
+    name: "post",
     initialState,
     reducers: {
     },
     extraReducers : (builder) => {
-        // ================= ADD FRIENDS =================
+        // ================= ADD POST =================
         builder.addCase(addPosts.pending,(state,action) => {
             state.isLoading = true;
         });
         builder.addCase(addPosts.fulfilled,(state,action) => {
+            const { message } = action;
+            console.log(action);
+            state.msg = message;
             state.isLoading = false;
         });
         builder.addCase(addPosts.rejected,(state,action) => {
             state.isLoading = true;
         });
+        // ================= GET LIST POST =================
+        builder.addCase(getListPost.pending,(state,action) => {
+            state.isLoading = true;
+        });
+        builder.addCase(getListPost.fulfilled,(state,action) => {
+            console.log(action.payload);
+            const { message } = action.payload;
+            state.msg = message;
+            state.isLoading = false;
+        });
+        builder.addCase(getListPost.rejected,(state,action) => {
+            state.isLoading = true;
+        });
     }
 });
-export default friendSlice.reducer;
+export default postSlice.reducer;
 export {
     // ADD POST
     addPosts,

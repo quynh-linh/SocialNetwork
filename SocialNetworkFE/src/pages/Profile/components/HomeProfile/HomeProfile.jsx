@@ -105,13 +105,17 @@ function HomeProfile() {
                         <Link to='/profile/photos'>Xem tất cả ảnh</Link>
                     </div>
                     <div className={cx('wrapper__left-imagesUser-list','mt-5')}>
-                        <div className="grid grid-rows-3 grid-cols-3 gap-3">
-                            {
-                                listMediaToUser.length > 0 && listMediaToUser.map((item,index) =>{
-                                    return <img key={index} className={cx('w-40 h-40 object-cover')} src={item.mediaUrl} alt="all media"/>
-                                })
-                            }
-                        </div>
+                        {
+                            listMediaToUser.length > 0 ? (
+                                <div className={cx("grid grid-cols-3 gap-3",listMediaToUser.length === 6 ? 'grid-rows-3' : '')}>
+                                    {
+                                        listMediaToUser.map((item,index) =>{
+                                            return <img key={index} className={cx('w-40 h-40 object-cover')} src={item.mediaUrl} alt="all media"/>
+                                        })
+                                    }
+                                </div>
+                            ) : <h3>Bạn chưa có hình ảnh/video</h3>
+                        }    
                     </div>
                 </div>
                 <div className={cx('wrapper__left-friendsUser','bg-sidebar mt-5 text-white')}>
@@ -121,7 +125,7 @@ function HomeProfile() {
                     </div>
                     <div className={cx('wrapper__left-friendsUser-quantityFriends','text-color-text')}>269 bạn bè</div>
                     <div className={cx('wrapper__left-friendsUser-list','mt-5')}>
-                        <div className="grid grid-rows-3 grid-cols-3 gap-3">
+                        <div className={cx("grid grid-cols-3 gap-3",listUserFriends.length === 6 ? 'grid-rows-3' : '')}>
                             {
                                 listUserFriends.length > 0 && listUserFriends.map((item,index) =>{
                                     return (

@@ -26,7 +26,6 @@ function FriendsConnections({type='',title='',onShow=undefined}) {
         if(type === 'request') { 
             if(valueIdUser){
                 dispatch(getListUserVerifyRequest({id : valueIdUser , limit : 1000})).then((item) => {
-                    console.log(item);
                     setListDataRequestFriends(item.payload ? item.payload : [])
                 })
             }

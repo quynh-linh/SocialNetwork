@@ -1,16 +1,14 @@
 package com.socialnetwork.SocialNetWork.controller;
 
 import com.socialnetwork.SocialNetWork.entity.Comments;
+import com.socialnetwork.SocialNetWork.model.IMPL.CommentById;
 import com.socialnetwork.SocialNetWork.model.Response.ApiResponse;
 import com.socialnetwork.SocialNetWork.service.CommentsService;
 import com.socialnetwork.SocialNetWork.util.ConvertJSON;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.sql.Timestamp;
 import java.util.List;
@@ -21,38 +19,30 @@ public class CommentsController {
     @Autowired
     public CommentsService commentsService;
 
-    @PostMapping("/getListCommentByPost")
-    public  ResponseEntity<?> getListCommentByPost(@RequestBody String body){
+    @GetMapping("/getListCommentByPost")
+    public  ResponseEntity<?> getListCommentByPost(@RequestParam int postId,@RequestParam int limit){
         try {
-            int postId = Integer.parseInt(ConvertJSON.converJsonToString(body,"postId"));
+            System.err.println(postId + " cc " + limit);
             if(postId <= 0){
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("postId not exist");
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ApiResponse("postId not exist"));
             }
-            List<Comments> result = commentsService.getListCommentByPost(postId);
-            if(result.isEmpty()){
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Data does not exist");
-            }
-            return ResponseEntity.status(HttpStatus.OK).body(result);
+            List<CommentById> result = commentsService.getListCommentByPost(postId,limit);
+            return result == null ?  ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("No comments")) : ResponseEntity.status(HttpStatus.OK).body(result);
         }catch (Exception e){
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error occurred");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ApiResponse("Error occurred"));
         }
     }
 
-    @PostMapping("/getListParentCommentByPost")
-    public  ResponseEntity<?> getListParentCommentByPost(@RequestBody String body){
+    @GetMapping("/getListParentCommentById")
+    public  ResponseEntity<?> getListParentCommentByPost(@RequestParam int postId,@RequestParam int limit,@RequestParam int commentId){
         try {
-            int postId = Integer.parseInt(ConvertJSON.converJsonToString(body,"postId"));
-            System.err.println((postId));
             if(postId <= 0){
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("postId not exist");
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ApiResponse("postId not exist"));
             }
-            List<Comments> result = commentsService.getListParentCommentByPost(postId);
-            if(result.isEmpty()){
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Data does not exist");
-            }
-            return ResponseEntity.status(HttpStatus.OK).body(result);
+            List<CommentById> result = commentsService.getListParentCommentByPost(postId,commentId,limit);
+            return result == null ?  ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Data does not exist")) : ResponseEntity.status(HttpStatus.OK).body(result);
         }catch (Exception e){
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error occurred");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ApiResponse("Error occurred"));
         }
     }
     @PostMapping("/add")

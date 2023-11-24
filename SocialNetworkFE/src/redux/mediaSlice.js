@@ -7,13 +7,13 @@ const  initialState = {
 // HANDLE ADD MEDIA TO DB
 const getListMedia = createAsyncThunk('getListMedia',async(body)=> {
     try {
-        const res = await fetch(URL_API + 'api/v1/media', {
-            method: 'POST',
+        const {id,limit} = body;
+        const res = await fetch(URL_API + `api/v1/media?id=${id}&&limit=${limit}`, {
+            method: 'GET',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(body),
+            }
         });
         const data = await res.json();
         return data;

@@ -29,20 +29,14 @@ public class PostController {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApiResponse("userId is required"));
             }
             List<PostById> result = postService.getListPost(id);
-            if (result == null) {
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ApiResponse("Error occurred"));
-            }
-            if (result.isEmpty()) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse("No data found"));
-            }
-            return ResponseEntity.status(HttpStatus.OK).body(result);
+            return result == null ? ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Error occurred")) : ResponseEntity.status(HttpStatus.OK).body(result);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ApiResponse("Error occurred"));
         }
     }
 
     @PostMapping("/add")
-    public ResponseEntity<?> addMedia(@RequestBody String body){
+    public ResponseEntity<?> addPost(@RequestBody String body){
         try{
             // CONVERT JSON TO STRING
             Timestamp createdAt = Timestamp.valueOf(ConvertJSON.converJsonToString(body,"createdAt"));

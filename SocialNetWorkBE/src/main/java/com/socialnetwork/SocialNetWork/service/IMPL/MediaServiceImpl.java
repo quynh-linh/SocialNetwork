@@ -25,9 +25,8 @@ public class MediaServiceImpl implements MediaService {
     }
 
     @Override
-    public List<Media> getListImageMedia(String id , String limit) {
-        int convertLimit = Integer.parseInt(limit);
-        ArrayList<Media> result = (ArrayList<Media>) postRepository.getListImageMedia(id,convertLimit);
+    public List<Media> getListImageMedia(String id , int limit) {
+        ArrayList<Media> result = (ArrayList<Media>) postRepository.getListImageMedia(id,limit);
         if(!result.isEmpty()){
             return result;
         }

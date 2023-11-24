@@ -15,6 +15,7 @@ public interface UserService {
     public List<UserDTO> getListUserRequestSent(String id,String limit);
     public List<UserDTO> getListUserVerifyRequest(String id,String limit);
     public List<UserDTO> getListUserFriends(String id,int limit);
+    public List<UserDTO> getListUserBySearch(String name);
     public UserDTO getDetailUserById(String id);
     public String addUser(User user);
     public UserDTO getUserByToken(String id);
