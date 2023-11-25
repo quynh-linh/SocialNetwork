@@ -51,16 +51,16 @@ public class CommentsController {
             // CONVERT JSON TO STRING
             Timestamp createdAt = Timestamp.valueOf(ConvertJSON.converJsonToString(body,"createdAt"));
             String content = ConvertJSON.converJsonToString(body,"content");
-            String id = ConvertJSON.converJsonToString(body,"id");
             String userId = ConvertJSON.converJsonToString(body,"userId");
             String parentComment = ConvertJSON.converJsonToString(body,"parentCommentId");
-            String checkParentComment = !parentComment.isEmpty() ? parentComment : " ";
+            String checkParentComment = !parentComment.isEmpty() ? parentComment : null;
             int postId = Integer.parseInt(ConvertJSON.converJsonToString(body,"postId"));
             System.err.println(checkParentComment);
             // INIT Media
             if(!content.isEmpty() && !userId.isEmpty() && postId > 0){
-                Comments comments = new Comments(id,userId,postId,checkParentComment,content,createdAt);
-                return ResponseEntity.status(HttpStatus.OK).body(commentsService.addComments(comments));
+                Comments comments = new Comments(userId,postId,checkParentComment,content,createdAt);
+                Comments result = commentsService.addComments(comments);
+                return result != null ? ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("success")) : ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("error"));
             } else {
                 return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Data cannot be left blank"));
             }

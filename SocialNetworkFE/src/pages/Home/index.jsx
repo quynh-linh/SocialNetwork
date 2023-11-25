@@ -8,9 +8,11 @@ import { useDispatch, useSelector } from "react-redux";
 import useUserToken from "~/hook/user";
 import { getListPost } from "~/redux/postSlice";
 import { getListMediaByPost } from "~/redux/mediaSlice";
+import Loader from "~/components/loader/loader";
 function Home() {
     const cx = classNames.bind(styles);
     const [isShowCreatePost,setIsShowCreatePost] = useState(false);
+    const [valueMessageGetList,setValueMessageGetList] = useState('');
     const [listPosts,setListPosts] = useState([]);
     const dispatch = useDispatch();
     const state = useSelector(state => state.post);
@@ -49,14 +51,23 @@ function Home() {
             handleGetListPost(valueIdUser);
         }
     },[valueIdUser]);
-    return ( 
+    useEffect(() => {
+        if(state.msg === "No data"){
+            setValueMessageGetList(state.msg);
+        } else {
+            setValueMessageGetList("");
+        }
+    },[state.msg]);
+    return (
         <div className={cx('wrapper')}>
             <div className={cx('bg-sidebar','wrapper__createPost')}>
                 <CreatePost onShow={(e) => setIsShowCreatePost(e)}/>
             </div>
             <div className={cx('wrapper__listPost')}>
                 {
-                    listPosts.length > 0 ? listPosts.map((item) => <Post key={item.id} data={item}/>) : <h1>Chưa có bài viết nào</h1>
+                    valueMessageGetList === "No data" ? 
+                        <h1>Chưa có bài viết nào</h1> 
+                        : (listPosts.length > 0 ? listPosts.map((item) => <Post key={item.id} data={item}/>) : <div className="mt-8"><Loader/></div>)
                 }
             </div>
             {isShowCreatePost ? <CreatePostWrapper onShow={(e) => setIsShowCreatePost(e)}/> : ''}

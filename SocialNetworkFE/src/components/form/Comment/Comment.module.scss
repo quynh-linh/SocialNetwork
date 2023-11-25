@@ -25,4 +25,9 @@ $color-text : #88888e;
             color: $color-text;
         }
     }
+    &__isLoading{
+        position: absolute;
+        right: -5px;
+        top: 16px;
+    }
 }

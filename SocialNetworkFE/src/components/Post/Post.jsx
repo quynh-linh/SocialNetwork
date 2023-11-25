@@ -13,17 +13,26 @@ function Post({data}) {
     const cx = classNames.bind(styles);
     const dispatch = useDispatch();
     const [valueFirstComment,setValueFirstComment] = useState([]);
+    const [valueMessageAddComments,setValueMessageAddComments] = useState('');
+    const handleGetListComments = async (id) => {
+        return await dispatch(getListCommentByPost({
+            id: id,
+            limit: 100
+        })).then((item) => {
+            const ob = item && item.payload && !item.payload.message ? item.payload : null;
+            setValueFirstComment(ob);
+        })
+    }
     useEffect(() => {
         if(data && data.id){
-            dispatch(getListCommentByPost({
-                id: data.id,
-                limit: 100
-            })).then((item) => {
-                const ob = item && item.payload && !item.payload.message ? item.payload : null;
-                setValueFirstComment(ob);
-            })
+            handleGetListComments(data.id);
         }
     },[]);
+    useEffect(() => {
+        if(valueMessageAddComments === "success"){
+            handleGetListComments(data.id);
+        }
+    },[valueMessageAddComments])
     return (
         <div className={cx('wrapper','bg-sidebar')}>
             <div className={cx('wrapper__header')}>
@@ -101,7 +110,7 @@ function Post({data}) {
                         </div>
                     </div>
                     { 
-                        valueFirstComment !== null && valueFirstComment.length > 2 ? (
+                        valueFirstComment !== null && valueFirstComment.length >= 2 ? (
                         <div className={cx('wrapper__content-seeAll','text-start ml-5 mt-4 text-xl font-semibold hover:underline cursor-pointer ')}>
                             Xem tất cả bình luận
                         </div>) : ''
@@ -115,7 +124,7 @@ function Post({data}) {
                         ) : ''
                     }
                     <div className={cx('wrapper__content-addComment','p-5')}>
-                        <Comment/>
+                        <Comment type="father" data={data} setMessage={(e) => setValueMessageAddComments(e)}/>
                     </div>
                 </div>
             </div>
