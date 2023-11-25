@@ -48,45 +48,57 @@ function ShowComment({data}) {
     const cx = classNames.bind(styles)
     const [isShowReplyCommentParentLevel1,setShowReplyCommentParentLevel1] = useState(false);
     const [isShowReplyCommentParentLevel2,setShowReplyCommentParentLevel2] = useState(false);
+    const [valueMessageAddComments,setValueMessageAddComments] = useState('');
     const [valueFirstParentComment,setValueFirstParentComment] = useState([]);
     const dispatch = useDispatch();
-
+    const handleGetListParentCommentById = async (postId,commentID) => {
+        return await dispatch(getListParentCommentById({
+            id: postId,
+            limit: 100,
+            commentId: commentID
+        })).then((item) => {
+            const ob = item && item.payload && !item.payload.message ? item.payload : null;
+            setValueFirstParentComment(ob);
+        });
+    }
+    
     useEffect(() => {
         if(data.length > 0 && data[0].postId && data[0].commentId){
-            dispatch(getListParentCommentById({
-                id: data[0].postId,
-                limit: 100,
-                commentId: data[0].commentId
-            })).then((item) => {
-                const ob = item && item.payload && !item.payload.message ? item.payload : null;
-                setValueFirstParentComment(ob);
-            });
+            handleGetListParentCommentById(data[0].postId,data[0].commentId)
         }
     },[data]);
+
+    useEffect(() => {
+        if(valueMessageAddComments === "success"){
+            handleGetListParentCommentById(data[0].postId,data[0].commentId)
+        }
+    },[valueMessageAddComments])
     return (  
         <div className={cx('wrapper__showComment')}>
-            <TextComment data={data[0]}/>
+            <TextComment data={data[0]}/> 
             <div className={cx('wrapper__showComment-menu','mt-4 ml-24')}>
                 <MenuComment onClickReply={(e) => setShowReplyCommentParentLevel1(e)}/>
                 <div className={cx('wrapper__showComment-listReplyCommentParent',isShowReplyCommentParentLevel1 ? 'mt-4' : '')}>
                     <div className="mt-4">
                         {
-                            valueFirstParentComment !== null && valueFirstParentComment.length > 0 ? (
-                                <TextComment data={valueFirstParentComment[0]}/>
-                            ) : ''
+                            valueFirstParentComment !== null && valueFirstParentComment.length > 0 ? (<TextComment data={valueFirstParentComment[0]}/>) : ''
                         }
-                        <div className="mt-4">
-                            <div className="ml-20">
-                                <MenuComment onClickReply={(e) => setShowReplyCommentParentLevel2(e)}/>
-                            </div>
-                            <div className="ml-20 mt-5">
-                                {
-                                    isShowReplyCommentParentLevel2 ? <Comment/> : ""
-                                }
-                            </div>
-                        </div>
                         {
-                            valueFirstParentComment.length > 2 ? (
+                            valueFirstParentComment !== null && (
+                                <div className="mt-4">
+                                    <div className="ml-20">
+                                        <MenuComment onClickReply={(e) => setShowReplyCommentParentLevel2(e)}/>
+                                    </div>
+                                    <div className="ml-20 mt-5">
+                                        {
+                                            isShowReplyCommentParentLevel2 ? <Comment/> : ""
+                                        }
+                                    </div>
+                                </div>
+                            )   
+                        }
+                        {
+                            valueFirstParentComment !== null &&  valueFirstParentComment.length > 2 ? (
                                 <div className="ml-20 mt-4 flex items-center font-semibold ">
                                     <FontAwesomeIcon icon={faArrowTurnDown}/>
                                     <div className="ml-4 hover:underline cursor-pointer">Xem tất cả phản hồi</div>
@@ -96,7 +108,13 @@ function ShowComment({data}) {
                     </div>
                     <div className="mt-4">
                         {
-                            isShowReplyCommentParentLevel1 ? <Comment/> : ""
+                            isShowReplyCommentParentLevel1 ? 
+                                <Comment 
+                                    type="parent" 
+                                    data={{...data[0] , type : "parent"  , level : 1}}
+                                    setMessage={(e) => setValueMessageAddComments(e)}
+                                /> 
+                            : ""
                         }
                     </div>
                 </div>

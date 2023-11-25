@@ -84,7 +84,6 @@ const postSlice = createSlice({
             state.isLoading = true;
         });
         builder.addCase(getListPost.fulfilled,(state,action) => {
-            console.log(action.payload);
             const { message } = action.payload;
             state.msg = message;
             state.isLoading = false;

@@ -22,7 +22,7 @@ const getListCommentByPost = createAsyncThunk('getListCommentByPost',async(body)
         throw error;
     }
 });
-// HANDLE ADD MEDIA TO DB
+// HANDLE GET LIST PARENT COMMENT BY ID
 const getListParentCommentById = createAsyncThunk('getListParentCommentById',async(body)=> {
     try {
         const {id,limit,commentId} = body;
@@ -40,7 +40,24 @@ const getListParentCommentById = createAsyncThunk('getListParentCommentById',asy
         throw error;
     }
 });
-
+// HANDLE ADD COMMENTS
+const addComments = createAsyncThunk('addComments',async(body)=> {
+    try {
+        const res = await fetch(URL_API + 'api/v1/comments/add', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(body)
+        });
+        const data = await res.json();
+        return data;
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        throw error;
+    }
+});
 const commentSlice = createSlice({
     name: "comment",
     initialState,
@@ -64,5 +81,7 @@ export {
     // GET COMMENT BY POST (FIRST COMMENT)
     getListCommentByPost,
     // GET PARENT COMMENT (FIRST PARENT)
-    getListParentCommentById
+    getListParentCommentById,
+    // ADD COMMENTS
+    addComments
 };

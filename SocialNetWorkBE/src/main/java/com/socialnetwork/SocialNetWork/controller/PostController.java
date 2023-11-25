@@ -29,7 +29,7 @@ public class PostController {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApiResponse("userId is required"));
             }
             List<PostById> result = postService.getListPost(id);
-            return result == null ? ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Error occurred")) : ResponseEntity.status(HttpStatus.OK).body(result);
+            return result == null ? ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("No data")) : ResponseEntity.status(HttpStatus.OK).body(result);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ApiResponse("Error occurred"));
         }

@@ -15,7 +15,9 @@ public interface CommentsRepository extends JpaRepository<Comments, Long> {
             "FROM comments as c " +
             "CROSS JOIN posts as p ON c.post_id = p.id AND c.parent_comment_id IS NULL " +
             "CROSS JOIN user as u ON c.user_id = u.id " +
-            "WHERE p.id = ?1  LIMIT ?2", nativeQuery = true)
+            "WHERE p.id = ?1  " +
+            "ORDER BY c.created_at DESC " +
+            "LIMIT ?2 ", nativeQuery = true)
     List<CommentById> getListCommentByPost(int postId, int limit);
 
 
@@ -24,6 +26,7 @@ public interface CommentsRepository extends JpaRepository<Comments, Long> {
             "CROSS JOIN posts as p ON c.post_id = p.id AND c.parent_comment_id IS NOT NULL " +
             "CROSS JOIN user as u ON u.id = c.user_id " +
             "WHERE p.id = ?1 AND c.parent_comment_id = ?2 " +
+            "ORDER BY c.created_at DESC " +
             "LIMIT ?3", nativeQuery = true)
     List<CommentById> getListParentCommentByPost(int postId,int commentId,int limit);
 }
