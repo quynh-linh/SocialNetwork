@@ -66,4 +66,14 @@ public class MediaServiceImpl implements MediaService {
                 media.getMediaUrl() != null && !media.getMediaUrl().isEmpty() &&
                 media.getUserId() != null && !media.getUserId().isEmpty();
     }
+
+    // delete media of post
+    @Override
+    public void deleteMediaOfPost(List<String> mediaId){
+        try {
+            postRepository.deleteMediaOfPost(mediaId);
+        }catch (DataAccessException e){
+            e.printStackTrace();
+        }
+    }
 }

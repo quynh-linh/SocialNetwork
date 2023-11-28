@@ -5,6 +5,8 @@ import com.socialnetwork.SocialNetWork.entity.Post;
 import com.socialnetwork.SocialNetWork.model.IMPL.PostById;
 import com.socialnetwork.SocialNetWork.model.Response.ApiResponse;
 import com.socialnetwork.SocialNetWork.model.dto.UserDTO;
+import com.socialnetwork.SocialNetWork.service.MediaService;
+import com.socialnetwork.SocialNetWork.service.PostMediaService;
 import com.socialnetwork.SocialNetWork.service.PostService;
 import com.socialnetwork.SocialNetWork.util.ConvertJSON;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,10 @@ import java.util.List;
 public class PostController {
     @Autowired
     public PostService postService;
+    @Autowired
+    public MediaService mediaService;
+    @Autowired
+    public PostMediaService postMediaService;
 
     @GetMapping("/getListPost/{id}")
     public ResponseEntity<?> getListPost(@PathVariable String id) {
@@ -55,4 +61,28 @@ public class PostController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error occurred");
         }
     };
+
+    // delete post
+    @GetMapping("/deletePost")
+    public ResponseEntity<?> deletePost(@RequestBody String body){
+        try {
+            String postId =ConvertJSON.converJsonToString(body,"postId");
+            String userId = ConvertJSON.converJsonToString(body,"userId");
+            if(postId.isEmpty()){
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("PostId not exits!");
+            }
+            if(userId.isEmpty()){
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("UserId not exits");
+            }
+            List<String> mediaId = postMediaService.getListMediaIdByPost(postId);
+            if(!mediaId.isEmpty()){
+                postMediaService.deletePostMediaByPost(postId);
+                mediaService.deleteMediaOfPost(mediaId);
+            }
+            postService.deletePostByUser(postId,userId);
+            return ResponseEntity.status(HttpStatus.OK).body("Delete success!");
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error occurred");
+        }
+    }
 }
