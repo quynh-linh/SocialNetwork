@@ -3,6 +3,7 @@ package com.socialnetwork.SocialNetWork.repository;
 import com.socialnetwork.SocialNetWork.entity.Post;
 import com.socialnetwork.SocialNetWork.model.IMPL.PostById;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -50,5 +51,11 @@ public interface PostRepository extends JpaRepository<Post,Long> {
             "    ) " +
             "ORDER BY p.created_at DESC ", nativeQuery = true)
     List<PostById> getListPost(String userId);
+
+    // delete post by user
+    @Modifying
+    @Transactional
+    @Query(value = "DELETE FROM posts WHERE id = ?1 AND user_id = ?2", nativeQuery = true)
+    void deletePostByUser(String postId, String userId);
 
 }

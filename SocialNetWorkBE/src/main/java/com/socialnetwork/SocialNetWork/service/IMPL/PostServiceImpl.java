@@ -55,4 +55,14 @@ public class PostServiceImpl implements PostService{
         }
     }
 
+    // delete post
+    @Override
+    public void deletePostByUser(String postId, String userId){
+        try {
+            postRepository.deletePostByUser(postId,userId);
+        }catch (DataAccessException e){
+            e.printStackTrace();
+        }
+    }
+
 }
