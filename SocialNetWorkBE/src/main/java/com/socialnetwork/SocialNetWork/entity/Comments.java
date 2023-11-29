@@ -10,8 +10,7 @@ public class Comments {
 
     @Id
     @Column(name = "id",nullable = false)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private String id;
 
     @Column(name = "user_id",nullable = false)
     private String userId;
@@ -31,7 +30,8 @@ public class Comments {
     public Comments() {
     }
 
-    public Comments(String userId, int postId, String parentCommentId, String content, Timestamp createdAt) {
+    public Comments(String id, String userId, int postId, String parentCommentId, String content, Timestamp createdAt) {
+        this.id = id;
         this.userId = userId;
         this.postId = postId;
         this.parentCommentId = parentCommentId;
@@ -39,11 +39,11 @@ public class Comments {
         this.createdAt = createdAt;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 

@@ -8,7 +8,9 @@ import com.socialnetwork.SocialNetWork.service.CommentsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -62,5 +64,58 @@ public class CommentsServiceImpl implements CommentsService {
             return null;
 
         }
+    }
+
+    // check comment child exits
+    @Override
+    public int checkCommentChild(String id){
+        try {
+           int check =  commentsRepository.checkCommentChild(id);
+           System.err.println(check);
+           if(check > 0){
+               return check;
+           }
+           return 0;
+        }catch (DataAccessException e){
+            e.printStackTrace();
+            return 0;
+        }
+    }
+
+    // delete comment
+    @Override
+    @Transactional
+    public void deleteComment(String id) {
+        try {
+            commentsRepository.deleteComment(id);
+        }catch (DataAccessException e){
+            e.printStackTrace();
+        }
+    }
+
+    // delete comment child
+    @Override
+    @Transactional
+    public void deleteCommentChild(String id){
+        try {
+            commentsRepository.deleteCommentChild(id);
+        }catch (DataAccessException e){
+            e.printStackTrace();
+        }
+    }
+
+    // update comment
+    @Override
+    @Transactional
+    public String updateComment(String content, String createdAt, String id){
+        try {
+             int update = commentsRepository.updateComment(content,createdAt,id);
+             if(update > 0){
+                 return "update success";
+             }
+        }catch (DataAccessException e) {
+            e.printStackTrace();
+        }
+        return "error";
     }
 }
