@@ -3,9 +3,11 @@ package com.socialnetwork.SocialNetWork.repository;
 import com.socialnetwork.SocialNetWork.entity.Comments;
 import com.socialnetwork.SocialNetWork.model.IMPL.CommentById;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 public interface CommentsRepository extends JpaRepository<Comments, Long> {
@@ -29,4 +31,27 @@ public interface CommentsRepository extends JpaRepository<Comments, Long> {
             "ORDER BY c.created_at DESC " +
             "LIMIT ?3", nativeQuery = true)
     List<CommentById> getListParentCommentByPost(int postId,int commentId,int limit);
+
+    // check comment child
+    @Query(value = "SELECT COUNT(*) FROM comments WHERE parent_comment_id = ?1 ",nativeQuery = true)
+    int checkCommentChild(String id);
+
+    // delete comment
+    @Modifying
+    @Transactional
+    @Query(value = "DELETE FROM comments WHERE id = ?1", nativeQuery = true)
+    void deleteComment(String id);
+
+    // delete comment child
+    @Modifying
+    @Transactional
+    @Query(value = "DELETE FROM comments WHERE parent_comment_id = ?1", nativeQuery = true)
+    void deleteCommentChild(String id);
+
+    // update comment
+    @Modifying
+    @Transactional
+    @Query(value = "UPDATE comments c SET c.content = ?1, c.created_at = ?2 WHERE c.id = ?3", nativeQuery = true)
+    int updateComment(String content, String createdAt, String id);
+
 }

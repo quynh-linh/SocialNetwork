@@ -28,4 +28,5 @@ public interface MediaRepository extends JpaRepository<Media,Long> {
     @Transactional
     @Query(value = "DELETE FROM media WHERE id IN ?1", nativeQuery = true)
     void deleteMediaOfPost(List<String> mediaId);
+
 }

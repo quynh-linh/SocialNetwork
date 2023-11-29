@@ -5,6 +5,7 @@ import com.socialnetwork.SocialNetWork.model.IMPL.CommentById;
 import com.socialnetwork.SocialNetWork.model.Response.ApiResponse;
 import com.socialnetwork.SocialNetWork.service.CommentsService;
 import com.socialnetwork.SocialNetWork.util.ConvertJSON;
+import com.socialnetwork.SocialNetWork.util.IdGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -49,6 +50,7 @@ public class CommentsController {
     public ResponseEntity<?> addComment(@RequestBody String body){
         try{
             // CONVERT JSON TO STRING
+            String id = IdGenerator.generateUniqueId();
             Timestamp createdAt = Timestamp.valueOf(ConvertJSON.converJsonToString(body,"createdAt"));
             String content = ConvertJSON.converJsonToString(body,"content");
             String userId = ConvertJSON.converJsonToString(body,"userId");
@@ -58,7 +60,7 @@ public class CommentsController {
             System.err.println(checkParentComment);
             // INIT Media
             if(!content.isEmpty() && !userId.isEmpty() && postId > 0){
-                Comments comments = new Comments(userId,postId,checkParentComment,content,createdAt);
+                Comments comments = new Comments(id,userId,postId,checkParentComment,content,createdAt);
                 Comments result = commentsService.addComments(comments);
                 return result != null ? ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("success")) : ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("error"));
             } else {
@@ -67,7 +69,40 @@ public class CommentsController {
         } catch(Exception e){
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error occurred");
         }
-    };
+    }
 
+    @GetMapping("/deleteComment")
+    public ResponseEntity<?> deleteComment(@RequestBody String body){
+        try {
+            String commentId = ConvertJSON.converJsonToString(body,"commentId");
+            int checkCommentChild = commentsService.checkCommentChild(commentId);
+            System.err.println(checkCommentChild);
+            if(checkCommentChild > 0){
+                commentsService.deleteCommentChild(commentId);
+            }
+            commentsService.deleteComment(commentId);
+            return ResponseEntity.status(HttpStatus.OK).body("Delete success");
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error occured");
+        }
+    }
 
+    // update comment
+    @GetMapping("/updateComment")
+    public ResponseEntity<?> updateComment(@RequestBody String body){
+        try {
+            String content = ConvertJSON.converJsonToString(body,"content");
+            String createdAt = ConvertJSON.converJsonToString(body,"createdAt");
+            String id = ConvertJSON.converJsonToString(body,"id");
+            if(!id.isEmpty() && !content.isEmpty()){
+                String result = commentsService.updateComment(content,createdAt,id);
+                if(result.equals("update success")){
+                    return ResponseEntity.status(HttpStatus.OK).body("Update success");
+                }
+            }
+            return ResponseEntity.status(HttpStatus.OK).body("Update failure");
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error occured");
+        }
+    }
 }
