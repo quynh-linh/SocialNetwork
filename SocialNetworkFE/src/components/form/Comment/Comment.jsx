@@ -69,7 +69,7 @@ function Comment({type='',data,setMessage = undefined}) {
     },[data]);
     return ( 
         <div className={cx('wrapper','w-full flex items-center')}>
-            <div className={cx('wrapper__img','')}>
+            <div className={cx('wrapper__img','flex justify-center')}>
                 <img src={nameUrlImageUser ? nameUrlImageUser : images.user} className={cx('wrapper__img-imgUser','w-16 h-16')} alt="COMMENTS USER"/>
             </div>
             <div className={cx('wrapper__addComment','')}>
