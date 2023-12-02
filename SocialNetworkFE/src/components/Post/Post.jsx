@@ -9,11 +9,14 @@ import ShowComment from "../form/Comment/components/ShowComment";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { getListCommentByPost } from "~/redux/commentSlice";
-function Post({data}) {
+function Post({data,onShowBox=undefined,isShowBox = false}) {
     const cx = classNames.bind(styles);
     const dispatch = useDispatch();
     const [valueFirstComment,setValueFirstComment] = useState([]);
     const [valueMessageAddComments,setValueMessageAddComments] = useState('');
+    
+
+    // HANDLE GET LIST COMMENTS
     const handleGetListComments = async (id) => {
         return await dispatch(getListCommentByPost({
             id: id,
@@ -23,16 +26,31 @@ function Post({data}) {
             setValueFirstComment(ob);
         })
     }
+
+    // HANDLE CLICK SHOW BOX POST
+    const handleClickShowBoxPost = () => {
+        if(!isShowBox){
+            onShowBox({
+                ...data,
+                isShow: true
+            });
+        }
+    };
+
+    // HANDLE GET LIST COMMENTS
     useEffect(() => {
         if(data && data.id){
             handleGetListComments(data.id);
         }
     },[]);
+
+    // RENDER GET LIST COMMENTS AGAIN WHEN MESSAGE === SUCCESS
     useEffect(() => {
         if(valueMessageAddComments === "success"){
             handleGetListComments(data.id);
         }
     },[valueMessageAddComments])
+
     return (
         <div className={cx('wrapper','bg-sidebar')}>
             <div className={cx('wrapper__header')}>
@@ -97,7 +115,10 @@ function Post({data}) {
                                 <span className="pl-3">Thích</span>
                                 <span className={cx('wrapper__content-interactWith-Likes-quantity','')}>(103)</span>
                             </div>
-                            <div className={cx('wrapper__content-interactWith-Comments','flex items-center')}>
+                            <div 
+                                className={cx('wrapper__content-interactWith-Comments','flex items-center')}
+                                onClick={handleClickShowBoxPost}
+                            >
                                 <FontAwesomeIcon icon={faComment}/>
                                 <span className="pl-3">Bình luận</span>
                                 <span  className={cx('wrapper__content-interactWith-Comments-quantity','')}>(103)</span>
@@ -110,24 +131,37 @@ function Post({data}) {
                         </div>
                     </div>
                     { 
-                        valueFirstComment !== null && valueFirstComment.length >= 2 ? (
+                        !isShowBox && valueFirstComment !== null && valueFirstComment.length >= 2 ? (
                         <div className={cx('wrapper__content-seeAll','text-start ml-5 mt-4 text-xl font-semibold hover:underline cursor-pointer ')}>
                             Xem tất cả bình luận
                         </div>) : ''
                     }
                     {/* REPLY COMMENTS */}
                     {
-                        valueFirstComment !== null ? (
+                        !isShowBox ? (
+                            valueFirstComment !== null ? (
+                                <div className="p-5">
+                                    <ShowComment type="first" data={valueFirstComment[0]}/>
+                                </div>
+                            ) : ''
+                        ) : (
                             <div className="p-5">
-                                <ShowComment data={valueFirstComment}/>
+                                {
+                                    Array.isArray(valueFirstComment) && valueFirstComment.map((item,index) => <ShowComment key={index} type="first" data={item}/>)
+                                }
                             </div>
-                        ) : ''
+                        )
                     }
-                    <div className={cx('wrapper__content-addComment','p-5')}>
-                        <Comment type="father" data={data} setMessage={(e) => setValueMessageAddComments(e)}/>
-                    </div>
+                    {
+                        isShowBox ? '' : (
+                            <div className={cx('wrapper__content-addComment','p-5')}>
+                                <Comment type="father" data={data} setMessage={(e) => setValueMessageAddComments(e)}/>
+                            </div>
+                        )   
+                    }
                 </div>
             </div>
+            
         </div>
     );
 }

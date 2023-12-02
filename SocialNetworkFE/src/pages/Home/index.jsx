@@ -9,15 +9,18 @@ import useUserToken from "~/hook/user";
 import { getListPost } from "~/redux/postSlice";
 import { getListMediaByPost } from "~/redux/mediaSlice";
 import Loader from "~/components/loader/loader";
+import BoxPostModal from "~/components/Popper/BoxPost";
 function Home() {
     const cx = classNames.bind(styles);
     const [isShowCreatePost,setIsShowCreatePost] = useState(false);
+    const [isShowBoxPost,setIsShowBoxPost] = useState({});
     const [valueMessageGetList,setValueMessageGetList] = useState('');
     const [listPosts,setListPosts] = useState([]);
     const dispatch = useDispatch();
     const state = useSelector(state => state.post);
     const {valueIdUser} = useUserToken();
 
+    // HANDLE GET LIST POST
     const handleGetListPost = async (userId) => {
         const listPost = await dispatch(getListPost({id : userId}))
         if(listPost && listPost.payload){
@@ -46,11 +49,15 @@ function Home() {
             }
         }
     }
+
+    // HANDLE GET LIST POST
     useEffect(() => {
         if(valueIdUser !== undefined){
             handleGetListPost(valueIdUser);
         }
     },[valueIdUser]);
+
+    // SET VALUE MESSAGE
     useEffect(() => {
         if(state.msg === "No data"){
             setValueMessageGetList(state.msg);
@@ -58,6 +65,16 @@ function Home() {
             setValueMessageGetList("");
         }
     },[state.msg]);
+
+    // HANDLE ADD CLASS IN DEFAULT LAYOUT
+    useEffect(() => {
+        const query = document.querySelector("#defaultLayout");
+        if(isShowCreatePost) {
+            query.classList.add("overflow-hidden");
+        } else {
+            query.classList.remove("overflow-hidden");
+        }
+    },[isShowCreatePost])
     return (
         <div className={cx('wrapper')}>
             <div className={cx('bg-sidebar','wrapper__createPost')}>
@@ -67,10 +84,18 @@ function Home() {
                 {
                     valueMessageGetList === "No data" ? 
                         <h1>Chưa có bài viết nào</h1> 
-                        : (listPosts.length > 0 ? listPosts.map((item) => <Post key={item.id} data={item}/>) : <div className="mt-8"><Loader/></div>)
+                        : (listPosts.length > 0 ? listPosts.map((item) => {
+                            return (
+                                <div key={item.id} className="mt-6">
+                                    <Post onShowBox={(e) => setIsShowBoxPost(e)}  data={item}/>
+                                </div>
+                            )
+                        }) : <div className="mt-8"><Loader/></div>)
                 }
             </div>
             {isShowCreatePost ? <CreatePostWrapper onShow={(e) => setIsShowCreatePost(e)}/> : ''}
+            {/* SHOW BOX POST */}
+            { isShowBoxPost ? <BoxPostModal closeIsShow={(e) => setIsShowBoxPost(e)} data={isShowBoxPost}/> : ""}
         </div>
     );
 }

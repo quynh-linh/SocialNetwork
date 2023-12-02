@@ -8,8 +8,10 @@ $color-text : #88888e;
     }
     &__showComment{
         width: 100%;
-        &-content{
+        &-width{
             width: 90%;
+        }
+        &-content{
             padding: 10px;
             border: 1px solid var(--var-border);
             border-radius: 20px;
@@ -22,6 +24,7 @@ $color-text : #88888e;
                 color: $color-text;
                 font-size: 1.3rem;
             }
+            
         }
         &-menu,
         &-seeAll{

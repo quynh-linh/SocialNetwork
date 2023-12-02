@@ -7,7 +7,7 @@ function DefaultLayout({children}) {
     const cx = classNames.bind(styles);
 
     return (  
-        <div className={cx('container','relative')}>
+        <div id="defaultLayout" className={cx('container','relative')}>
             <Header/>
             <SideBarProfile/>
             <div className={cx('container__content')}>{children}</div>

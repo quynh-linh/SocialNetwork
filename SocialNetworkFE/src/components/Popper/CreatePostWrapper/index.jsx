@@ -8,8 +8,9 @@ function CreatePostWrapper({onShow=undefined}) {
     const [isShowDecentralization,setIsShowDecentralization] = useState(false);
     const [isShowCreate,setIsShowCreate] = useState(true);
     const [valueDecentralization,setValueDecentralization] = useState('');
+
     return (  
-        <div className={cx('wrapper','flex items-center justify-center')}>
+        <div className={cx('wrapper','flex items-center justify-center ')}>
             {
                 isShowCreate ? (
                     <BoxCreate 
