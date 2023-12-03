@@ -22,4 +22,9 @@ public interface CommentsService {
     public void deleteCommentChild(String id);
 
     public String updateComment(String content, String createdAt, String id);
+
+    public int getCountCommentParentByPost(String postId);
+
+    public int getCountCommentChildByPost(String postId, String commentId);
+
 }

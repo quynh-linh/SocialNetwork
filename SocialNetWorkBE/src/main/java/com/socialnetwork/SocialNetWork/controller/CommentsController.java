@@ -105,4 +105,27 @@ public class CommentsController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error occured");
         }
     }
+
+    // get count comment parent by post
+    @GetMapping("/getCountCommentParentByPost")
+    public ResponseEntity<?> getCountCommentParentByPost(@RequestParam String postId){
+        try{
+            int count = commentsService.getCountCommentParentByPost(postId);
+            return count < 0 ? ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("comments isEmpty")) : ResponseEntity.status(HttpStatus.OK).body(count);
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error occurred");
+        }
+    }
+
+    // get count comment child by post
+    @GetMapping("/getCountCommentChildByPost")
+    public ResponseEntity<?> getCountCommentChildByPost(@RequestParam String postId, @RequestParam String commentId){
+        try{
+            int count = commentsService.getCountCommentChildByPost(postId, commentId);
+            return count < 0 ? ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("comments isEmpty")) : ResponseEntity.status(HttpStatus.OK).body(count);
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error occurred");
+        }
+    }
+
 }

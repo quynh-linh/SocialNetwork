@@ -54,4 +54,11 @@ public interface CommentsRepository extends JpaRepository<Comments, Long> {
     @Query(value = "UPDATE comments c SET c.content = ?1, c.created_at = ?2 WHERE c.id = ?3", nativeQuery = true)
     int updateComment(String content, String createdAt, String id);
 
+    // get count comment parent by post
+    @Query(value = "SELECT COUNT(*) FROM comments AS c WHERE c.post_id = ?1",nativeQuery = true)
+    int getCountCommentParentByPost(String postId);
+
+    // get count comment child by post
+    @Query(value = "SELECT COUNT(*) FROM comments AS c WHERE c.post_id = ?1 AND c.parent_comment_id = ?2",nativeQuery = true)
+    int getCountCommentChildByPost(String postId, String commentId);
 }
