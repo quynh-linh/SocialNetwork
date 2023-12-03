@@ -118,4 +118,32 @@ public class CommentsServiceImpl implements CommentsService {
         }
         return "error";
     }
+
+
+    // get count comment parent by post
+    @Override
+    @Transactional
+    public int getCountCommentParentByPost(String postId){
+        try{
+            int count = commentsRepository.getCountCommentParentByPost(postId);
+            return count;
+        }catch (DataAccessException e){
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    // get count comment child by post
+    @Override
+    @Transactional
+    public int getCountCommentChildByPost(String postId, String commentId){
+        try{
+            int count = commentsRepository.getCountCommentChildByPost(postId, commentId);
+            return count;
+        }catch (DataAccessException e){
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
 }
