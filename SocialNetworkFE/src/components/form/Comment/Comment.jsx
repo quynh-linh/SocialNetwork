@@ -60,13 +60,8 @@ function Comment({type='',data,setMessage = undefined}) {
         } else {
             setIsLoadingAddComment(false);
         }
-    },[valueCommentInPost])
+    },[valueCommentInPost]);
 
-    useEffect(() => {
-        if(type === 'parent'){
-            console.log(data);
-        }
-    },[data]);
     return ( 
         <div className={cx('wrapper','w-full flex items-center')}>
             <div className={cx('wrapper__img','flex justify-center')}>

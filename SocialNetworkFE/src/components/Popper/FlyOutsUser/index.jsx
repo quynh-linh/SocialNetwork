@@ -8,12 +8,20 @@ import images from '~/assets/images';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleHalfStroke, faGear, faHandshake, faMoon, faPowerOff, faSun } from '@fortawesome/free-solid-svg-icons';
-import { useState } from 'react';
-function FlyOutUser({children,title = '',state = false}) {
+import { useEffect, useState } from 'react';
+import Menu from '@mui/material/Menu';
+function FlyOutUser({state = false , data , anchor,onClose}) {
     const cx = classNames.bind(styles);
     const [modeBackgroundWindowDark,setModeBackgroundWindowDark] = useState(true);
     const [modeBackgroundWindowLight,setModeBackgroundWindowLight] = useState(false);
     const [modeBackgroundWindowAuto,setModeBackgroundWindowAuto] = useState(false);
+    const [anchorEl, setAnchorEl] = useState(null);
+    const [open,setOpen] = useState(false);
+    const handleClose = () => {
+        onClose(false);
+        setOpen(null);
+    };
+
     const handleSetModeBgDark = () => {
         setModeBackgroundWindowDark(!modeBackgroundWindowDark);
         setModeBackgroundWindowLight(false);
@@ -32,72 +40,79 @@ function FlyOutUser({children,title = '',state = false}) {
         setModeBackgroundWindowLight(false);
     };
 
+    useEffect(() => {
+        if(state) setOpen(true);
+        setAnchorEl(anchor);
+    },[state,anchor])
+
     return ( 
-        <Tippy
-        content= {title}
-        visible = {state === true}
-        interactive
-        placement='bottom-start'
-        appendTo={document.body}
-        render={attrs => (
-            <div className={cx('content','bg-white')} tabIndex="-1" {...attrs}>
-                <PopperWrapper>
-                    <div className={cx('container',' p-5')}>
-                        <div className={cx('container-header','flex items-center')}>
-                            <img src={images.user} className={cx('w-20 h-20 rounded-full')} alt='user'/>
-                            <div className={cx('pl-5')}>
-                                <div className={cx('container-header-title')}>Quynh Linh</div>
-                                <div className={cx('container-header-job','text-color-text')}>Web Developer</div>
+        <div className='mt-5'>
+            <Menu
+                id="basic-menu"
+                anchorEl={anchorEl}
+                open={open}
+                onClose={handleClose}
+                MenuListProps={{
+                    'aria-labelledby': 'basic-button',
+                }}
+                style={{ marginTop : '10px'}}
+            >
+                <div className={cx('content','bg-white')}>
+                    <PopperWrapper>
+                        <div className={cx('container',' p-5')}>
+                            <div className={cx('container-header','flex items-center')}>
+                                <img src={data && data.image ? data.image : images.user} className={cx('w-20 h-20 rounded-full')} alt='user'/>
+                                <div className={cx('pl-5')}>
+                                    <div className={cx('container-header-title')}>{data && data.firstName && data.lastName ? data.firstName + " " + data.lastName : ''}</div>
+                                    <div className={cx('container-header-job','text-color-text')}>Web Developer</div>
+                                </div>
+                            </div>
+                            <div className={cx('container-viewProfile')}>
+                                <Link to="/profile">
+                                    View Profile
+                                </Link>
+                            </div>
+                            <div className={cx('container-menuTool')}>
+                                <div className={cx('container-menuTool-item','flex items-center')}>
+                                    <FontAwesomeIcon className={cx('w-2/12')} icon={faGear}/>
+                                    <span className={cx('pl-5 w-10/12')}>Settings & Privacy</span>
+                                </div>
+                                <div className={cx('container-menuTool-item','flex items-center')}>
+                                    <FontAwesomeIcon className={cx('w-2/12')} icon={faHandshake}/>
+                                    <span className={cx('pl-5 w-10/12')}>Support</span>
+                                </div>
+                            </div>
+                            <div className={cx('container-logOut')}>
+                                <FontAwesomeIcon className={cx('w-2/12')} icon={faPowerOff}/>
+                                <Link className={cx('pl-5 w-10/12')} to={''}>
+                                    Sign Out
+                                </Link>
+                            </div>
+                            <div className={cx('container-mode','flex items-center')}>
+                                <span className={(cx('w-1/5'))}>Mode:</span>
+                                <div className={cx('flex items-center justify-between w-4/5')}>
+                                    <Tippy content='Dark'>
+                                        <button onClick={handleSetModeBgDark} className={cx('w-16 - h-16',modeBackgroundWindowDark ? 'container-mode-setChecked' : '')}  type='button'>
+                                            <FontAwesomeIcon icon={faMoon}/>
+                                        </button>
+                                    </Tippy>
+                                    <Tippy content='Light'>
+                                        <button onClick={handleSetModeBgLight}  className={cx('w-16 - h-16',modeBackgroundWindowLight ? 'container-mode-setChecked' : '')}  type='button'>
+                                            <FontAwesomeIcon icon={faSun}/>
+                                        </button>
+                                    </Tippy>
+                                    <Tippy content='Auto'>
+                                        <button onClick={handleSetModeBgAuto}  className={cx('w-16 - h-16',modeBackgroundWindowAuto ? 'container-mode-setChecked' : '')}  type='button'>
+                                            <FontAwesomeIcon icon={faCircleHalfStroke}/>
+                                        </button>
+                                    </Tippy>
+                                </div>
                             </div>
                         </div>
-                        <div className={cx('container-viewProfile')}>
-                            <Link to="">
-                                View Profile
-                            </Link>
-                        </div>
-                        <div className={cx('container-menuTool')}>
-                            <div className={cx('container-menuTool-item','flex items-center')}>
-                                <FontAwesomeIcon className={cx('w-2/12')} icon={faGear}/> 
-                                <span className={cx('pl-5 w-10/12')}>Settings & Privacy</span>
-                            </div>
-                            <div className={cx('container-menuTool-item','flex items-center')}>
-                                <FontAwesomeIcon className={cx('w-2/12')} icon={faHandshake}/>
-                                <span className={cx('pl-5 w-10/12')}>Support</span>
-                            </div>
-                        </div>
-                        <div className={cx('container-logOut')}>
-                            <FontAwesomeIcon className={cx('w-2/12')} icon={faPowerOff}/>
-                            <Link className={cx('pl-5 w-10/12')} to={''}>
-                                Sign Out
-                            </Link>
-                        </div>
-                        <div className={cx('container-mode','flex items-center')}>
-                            <span className={(cx('w-1/5'))}>Mode:</span>
-                            <div className={cx('flex items-center justify-between w-4/5')}>
-                                <Tippy content='Dark'>
-                                    <button onClick={handleSetModeBgDark} className={cx('w-16 - h-16',modeBackgroundWindowDark ? 'container-mode-setChecked' : '')}  type='button'>
-                                        <FontAwesomeIcon icon={faMoon}/>
-                                    </button>
-                                </Tippy>
-                                <Tippy content='Light'>
-                                    <button onClick={handleSetModeBgLight}  className={cx('w-16 - h-16',modeBackgroundWindowLight ? 'container-mode-setChecked' : '')}  type='button'>
-                                        <FontAwesomeIcon icon={faSun}/>
-                                    </button>
-                                </Tippy>
-                                <Tippy content='Auto'>
-                                    <button onClick={handleSetModeBgAuto}  className={cx('w-16 - h-16',modeBackgroundWindowAuto ? 'container-mode-setChecked' : '')}  type='button'>
-                                        <FontAwesomeIcon icon={faCircleHalfStroke}/>
-                                    </button>
-                                </Tippy>
-                            </div>
-                        </div>
-                    </div>
-                </PopperWrapper>
-            </div>
-        )}
-    >
-        {children}
-    </Tippy>
+                    </PopperWrapper>
+                </div>
+            </Menu>
+        </div>
     );
 }
 

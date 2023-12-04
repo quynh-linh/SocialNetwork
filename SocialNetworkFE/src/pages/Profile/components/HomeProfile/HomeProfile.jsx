@@ -7,19 +7,41 @@ import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import {Button as ButtonEdit} from "~/components/button/button";
 import { Link } from "react-router-dom";
 import CreatePost from "~/components/form/CreatePost/CreatePost";
-import { useEffect} from "react";
+import { useEffect, useState} from "react";
 import useUserToken from "~/hook/user";
-
+import { useSelector } from "react-redux";
+import Loader from "~/components/loader/loader";
+import usePosts from "~/hook/post";
+import BoxPostModal from "~/components/Popper/BoxPost";
+import CreatePostWrapper from "~/components/Popper/CreatePostWrapper";
 function HomeProfile() {
     const cx = classNames.bind(styles);
+    const [valueMessageGetList,setValueMessageGetList] = useState('');
     const {listMediaToUser,listUserFriends,valueIdUser,getListMediaToUser,getListFriendsToUser} = useUserToken();
-    
+    const {handleGetListPost,listPosts} = usePosts();
+    const [isShowCreatePost,setIsShowCreatePost] = useState(false);
+    const state = useSelector(state => state.post);
+    const [isShowBoxPost,setIsShowBoxPost] = useState({});
+
     useEffect(() => {
         if(valueIdUser !== undefined){
             getListMediaToUser(6);
             getListFriendsToUser(50);
+            handleGetListPost(valueIdUser);
         }
-    },[valueIdUser])
+    },[valueIdUser]);
+
+    useEffect(() => {
+        if(state.msg === "No data"){
+            setValueMessageGetList(state.msg);
+        } else {
+            setValueMessageGetList("");
+        }
+    },[state.msg]);
+
+    useEffect(() => {
+        console.log(isShowCreatePost);
+    },[isShowCreatePost]);
     return (  
         <div className={cx('wrapper','flex')} >
             <div className={cx('wrapper__left','w-2/6')}>
@@ -141,8 +163,26 @@ function HomeProfile() {
                 </div>
             </div>
             <div className={cx('wrapper__right','w-4/6')}>
-                <div className={cx('wrapper__right-createPost','bg-sidebar')}><CreatePost/></div>
-                <Post/>
+                <div className={cx('wrapper__right-createPost','bg-sidebar')}>
+                    <CreatePost onShow={(e) => setIsShowCreatePost(e)}/>
+                </div>
+                <div>
+                    {
+                        valueMessageGetList === "No data" ?
+                            <h1>Chưa có bài viết nào</h1>
+                            : (listPosts.length > 0 ? listPosts.map((item) => {
+                                return (
+                                    <div key={item.id} className="mt-6">
+                                        <Post onShowBox={(e) => setIsShowBoxPost(e)}  data={item}/>
+                                    </div>
+                                )
+                            }) : <div className="mt-8"><Loader/></div>)
+                    }
+                </div>
+                {/* SHOW CREATE BOX  */}
+                {isShowCreatePost ? <CreatePostWrapper closeIsShow={(e) => setIsShowCreatePost(e)} isShow={isShowCreatePost} onShow={(e) => setIsShowCreatePost(e)}/> : ''}
+                {/* SHOW BOX POST */}
+                { isShowBoxPost ? <BoxPostModal closeIsShow={(e) => setIsShowBoxPost(e)} data={isShowBoxPost}/> : ""}
             </div>
         </div>
     );

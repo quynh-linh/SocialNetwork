@@ -7,6 +7,7 @@ import java.util.List;
 @Service
 public interface PostService {
     public List<PostById> getListPost(String userId);
+    public List<PostById> getListPostByUserId(String userId);
     public Post addPost(Post post);
     public void deletePostByUser(String postId, String userId);
 
