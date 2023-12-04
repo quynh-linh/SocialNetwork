@@ -22,6 +22,26 @@ const getListPost = createAsyncThunk('getListPost',async(body)=> {
         throw error;
     }
 });
+
+// GET LIST POST BY USER ID
+const getListPostByUserID = createAsyncThunk('getListPostByUserID',async(body)=> {
+    try {
+        const {id} = body;
+        const res = await fetch(URL_API + `api/v1/post/getListPostByUserId/${id}`, {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        });
+        const data = await res.json();
+        return data;
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        throw error;
+    }
+});
+
 // HANDLE ADD POST TO DB
 const addPosts = createAsyncThunk('addPosts',async(body)=> {
     try {
@@ -100,5 +120,7 @@ export {
     // ADD POST MEDIA
     addPostMedia,
     // GET LIST POST
-    getListPost
+    getListPost,
+    // GET LIST POST BY USER ID
+    getListPostByUserID
 };

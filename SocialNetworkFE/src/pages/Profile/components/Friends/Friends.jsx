@@ -52,7 +52,7 @@ function FriendsProfile() {
                                     return (
                                         <div key={index} className={cx('wrapper__content-listFriends-item','flex items-center justify-between p-5')}>
                                             <div className={cx('flex items-center')}>
-                                                <img className={cx('w-40 h-w-40')} src={item.image} alt={item.lastName}/>
+                                                <img className={cx('w-40 h-40')} src={item.image} alt={item.lastName}/>
                                                 <div className="ml-4">
                                                     <h1>{item.firstName+" "+item.lastName}</h1>
                                                     <span>9 bạn chung</span>

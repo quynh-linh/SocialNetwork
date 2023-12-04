@@ -41,6 +41,19 @@ public class PostController {
         }
     }
 
+    @GetMapping("/getListPostByUserId/{id}")
+    public ResponseEntity<?> getListPostByUserId(@PathVariable String id) {
+        try {
+            if (id.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApiResponse("userId is required"));
+            }
+            List<PostById> result = postService.getListPostByUserId(id);
+            return result == null ? ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("No data")) : ResponseEntity.status(HttpStatus.OK).body(result);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ApiResponse("Error occurred"));
+        }
+    }
+
     @PostMapping("/add")
     public ResponseEntity<?> addPost(@RequestBody String body){
         try{

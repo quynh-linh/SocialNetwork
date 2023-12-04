@@ -52,6 +52,23 @@ public interface PostRepository extends JpaRepository<Post,Long> {
             "ORDER BY p.created_at DESC ", nativeQuery = true)
     List<PostById> getListPost(String userId);
 
+    @Query(value = "SELECT DISTINCT " +
+            "p.id, " +
+            "p.user_id AS userID, " +
+            "p.content, " +
+            "p.created_at AS createdAt, " +
+            "p.delete_at AS deleteAt, " +
+            "p.privacy_id AS privacyId, " +
+            "u.first_name AS firstName, " +
+            "u.last_name AS lastName, " +
+            "u.image AS avatarUser " +
+            "FROM posts as p " +
+            "JOIN user as u " +
+            "ON p.user_id = u.id " +
+            "WHERE p.user_id = ?1 " +
+            "ORDER BY p.created_at DESC", nativeQuery = true)
+    List<PostById> getListPostByUserId(String userId);
+
     // delete post by user
     @Modifying
     @Transactional

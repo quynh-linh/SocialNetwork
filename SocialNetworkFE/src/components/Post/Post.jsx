@@ -9,7 +9,7 @@ import ShowComment from "../form/Comment/components/ShowComment";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { getListCommentByPost } from "~/redux/commentSlice";
-function Post({data,onShowBox=undefined,isShowBox = false}) {
+function Post({data,onShowBox=undefined,isShowBox = false, message = ''}) {
     const cx = classNames.bind(styles);
     const dispatch = useDispatch();
     const [valueFirstComment,setValueFirstComment] = useState([]);
@@ -46,10 +46,10 @@ function Post({data,onShowBox=undefined,isShowBox = false}) {
 
     // RENDER GET LIST COMMENTS AGAIN WHEN MESSAGE === SUCCESS
     useEffect(() => {
-        if(valueMessageAddComments === "success"){
+        if(valueMessageAddComments === "success" || message === "success"){
             handleGetListComments(data.id);
         }
-    },[valueMessageAddComments])
+    },[valueMessageAddComments,message]);
 
     return (
         <div className={cx('wrapper','bg-sidebar')}>
@@ -147,7 +147,7 @@ function Post({data,onShowBox=undefined,isShowBox = false}) {
                         ) : (
                             <div className="p-5">
                                 {
-                                    Array.isArray(valueFirstComment) && valueFirstComment.map((item,index) => <ShowComment key={index} type="first" data={item}/>)
+                                    Array.isArray(valueFirstComment) && valueFirstComment.map((item,index) => <ShowComment isShowBox={isShowBox} key={index} type="first" data={item}/>)
                                 }
                             </div>
                         )

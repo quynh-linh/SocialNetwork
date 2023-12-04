@@ -12,6 +12,7 @@ import { Link } from "react-router-dom";
 import BoxSearch from "~/components/Popper/BoxSearch";
 import { useDispatch, useSelector } from "react-redux";
 import { getListUserBySearch } from "~/redux/authSlice";
+import useUserToken from "~/hook/user";
 function Header() {
     const cx = classNames.bind(styles);
     const [isOpenMenuUser,setOpenMenuUser] = useState(false);
@@ -19,14 +20,17 @@ function Header() {
     const [isOpenMenuAccount,setOpenMenuAccount] = useState(false);
     const [isShowBoxSearch,setShowBoxSearch] = useState(false);
     const [listUserBySearch,setListUserBySearch] = useState([]);
+    const {nameUrlImageUser,valueDetailUserById} = useUserToken();
+    const [anchorEl, setAnchorEl] = useState(null);
     const menuPageRef = useRef(null);
     const menuUserRef = useRef(null);
     const menuAccountRef = useRef(null);
     const dispatch = useDispatch();
     const state = useSelector(state => state.auth);
     // HANDLE CLICK OPEN MENU USER
-    const handleCLickOpenMenuUser = () => {
+    const handleCLickOpenMenuUser = (event) => {
         setOpenMenuUser(!isOpenMenuUser);
+        setAnchorEl(event.currentTarget);
         setOpenMenuPage(false);
         setOpenMenuAccount(false);
     };
@@ -172,19 +176,20 @@ function Header() {
                             <FontAwesomeIcon className={cx('header__Controls-icon')} icon={faBell}/>
                         </div>
                         {/* FLY OUTS USER */}
+                        <div className={cx('header__Controls-User')} onClick={handleCLickOpenMenuUser}>
+                            <img
+                                
+                                className={cx('header__Controls-User-img','h-16 w-16')}
+                                src={nameUrlImageUser ? nameUrlImageUser : images.user}
+                                alt="user"
+                            />
+                        </div>
                         <FlyOutUser
-                            title={'Account'}
                             state={isOpenMenuUser}
-                        >
-                            <div ref={menuUserRef}  className={cx('header__Controls-User')} onClick={handleCLickOpenMenuUser}>
-                                <img
-                                   
-                                    className={cx('header__Controls-User-img','h-16 w-16')}
-                                    src={images.user}
-                                    alt="user"
-                                />
-                            </div>
-                        </FlyOutUser>
+                            data = {valueDetailUserById}
+                            anchor= {anchorEl}
+                            onClose = {(e) => setOpenMenuUser(e)}
+                        />
                     </div>
                 </div>
             </header>

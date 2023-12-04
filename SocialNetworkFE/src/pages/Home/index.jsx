@@ -10,46 +10,17 @@ import { getListPost } from "~/redux/postSlice";
 import { getListMediaByPost } from "~/redux/mediaSlice";
 import Loader from "~/components/loader/loader";
 import BoxPostModal from "~/components/Popper/BoxPost";
+import usePosts from "~/hook/post";
 function Home() {
     const cx = classNames.bind(styles);
     const [isShowCreatePost,setIsShowCreatePost] = useState(false);
     const [isShowBoxPost,setIsShowBoxPost] = useState({});
     const [valueMessageGetList,setValueMessageGetList] = useState('');
-    const [listPosts,setListPosts] = useState([]);
     const dispatch = useDispatch();
     const state = useSelector(state => state.post);
     const {valueIdUser} = useUserToken();
-
-    // HANDLE GET LIST POST
-    const handleGetListPost = async (userId) => {
-        const listPost = await dispatch(getListPost({id : userId}))
-        if(listPost && listPost.payload){
-            const arrTempPost = listPost.payload;
-            let arrMediaPost = [];
-            let promises = [];
-            if(arrTempPost.length > 0) {
-                arrTempPost.forEach((postItem) => {
-                    let promise = dispatch(getListMediaByPost({ id: postItem.id })).then((item) => {
-                        if (item && item.payload && !item.payload.message) {
-                            return { postId: postItem.id, media: item.payload };
-                        }
-                    });
-                    promises.push(promise);
-                });
-                Promise.all(promises).then((results) => {
-                    arrMediaPost = results.filter(item => item); 
-                    arrMediaPost.forEach((mediaItem) => {
-                        const postToUpdate = arrTempPost.find(post => post.id === mediaItem.postId);
-                        if (postToUpdate) {
-                            postToUpdate.media = mediaItem.media;
-                        }
-                    });
-                    setListPosts(arrTempPost);
-                });
-            }
-        }
-    }
-
+    const {handleGetListPost,listPosts} = usePosts();
+    
     // HANDLE GET LIST POST
     useEffect(() => {
         if(valueIdUser !== undefined){
@@ -93,7 +64,7 @@ function Home() {
                         }) : <div className="mt-8"><Loader/></div>)
                 }
             </div>
-            {isShowCreatePost ? <CreatePostWrapper onShow={(e) => setIsShowCreatePost(e)}/> : ''}
+            {isShowCreatePost ? <CreatePostWrapper closeIsShow={(e) => setIsShowCreatePost(e)} isShow={isShowCreatePost} onShow={(e) => setIsShowCreatePost(e)}/> : ''}
             {/* SHOW BOX POST */}
             { isShowBoxPost ? <BoxPostModal closeIsShow={(e) => setIsShowBoxPost(e)} data={isShowBoxPost}/> : ""}
         </div>

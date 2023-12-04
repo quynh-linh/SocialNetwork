@@ -40,6 +40,21 @@ public class PostServiceImpl implements PostService{
         return null;
     }
 
+    @Override
+    public List<PostById> getListPostByUserId(String userId) {
+        try {
+            ArrayList<PostById> result = (ArrayList<PostById>) postRepository.getListPostByUserId(userId);
+            if(result.isEmpty()){
+                return null;
+            } else {
+                return result;
+            }
+        }catch (DataAccessException e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     // create post
     @Override
     public Post addPost(Post post) {
