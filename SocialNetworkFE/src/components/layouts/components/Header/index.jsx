@@ -94,7 +94,7 @@ function Header() {
     
         // REMOVE EVENT LISTENER CLICK FOR WINDOW
         return () => {
-          document.removeEventListener('click', handleClickOutside);
+            document.removeEventListener('click', handleClickOutside);
         };
     }, []);
 
@@ -112,7 +112,7 @@ function Header() {
                             {
                                 isShowBoxSearch ? 
                                     <FontAwesomeIcon className={cx('header__content-search-icon')} icon={faArrowLeft} onClick={handleClickCloseBoxSearch} /> 
-                                    : <Link to={'/'}><img src={images.logo} alt="Logo"></img></Link>
+                                    : <Link to={'/'}><img src={images.logo} alt="Logo" ></img></Link>
                             }
                         </div>
                         <div className={cx('header__content-boxSearch-search','flex items-center ml-4 relative',isShowBoxSearch ? 'w-5/6' : 'w-4/5')}>

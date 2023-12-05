@@ -253,6 +253,10 @@ const authSlice = createSlice({
             state.user.address = address;
             state.user.dateOfBirth = dateOfBirth;
             state.user.image = image;
+        },
+        logOut : (state,action) => {
+            state.token = '';
+            localStorage.removeItem('token')
         }
     },
     extraReducers : (builder) => {
@@ -356,4 +360,4 @@ export {
     // GET DETAIL USER BY ID
     getDetailUserById
 };
-export const {updateUSer} = authSlice.actions; 
+export const {updateUSer,logOut} = authSlice.actions; 

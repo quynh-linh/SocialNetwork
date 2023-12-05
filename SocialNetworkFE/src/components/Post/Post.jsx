@@ -6,15 +6,25 @@ import { faCircleDot, faComment, faEarthAmericas, faEllipsisVertical, faShare, f
 import Comment from "../form/Comment/Comment";
 import calculateTime from "~/const/calculateTime";
 import ShowComment from "../form/Comment/components/ShowComment";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch} from "react-redux";
 import { useEffect, useState } from "react";
-import { getListCommentByPost } from "~/redux/commentSlice";
+import { getListCommentByPost, getTotalCommentByPost } from "~/redux/commentSlice";
+import { addLikes, getLikeByPostId } from "~/redux/likePostSlice";
+import useUserToken from "~/hook/user";
+import currentTime from "~/const/currentTime";
+import FlyOutsLike from "../Popper/FlyOutsLike";
 function Post({data,onShowBox=undefined,isShowBox = false, message = ''}) {
     const cx = classNames.bind(styles);
     const dispatch = useDispatch();
     const [valueFirstComment,setValueFirstComment] = useState([]);
+    const [valueListUserLiked,setValueListUserLiked] = useState([]);
     const [valueMessageAddComments,setValueMessageAddComments] = useState('');
-    
+    const [valueMessageGetLikes,setValueMessageGetLikes] = useState('');
+    const [valueTotalLike,setValueTotalLike] = useState('');
+    const [valueTotalComments,setValueTotalComments] = useState(null);
+    const [isCheckUserLiked,setCheckUserLiked] = useState(false);
+    const [isOpenLike,setOpenLike] = useState(false);
+    const {valueIdUser} = useUserToken();
 
     // HANDLE GET LIST COMMENTS
     const handleGetListComments = async (id) => {
@@ -37,6 +47,75 @@ function Post({data,onShowBox=undefined,isShowBox = false, message = ''}) {
         }
     };
 
+    // HANDLE ADD LIKES
+    const handleAddLikes = async (userId,postId) => {
+        const createdAt = currentTime();
+        return await dispatch(addLikes({
+            user_id: userId,
+            post_id: postId,
+            created_at: createdAt
+        }))
+    };
+
+    // HANDLE GET TOTAL LIKES BY POST
+    const handleGetTotalLikesByPost = async (postId) => {
+        try {
+            const item = await dispatch(getLikeByPostId({ id: postId }));
+            if (item && item.payload) {
+                const { likeByIds, message, total } = item.payload;
+                setValueMessageGetLikes(message);
+                if (message === 'success') {
+                    setValueTotalLike(total);
+                    setValueListUserLiked(likeByIds);
+                    likeByIds.forEach((like) => {
+                        if (like.userId === valueIdUser) {
+                            setCheckUserLiked(true);
+                        } else {
+                            setCheckUserLiked(false);
+                        }
+                    });
+                }
+            }
+        } catch (error) {
+            console.error("Error while fetching likes:", error);
+        }
+    };
+
+    // HANDLE GET TOTAL COMMENTS BY POST
+    const handleGetTotalCommentByPost = async(postId) => {
+        try {
+            if(postId > 0){
+                const msg = await dispatch(getTotalCommentByPost({id : postId}));
+                if(msg && msg.payload){
+                    setValueTotalComments(msg.payload);
+                }
+            }
+        } catch (error) {
+            
+        }
+    };
+
+    // HANDLE CLICK ADD LIKES
+    const handleClickAddLikes = () => {
+        setOpenLike(false);
+        if(valueIdUser !== undefined && data.id){
+            handleAddLikes(valueIdUser,data.id).then((msg) => {
+                if(msg && msg.payload){
+                    const {message} = msg.payload;
+                    if(message === 'success' || message === 'unLike') handleGetTotalLikesByPost(data.id);
+                }
+            })
+        }
+    };
+
+    const handleLikeMouseEnter = () => {
+        setOpenLike(true);
+    }
+
+    const handleLikeMouseLeave = () => {
+        setOpenLike(false);
+    }
+
     // HANDLE GET LIST COMMENTS
     useEffect(() => {
         if(data && data.id){
@@ -50,6 +129,14 @@ function Post({data,onShowBox=undefined,isShowBox = false, message = ''}) {
             handleGetListComments(data.id);
         }
     },[valueMessageAddComments,message]);
+
+    // RENDER GET TOTAL LIKE BY POST ID
+    useEffect(() => {
+        if(data && data.id){
+            handleGetTotalLikesByPost(data.id);
+            handleGetTotalCommentByPost(data.id);
+        }
+    },[data,valueIdUser,isCheckUserLiked])
 
     return (
         <div className={cx('wrapper','bg-sidebar')}>
@@ -110,24 +197,35 @@ function Post({data,onShowBox=undefined,isShowBox = false, message = ''}) {
                     }
                     <div className={cx('wrapper__content-interactWith','text-white flex items-center justify-between px-10 py-5')}>
                         <div className={cx('flex items-center')}>
-                            <div className={cx('wrapper__content-interactWith-Likes','text-primaryColor flex items-center')}>
-                                <FontAwesomeIcon icon={faThumbsUp}/>        
-                                <span className="pl-3">Thích</span>
-                                <span className={cx('wrapper__content-interactWith-Likes-quantity','')}>(103)</span>
-                            </div>
+                            <FlyOutsLike
+                                state={isOpenLike}
+                                data = {valueListUserLiked}
+                                onClose = {(e) => setOpenLike(e)}
+                            >
+                                <div 
+                                    className={cx('wrapper__content-interactWith-Likes','flex items-center',isCheckUserLiked ? 'text-primaryColor' : 'text-color-text')}
+                                    onClick={handleClickAddLikes}
+                                    onMouseEnter={handleLikeMouseEnter}
+                                    onMouseLeave={handleLikeMouseLeave}
+                                >
+                                    <FontAwesomeIcon icon={faThumbsUp}/>        
+                                    <span className="pl-3">Thích</span>
+                                    <span className={cx('wrapper__content-interactWith-Likes-quantity','')}>{valueMessageGetLikes === 'No data' ? '' : (valueTotalLike > 0 ? '('+valueTotalLike+')' : '')}</span>
+                                </div>
+                            </FlyOutsLike>
                             <div 
                                 className={cx('wrapper__content-interactWith-Comments','flex items-center')}
                                 onClick={handleClickShowBoxPost}
                             >
                                 <FontAwesomeIcon icon={faComment}/>
                                 <span className="pl-3">Bình luận</span>
-                                <span  className={cx('wrapper__content-interactWith-Comments-quantity','')}>(103)</span>
+                                <span  className={cx('wrapper__content-interactWith-Comments-quantity','')}>{valueTotalComments !== null && valueTotalComments > 0 ? '(' + valueTotalComments + ')' :''}</span>
                             </div>
                         </div>
                         <div className={cx('wrapper__content-interactWith-Share','flex items-center')}>
                             <FontAwesomeIcon icon={faShare}/>
                             <span className="pl-3">Chia sẻ</span>
-                            <span  className={cx('wrapper__content-interactWith-Share-quantity','')}>(103)</span>
+                            {/* <span  className={cx('wrapper__content-interactWith-Share-quantity','')}>(103)</span> */}
                         </div>
                     </div>
                     { 
