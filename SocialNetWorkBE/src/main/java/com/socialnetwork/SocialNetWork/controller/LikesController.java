@@ -2,6 +2,7 @@ package com.socialnetwork.SocialNetWork.controller;
 
 import com.socialnetwork.SocialNetWork.entity.Likes;
 import com.socialnetwork.SocialNetWork.model.Response.ApiResponse;
+import com.socialnetwork.SocialNetWork.model.Response.GetLikeResponse;
 import com.socialnetwork.SocialNetWork.service.LikesService;
 import com.socialnetwork.SocialNetWork.util.ConvertJSON;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,14 +28,14 @@ public class LikesController {
             Timestamp createAt = Timestamp.valueOf(ConvertJSON.converJsonToString(body, "created_at"));
             // INIT LIKE
             if(!userId.isEmpty() && !postId.isEmpty()){
-                int check = likesService.checkUserLiked(userId);
+                int check = likesService.checkUserLiked(userId,Integer.parseInt(postId));
                 if(check <= 0){
                     Likes like = new Likes(userId,postId,createAt);
                     Likes result = likesService.addLike(like);
                     return result != null ? ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("success")) : ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("error"));
                 }else{
-                    likesService.deleteLikeByUser(userId);
-                    return null;
+                    likesService.deleteLikeByUser(userId,Integer.parseInt(postId));
+                    return  ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("unLike"));
                 }
             } else {
                 return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Data cannot be left blank"));
@@ -48,9 +49,8 @@ public class LikesController {
     public ResponseEntity<?> getCountLikeByPost(@RequestParam String postId){
         try{
             if(!postId.isEmpty()){
-                int count = likesService.getCountLikeByPost(postId);
-                String a = String.valueOf(count);
-                return count > 0 ? ResponseEntity.status(HttpStatus.OK).body(new ApiResponse(a)) : ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Error"));
+                GetLikeResponse count = likesService.getCountLikeByPost(postId);
+                return count != null ? ResponseEntity.status(HttpStatus.OK).body(count) : ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("No data"));
             }
             return null;
         }catch (Exception e){

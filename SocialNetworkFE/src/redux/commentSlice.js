@@ -58,6 +58,24 @@ const addComments = createAsyncThunk('addComments',async(body)=> {
         throw error;
     }
 });
+// HANDLE GET TOTAL COMMENT BY POST
+const getTotalCommentByPost = createAsyncThunk('getTotalCommentByPost',async(body)=> {
+    try {
+        const {id} = body;
+        const res = await fetch(URL_API + `api/v1/comments/getCountCommentParentByPost?postId=${id}`, {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        });
+        const data = await res.json();
+        return data;
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        throw error;
+    }
+});
 const commentSlice = createSlice({
     name: "comment",
     initialState,
@@ -83,5 +101,7 @@ export {
     // GET PARENT COMMENT (FIRST PARENT)
     getListParentCommentById,
     // ADD COMMENTS
-    addComments
+    addComments,
+    // GET TOTAL COMMENT BY POST
+    getTotalCommentByPost
 };

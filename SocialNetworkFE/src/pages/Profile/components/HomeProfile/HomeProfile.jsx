@@ -18,7 +18,7 @@ function HomeProfile() {
     const cx = classNames.bind(styles);
     const [valueMessageGetList,setValueMessageGetList] = useState('');
     const {listMediaToUser,listUserFriends,valueIdUser,getListMediaToUser,getListFriendsToUser} = useUserToken();
-    const {handleGetListPost,listPosts} = usePosts();
+    const {handleGetListPostByUserId,listPostsByUserId} = usePosts();
     const [isShowCreatePost,setIsShowCreatePost] = useState(false);
     const state = useSelector(state => state.post);
     const [isShowBoxPost,setIsShowBoxPost] = useState({});
@@ -27,7 +27,7 @@ function HomeProfile() {
         if(valueIdUser !== undefined){
             getListMediaToUser(6);
             getListFriendsToUser(50);
-            handleGetListPost(valueIdUser);
+            handleGetListPostByUserId(valueIdUser);
         }
     },[valueIdUser]);
 
@@ -39,9 +39,6 @@ function HomeProfile() {
         }
     },[state.msg]);
 
-    useEffect(() => {
-        console.log(isShowCreatePost);
-    },[isShowCreatePost]);
     return (  
         <div className={cx('wrapper','flex')} >
             <div className={cx('wrapper__left','w-2/6')}>
@@ -170,7 +167,7 @@ function HomeProfile() {
                     {
                         valueMessageGetList === "No data" ?
                             <h1>Chưa có bài viết nào</h1>
-                            : (listPosts.length > 0 ? listPosts.map((item) => {
+                            : (listPostsByUserId.length > 0 ? listPostsByUserId.map((item) => {
                                 return (
                                     <div key={item.id} className="mt-6">
                                         <Post onShowBox={(e) => setIsShowBoxPost(e)}  data={item}/>

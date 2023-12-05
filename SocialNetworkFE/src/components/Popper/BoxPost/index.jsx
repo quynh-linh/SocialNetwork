@@ -45,7 +45,6 @@ export default function BoxPostModal({closeIsShow=true,data}) {
         if(data.isShow){
             setOpen(true);
         } 
-        console.log(data);
     },[data]);
 
     // RENDER GET LIST COMMENTS AGAIN WHEN MESSAGE === SUCCESS

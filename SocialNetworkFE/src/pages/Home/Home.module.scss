@@ -1,5 +1,35 @@
 .wrapper{
     margin: 0 20px;
+    &__createStories{
+        width: 160px ;
+        max-width: 160px ;
+        height: 250px ;
+        border-radius: 10px;
+        position: relative;
+        box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+        & div{
+            background-color: #3c3e44;
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+        }
+        & img{
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+        }
+        &-icon{
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: -10px;
+            margin: auto;
+            font-size: 1.7rem;
+            color: white;
+            background: var(--toastify-color-info);
+            padding: 5px 7px;
+            border-radius: 50%;
+            box-shadow: rgb(17 112 236 / 60%) 0px 5px 15px;
+        }
+    }
     &__createPost{
         padding: 20px;
         border: 1px solid var(--var-border);

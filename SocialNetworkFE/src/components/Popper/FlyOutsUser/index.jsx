@@ -10,6 +10,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleHalfStroke, faGear, faHandshake, faMoon, faPowerOff, faSun } from '@fortawesome/free-solid-svg-icons';
 import { useEffect, useState } from 'react';
 import Menu from '@mui/material/Menu';
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { logOut } from '~/redux/authSlice';
 function FlyOutUser({state = false , data , anchor,onClose}) {
     const cx = classNames.bind(styles);
     const [modeBackgroundWindowDark,setModeBackgroundWindowDark] = useState(true);
@@ -17,6 +20,8 @@ function FlyOutUser({state = false , data , anchor,onClose}) {
     const [modeBackgroundWindowAuto,setModeBackgroundWindowAuto] = useState(false);
     const [anchorEl, setAnchorEl] = useState(null);
     const [open,setOpen] = useState(false);
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
     const handleClose = () => {
         onClose(false);
         setOpen(null);
@@ -38,6 +43,11 @@ function FlyOutUser({state = false , data , anchor,onClose}) {
         setModeBackgroundWindowAuto(!modeBackgroundWindowAuto);
         setModeBackgroundWindowDark(false);
         setModeBackgroundWindowLight(false);
+    };
+
+    const handleClickLogOut =() => {
+        dispatch(logOut());
+        navigate('/register');
     };
 
     useEffect(() => {
@@ -69,27 +79,31 @@ function FlyOutUser({state = false , data , anchor,onClose}) {
                             </div>
                             <div className={cx('container-viewProfile')}>
                                 <Link to="/profile">
-                                    View Profile
+                                   Xem trang cá nhân
                                 </Link>
                             </div>
                             <div className={cx('container-menuTool')}>
                                 <div className={cx('container-menuTool-item','flex items-center')}>
                                     <FontAwesomeIcon className={cx('w-2/12')} icon={faGear}/>
-                                    <span className={cx('pl-5 w-10/12')}>Settings & Privacy</span>
+                                    <span className={cx('pl-5 w-10/12')}>Cài đặt & Quyền riêng tư</span>
                                 </div>
                                 <div className={cx('container-menuTool-item','flex items-center')}>
                                     <FontAwesomeIcon className={cx('w-2/12')} icon={faHandshake}/>
-                                    <span className={cx('pl-5 w-10/12')}>Support</span>
+                                    <span className={cx('pl-5 w-10/12')}>Hỗ trợ</span>
                                 </div>
                             </div>
                             <div className={cx('container-logOut')}>
                                 <FontAwesomeIcon className={cx('w-2/12')} icon={faPowerOff}/>
-                                <Link className={cx('pl-5 w-10/12')} to={''}>
-                                    Sign Out
-                                </Link>
+                                <button 
+                                    className={cx('pl-5 w-10/12 text-start')} 
+                                    type="button"
+                                    onClick={handleClickLogOut}
+                                >
+                                    Đăng xuất
+                                </button>
                             </div>
                             <div className={cx('container-mode','flex items-center')}>
-                                <span className={(cx('w-1/5'))}>Mode:</span>
+                                <span className={(cx('w-1/5'))}>Chế độ:</span>
                                 <div className={cx('flex items-center justify-between w-4/5')}>
                                     <Tippy content='Dark'>
                                         <button onClick={handleSetModeBgDark} className={cx('w-16 - h-16',modeBackgroundWindowDark ? 'container-mode-setChecked' : '')}  type='button'>

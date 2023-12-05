@@ -1,11 +1,15 @@
 package com.socialnetwork.SocialNetWork.service.IMPL;
 
 import com.socialnetwork.SocialNetWork.entity.Likes;
+import com.socialnetwork.SocialNetWork.model.IMPL.LikeById;
+import com.socialnetwork.SocialNetWork.model.Response.GetLikeResponse;
 import com.socialnetwork.SocialNetWork.repository.LikesRepository;
 import com.socialnetwork.SocialNetWork.service.LikesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 @Component
 public class LikesServiceImpl implements LikesService {
@@ -31,9 +35,9 @@ public class LikesServiceImpl implements LikesService {
 
     // check user liked
     @Override
-    public int checkUserLiked(String userId){
+    public int checkUserLiked(String userId,int postId){
         try{
-            int check = likesRepository.checkUserLiked(userId);
+            int check = likesRepository.checkUserLiked(userId,postId);
             if(check > 0){
                 return check;
             }
@@ -46,10 +50,10 @@ public class LikesServiceImpl implements LikesService {
 
     // delete like by user
     @Override
-    public void deleteLikeByUser(String userId) {
+    public void deleteLikeByUser(String userId,int postId) {
         try {
             if (!userId.isEmpty()) {
-                likesRepository.deleteLikeByUser(userId);
+                likesRepository.deleteLikeByUser(userId,postId);
                 System.out.println("Deletion successful!");
             }
         } catch (DataAccessException e) {
@@ -59,19 +63,25 @@ public class LikesServiceImpl implements LikesService {
     }
     // get count like by post
     @Override
-    public int getCountLikeByPost(String postId){
+    public GetLikeResponse getCountLikeByPost(String postId){
         try {
             if(!postId.isEmpty()){
-                int count = likesRepository.getCountLikeByPost(postId);
-                return count;
+                List<LikeById> likeByIds = likesRepository.getCountLikeByPost(postId);
+                long total = 0;
+                if(likeByIds.size() > 0){
+                    for (LikeById item : likeByIds) {
+                        total += item.getCount();
+                    }
+                    return new GetLikeResponse(likeByIds,"success",total);
+                }
+            } else {
+                return null;
             }
-            return 0;
+
         }catch (DataAccessException e){
             System.err.println("Get count like. Error: " + e.getMessage());
-            e.printStackTrace();
         }
-        return 0;
+        return null;
     }
-
 }
 
