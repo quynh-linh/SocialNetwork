@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 public interface PostRepository extends JpaRepository<Post,Long> {
@@ -57,5 +58,15 @@ public interface PostRepository extends JpaRepository<Post,Long> {
     @Transactional
     @Query(value = "DELETE FROM posts WHERE id = ?1 AND user_id = ?2", nativeQuery = true)
     void deletePostByUser(String postId, String userId);
+
+    // update post
+    @Modifying
+    @Transactional
+    @Query(value = "UPDATE posts AS p SET " +
+            "p.content = COALESCE(?1, p.content), " +
+            "p.created_at = COALESCE(?2, p.created_at), " +
+            "p.privacy_id = COALESCE(?3, p.privacy_id) " +
+            "WHERE p.id = ?4 AND p.user_id = ?5", nativeQuery = true)
+    void updatePost(String content, Timestamp createdAt, int privacyId, int postId, String userId);
 
 }
