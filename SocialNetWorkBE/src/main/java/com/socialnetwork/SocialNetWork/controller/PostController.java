@@ -5,9 +5,7 @@ import com.socialnetwork.SocialNetWork.entity.Post;
 import com.socialnetwork.SocialNetWork.model.IMPL.PostById;
 import com.socialnetwork.SocialNetWork.model.Response.ApiResponse;
 import com.socialnetwork.SocialNetWork.model.dto.UserDTO;
-import com.socialnetwork.SocialNetWork.service.MediaService;
-import com.socialnetwork.SocialNetWork.service.PostMediaService;
-import com.socialnetwork.SocialNetWork.service.PostService;
+import com.socialnetwork.SocialNetWork.service.*;
 import com.socialnetwork.SocialNetWork.util.ConvertJSON;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -28,6 +26,10 @@ public class PostController {
     public MediaService mediaService;
     @Autowired
     public PostMediaService postMediaService;
+    @Autowired
+    public CommentsService commentsService;
+    @Autowired
+    public LikesService likesService;
 
     @GetMapping("/getListPost/{id}")
     public ResponseEntity<?> getListPost(@PathVariable String id) {
@@ -67,21 +69,38 @@ public class PostController {
     @GetMapping("/deletePost")
     public ResponseEntity<?> deletePost(@RequestBody String body){
         try {
-            String postId =ConvertJSON.converJsonToString(body,"postId");
+            int postId =Integer.parseInt(ConvertJSON.converJsonToString(body,"postId"));
             String userId = ConvertJSON.converJsonToString(body,"userId");
-            if(postId.isEmpty()){
+            if(postId < 0){
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("PostId not exits!");
             }
             if(userId.isEmpty()){
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("UserId not exits");
             }
+            // delete media and postMedia in post
             List<String> mediaId = postMediaService.getListMediaIdByPost(postId);
             if(!mediaId.isEmpty()){
                 postMediaService.deletePostMediaByPost(postId);
                 mediaService.deleteMediaOfPost(mediaId);
             }
+            // delete comment in post
+            int checkComment = commentsService.checkCommentExitsInPost(postId);
+            System.err.println(checkComment);
+            if (checkComment > 0){
+                List<String> commentId = commentsService.getListIdCommentByPost(postId);
+               if(!commentId.isEmpty()){
+                   commentsService.deleteAllCommentChildInPost(commentId);
+               }
+                commentsService.deleteAllCommentParentInPost(postId);
+            }
+            // delete likes exits in post
+            int checkLikes = likesService.checkLikesExitInPost(postId);
+            if (checkLikes > 0){
+                likesService.deleteLikesInPost(postId);
+            }
+            // delete post by user
             postService.deletePostByUser(postId,userId);
-            return ResponseEntity.status(HttpStatus.OK).body("Delete success!");
+            return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Delete success ?"));
         }catch (Exception e){
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error occurred");
         }

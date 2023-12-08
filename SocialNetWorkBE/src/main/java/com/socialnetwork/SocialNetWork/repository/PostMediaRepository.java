@@ -13,11 +13,11 @@ public interface PostMediaRepository extends JpaRepository<PostMedia,Long> {
 
     // get mediaId by post
     @Query(value = "SELECT media_id FROM post_media WHERE post_id = ?1", nativeQuery = true)
-    List<String> getListMediaIdByPost(String postId);
+    List<String> getListMediaIdByPost(int postId);
 
     // delete post media by post
     @Modifying
     @Transactional
     @Query(value = "DELETE FROM post_media WHERE post_id = ?1", nativeQuery = true)
-    void deletePostMediaByPost(String postId);
+    void deletePostMediaByPost(int postId);
 }

@@ -9,7 +9,7 @@ import java.util.List;
 public interface PostService {
     public List<PostById> getListPost(String userId);
     public Post addPost(Post post);
-    public void deletePostByUser(String postId, String userId);
+    public void deletePostByUser(int postId, String userId);
 
     public void updatePost(String content, Timestamp createdAt, int privacyId, int postId, String userId);
 

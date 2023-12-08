@@ -27,4 +27,11 @@ public interface CommentsService {
 
     public int getCountCommentChildByPost(String postId, String commentId);
 
+    public int checkCommentExitsInPost(int postId);
+
+    public void deleteAllCommentParentInPost(int postId);
+
+    public  List<String> getListIdCommentByPost(int postId);
+
+    public void deleteAllCommentChildInPost(List<String> commentId);
 }

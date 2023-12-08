@@ -21,7 +21,7 @@ public class PostMediaServiceImpl implements PostMediaService {
 
     // get list mediaId by post
     @Override
-    public List<String> getListMediaIdByPost(String postId){
+    public List<String> getListMediaIdByPost(int postId){
         try{
             ArrayList<String> result = (ArrayList<String>) postMediaRepository.getListMediaIdByPost(postId);
             if(result.isEmpty()){
@@ -36,7 +36,7 @@ public class PostMediaServiceImpl implements PostMediaService {
 
     // delete postMedia by post
     @Override
-    public void deletePostMediaByPost(String postId){
+    public void deletePostMediaByPost(int postId){
         try{
             postMediaRepository.deletePostMediaByPost(postId);
         }catch (DataAccessException e){
