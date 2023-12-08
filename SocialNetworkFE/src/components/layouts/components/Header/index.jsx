@@ -76,6 +76,15 @@ function Header() {
     };
 
     useEffect(() => {
+        const { isLoading, arrSearch } = state;
+        if (!isLoading && arrSearch.length > 0) {
+            const timer = setTimeout(() => setListUserBySearch(arrSearch), 3000);
+            return () => clearTimeout(timer);
+        }
+    }, [state]);
+    
+
+    useEffect(() => {
         // HANDLE CLICK
         const handleClickOutside = (event) => {
             if (menuPageRef.current && !menuPageRef.current.contains(event.target)) {

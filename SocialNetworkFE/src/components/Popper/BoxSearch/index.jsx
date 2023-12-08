@@ -5,13 +5,18 @@ import classNames from 'classnames/bind';
 import styles from './BoxSearch.module.scss';
 import {Wrapper as PopperWrapper} from '~/components/Popper';
 import Loader from '~/components/loader/loader';
+import { useNavigate } from "react-router-dom";
 function BoxSearch({items=[],children,title = '',state = false,isLoading = true}) {
     const cx = classNames.bind(styles);
-    const handleClickMenuItem = () => {
-
+    const navigate = useNavigate();
+    
+    const handleClickMenuItem = ({ id }) => {
+        if (id) {
+            navigate(`/profile?id=${id}`);
+        }
     };
     const showFlyOutsMenuitem = () => {
-        return items.map((item,index) => <FlyOutsMenuItem onClick={handleClickMenuItem} key={index} data={item}></FlyOutsMenuItem> )
+        return items.map((item,index) => <FlyOutsMenuItem onClick={(e) => handleClickMenuItem(e)} key={index} data={item}></FlyOutsMenuItem> )
     }
     return ( 
         <Tippy

@@ -71,9 +71,9 @@ function useUserToken() {
     }
 
     // GET LIST MEDIA TO USER
-    const getListMediaToUser = async (limit) => {
+    const getListMediaToUser = async (idUser,limit) => {
         try {
-            const response = await dispatch(getListMedia({id: valueIdUser, limit: limit}));
+            const response = await dispatch(getListMedia({id: idUser, limit: limit}));
             const arr = response.payload ? response.payload : [];
             setListMediaToUser(arr);
         } catch (error) {
@@ -83,9 +83,9 @@ function useUserToken() {
     };
 
     // GET LIST MEDIA TO USER
-    const getListFriendsToUser = async (limit) => {
+    const getListFriendsToUser = async (idUser,limit) => {
         try {
-            const resp = await dispatch(getListUserFriends({id : valueIdUser , limit : limit}));
+            const resp = await dispatch(getListUserFriends({id : idUser , limit : limit}));
             const newArr = resp.payload ? resp.payload : [];
             setListUserFriends(newArr);
         } catch (error) {
@@ -105,7 +105,6 @@ function useUserToken() {
             if(image) setNameUrlImageUser(image);
         } catch (error) {
             console.error(error);
-            return [];
         }
     };
 

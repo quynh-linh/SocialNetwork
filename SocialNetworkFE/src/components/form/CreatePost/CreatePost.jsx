@@ -5,13 +5,14 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsisVertical } from "@fortawesome/free-solid-svg-icons";
 import useUserToken from "~/hook/user";
 import { useSelector } from "react-redux";
-function CreatePost({onShow=undefined}) {
+function CreatePost({onShow=undefined,inProfile=undefined}) {
     const cx = classNames.bind(styles);
     const {nameUrlImageUser} = useUserToken();
     const state = useSelector(state => state.auth);
     const handleLClickShowCreatePost = () => {
         onShow(true);
     }
+    
     return ( 
         <div className={cx('wrapper','w-full')}>
             <div className={cx('wrapper__inputPost','flex items-center')}>
@@ -21,7 +22,13 @@ function CreatePost({onShow=undefined}) {
                 <input 
                     className={cx('bg-background','wrapper__inputPost-input')} 
                     type="text" 
-                    placeholder={state.user && state.user.lastName !== '' ? state.user.lastName +" ơi," +" bạn đang nghĩ gì thế !" : ''}
+                    placeholder={
+                        inProfile?.firstName && inProfile?.lastName
+                          ? `Hãy viết dì đó cho ${inProfile.firstName} ${inProfile.lastName}`
+                          : state.user?.firstName && state.user?.lastName
+                          ? `${state.user.firstName} ${state.user.lastName} ơi, bạn đang nghĩ gì thế !`
+                          : ''
+                    } 
                     readOnly
                     onClick={handleLClickShowCreatePost}
                 />

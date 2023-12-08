@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import useUserToken from "~/hook/user";
 function SideBarProfile() {
     const cx = classNames.bind(styles);
-    const {valueDetailUserById} = useUserToken();
+    const {valueIdUser,valueDetailUserById} = useUserToken();
 
     return ( 
         <div className={cx('bg-sidebar shadow-bsd-bottom','wrapper')}>
@@ -46,7 +46,7 @@ function SideBarProfile() {
                     
                 </div>
                 <div className={cx('wrapper__profileUser-view','text-center')}>
-                    <Link to={'/profile'} className={cx('wrapper__profileUser-view-profile','text-lg')}>
+                    <Link to={`/profile?id=${valueIdUser}`} className={cx('wrapper__profileUser-view-profile','text-lg')}>
                         View Profile
                     </Link>
                 </div>
