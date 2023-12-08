@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Component;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -75,6 +76,18 @@ public class PostServiceImpl implements PostService{
     public void deletePostByUser(int postId, String userId){
         try {
             postRepository.deletePostByUser(postId,userId);
+        }catch (DataAccessException e){
+            e.printStackTrace();
+        }
+    }
+
+    // update post
+    @Override
+    public void updatePost(String content, Timestamp createdAt, int privacyId, int postId, String userId){
+        try{
+           if(postId > 0 && !userId.isEmpty()){
+               postRepository.updatePost(content, createdAt, privacyId, postId, userId);
+           }
         }catch (DataAccessException e){
             e.printStackTrace();
         }

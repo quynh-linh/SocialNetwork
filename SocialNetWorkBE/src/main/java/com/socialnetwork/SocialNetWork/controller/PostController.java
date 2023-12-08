@@ -15,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -93,6 +94,43 @@ public class PostController {
             }
             postService.deletePostByUser(postIDConvert,userId);
             return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Delete success!"));
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error occurred");
+        }
+    }
+
+    // update post
+    @PostMapping("/updatePost")
+    public ResponseEntity<?> updatePost(@RequestBody String body){
+        try {
+            String content = (ConvertJSON.converJsonToString(body, "content").isEmpty()) ? null : ConvertJSON.converJsonToString(body, "content");
+            Timestamp createdAtPost = (ConvertJSON.converJsonToString(body, "createAtPost").isEmpty()) ? null : Timestamp.valueOf(ConvertJSON.converJsonToString(body, "createAtPost"));
+            String privacyId = (ConvertJSON.converJsonToString(body,"privacyId").isEmpty()) ? null : ConvertJSON.converJsonToString(body,"privacyId");
+            String postId = (ConvertJSON.converJsonToString(body, "postId").isEmpty()) ? null : ConvertJSON.converJsonToString(body, "postId");
+            String userId = (ConvertJSON.converJsonToString(body, "userId").isEmpty()) ? null : ConvertJSON.converJsonToString(body, "userId");
+            String idMedia = (ConvertJSON.converJsonToString(body, "idMedia").isEmpty()) ? null : ConvertJSON.converJsonToString(body, "idMedia");
+            String mediaUrl = (ConvertJSON.converJsonToString(body, "mediaUrl").isEmpty()) ? null : ConvertJSON.converJsonToString(body, "mediaUrl");
+            String mediaType = (ConvertJSON.converJsonToString(body, "mediaType").isEmpty()) ? null : ConvertJSON.converJsonToString(body, "mediaType");
+            Timestamp createdAtMedia = (ConvertJSON.converJsonToString(body, "createAtMedia").isEmpty()) ? null : Timestamp.valueOf(ConvertJSON.converJsonToString(body, "createAtMedia"));
+            String title = (ConvertJSON.converJsonToString(body, "title").isEmpty()) ? null : ConvertJSON.converJsonToString(body, "title");
+
+            if(postId != null && userId != null){
+                // parseInt privacyId, idPostInt convert Integer
+                int privacyIdPost =  Integer.parseInt(privacyId);
+                int idPostInt = Integer.parseInt(postId);
+                if(content != null || createdAtPost != null){
+                    postService.updatePost(content,createdAtPost,privacyIdPost,idPostInt,userId);
+                }
+                if (idMedia != null) {
+                    // parseInt idMediaInt convert Integer
+                    int idMediaInt = Integer.parseInt(idMedia);
+                    if (mediaType != null || mediaUrl != null || title != null){
+                        mediaService.updateMedia(idMediaInt,mediaUrl,mediaType,createdAtMedia,title);
+                    }
+                }
+                return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Update Success ?"));
+            }
+            return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Data cannot be left blank"));
         }catch (Exception e){
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error occurred");
         }

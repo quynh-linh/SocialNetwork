@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Component;
 
+import javax.xml.crypto.Data;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -72,6 +74,18 @@ public class MediaServiceImpl implements MediaService {
     public void deleteMediaOfPost(List<Long> mediaId){
         try {
             postRepository.deleteMediaOfPost(mediaId);
+        }catch (DataAccessException e){
+            e.printStackTrace();
+        }
+    }
+
+    // update media
+    @Override
+    public void updateMedia(int id, String mediaUrl, String mediaType, Timestamp createdAt, String title){
+        try {
+            if(id > 0){
+                postRepository.updateMedia(id, mediaUrl, mediaType, createdAt, title);
+            }
         }catch (DataAccessException e){
             e.printStackTrace();
         }
