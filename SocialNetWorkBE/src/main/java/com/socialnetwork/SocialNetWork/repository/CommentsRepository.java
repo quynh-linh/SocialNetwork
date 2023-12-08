@@ -62,4 +62,24 @@ public interface CommentsRepository extends JpaRepository<Comments, Long> {
     // get count comment child by post
     @Query(value = "SELECT COUNT(*) FROM comments AS c WHERE c.post_id = ?1 AND c.parent_comment_id = ?2",nativeQuery = true)
     int getCountCommentChildByPost(String postId, String commentId);
+
+    // check comment exits in post
+    @Query(value = "SELECT COUNT(*) FROM comments AS c WHERE c.post_id = ?1", nativeQuery = true)
+    int checkCommentExitsInPost(int postId);
+
+    // delete all comment in post
+    @Modifying
+    @Transactional
+    @Query(value = "DELETE FROM comments WHERE post_id = ?1", nativeQuery = true)
+    void deleteAllCommentParentInPost(int postId);
+
+    // get id comment
+    @Query(value = "SELECT id FROM comments WHERE post_id = ?1", nativeQuery = true)
+    List<String> getListIdCommentByPost(int postId);
+
+    // delete comment child In post
+    @Modifying
+    @Transactional
+    @Query(value = "DELETE FROM comments WHERE parent_comment_id IN ?1", nativeQuery = true)
+    void deleteAllCommentChildInPost(List<String> commentId);
 }

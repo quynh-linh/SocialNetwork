@@ -9,6 +9,6 @@ import java.util.List;
 @Service
 public interface PostMediaService {
     public String addPostMedia(PostMedia postMedia);
-    public List<Long> getListMediaIdByPost(int postId);
+    public List<String> getListMediaIdByPost(int postId);
     public void deletePostMediaByPost(int postId);
 }

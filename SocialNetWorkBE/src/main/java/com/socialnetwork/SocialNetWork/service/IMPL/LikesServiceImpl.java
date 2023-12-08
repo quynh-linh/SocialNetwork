@@ -83,5 +83,35 @@ public class LikesServiceImpl implements LikesService {
         }
         return null;
     }
+
+    // delete all likes in post
+    @Override
+    public void deleteLikesInPost(int postId){
+        try{
+            if(postId > 0){
+                likesRepository.deleteLikesInPost(postId);
+            }
+        }catch (DataAccessException e){
+            e.printStackTrace();
+        }
+    }
+
+    // check likes exits in post
+    @Override
+    public  int checkLikesExitInPost(int postId){
+        try{
+            if (postId > 0){
+                int check = likesRepository.checkLikesExitInPost(postId);
+                if(check > 0){
+                    return check;
+                }
+                return 0;
+            }
+        }catch (DataAccessException e){
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
 }
 

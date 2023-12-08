@@ -21,9 +21,9 @@ public class PostMediaServiceImpl implements PostMediaService {
 
     // get list mediaId by post
     @Override
-    public List<Long> getListMediaIdByPost(int postId){
+    public List<String> getListMediaIdByPost(int postId){
         try{
-            ArrayList<Long> result = (ArrayList<Long>) postMediaRepository.getListMediaIdByPost(postId);
+            ArrayList<String> result = (ArrayList<String>) postMediaRepository.getListMediaIdByPost(postId);
             if(result.isEmpty()){
                 return null;
             }
