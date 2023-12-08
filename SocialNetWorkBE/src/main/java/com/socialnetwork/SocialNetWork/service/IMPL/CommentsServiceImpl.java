@@ -147,4 +147,63 @@ public class CommentsServiceImpl implements CommentsService {
         return 0;
     }
 
+    // check Comment Exits In Post
+    @Override
+    @Transactional
+    public int checkCommentExitsInPost(int postId){
+        try{
+            int check = 0;
+            if(postId > 0){
+                check = commentsRepository.checkCommentExitsInPost(postId);
+
+            }
+            return check;
+
+        }catch (DataAccessException e){
+            e.printStackTrace();
+            return 0;
+        }
+    }
+
+    // delete All Comment In Post
+    @Override
+    @Transactional
+    public void deleteAllCommentParentInPost(int postId){
+        try {
+            if(postId > 0){
+                commentsRepository.deleteAllCommentParentInPost(postId);
+            }
+        }catch (DataAccessException e){
+            e.printStackTrace();
+        }
+    }
+
+    // get List id Comment By Post
+    public  List<String> getListIdCommentByPost(int postId){
+        try{
+            if(postId > 0){
+                ArrayList<String> result = (ArrayList<String>) commentsRepository.getListIdCommentByPost(postId);
+                if(result.isEmpty()){
+                    return null;
+                }
+                return result;
+            }
+        }catch (DataAccessException e){
+            e.printStackTrace();
+
+        }
+        return null;
+    }
+
+    // delete All Comment Child In Post
+    public void deleteAllCommentChildInPost(List<String> commentId){
+        try{
+            commentsRepository.deleteAllCommentChildInPost(commentId);
+        }catch (DataAccessException e){
+            e.printStackTrace();
+        }
+    }
+
 }
+
+

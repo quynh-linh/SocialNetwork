@@ -36,5 +36,16 @@ public interface LikesRepository extends JpaRepository<Likes, Long> {
             "GROUP BY" +
             "    l.user_id, u.first_name,u.last_name ", nativeQuery = true)
     List<LikeById> getCountLikeByPost(String postId);
+
+    // delete all like in post
+    @Modifying
+    @Transactional
+    @Query(value = "DELETE FROM likes WHERE post_id = ?1", nativeQuery = true)
+    void deleteLikesInPost(int postId);
+
+    // check like exits in post
+    @Query(value = "SELECT COUNT(*) FROM likes WHERE post_id = ?1", nativeQuery = true)
+    int checkLikesExitInPost(int postId);
+
 }
 

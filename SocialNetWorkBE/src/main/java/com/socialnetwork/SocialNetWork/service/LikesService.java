@@ -10,5 +10,8 @@ public interface LikesService {
     public int checkUserLiked(String userId,int postId);
     public void deleteLikeByUser(String userId,int postId);
     public GetLikeResponse getCountLikeByPost(String postId);
+    public void deleteLikesInPost(int postId);
+    public  int checkLikesExitInPost(int post);
+
 }
 
