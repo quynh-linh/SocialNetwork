@@ -2,6 +2,7 @@ package com.socialnetwork.SocialNetWork.repository;
 
 import com.socialnetwork.SocialNetWork.entity.Comments;
 import com.socialnetwork.SocialNetWork.model.IMPL.CommentById;
+import com.socialnetwork.SocialNetWork.model.IMPL.CommentParentById;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -23,14 +24,14 @@ public interface CommentsRepository extends JpaRepository<Comments, Long> {
     List<CommentById> getListCommentByPost(int postId, int limit);
 
 
-    @Query(value = "SELECT c.id AS commentId, c.post_id AS postId , c.content , c.created_at AS createdAt  , c.user_id AS userId , u.first_name AS firstName , u.last_name AS lastName , u.image AS avatarUser " +
+    @Query(value = "SELECT c.id AS commentId, c.parent_comment_id AS parentCommentId ,c.post_id AS postId , c.content , c.created_at AS createdAt  , c.user_id AS userId , u.first_name AS firstName , u.last_name AS lastName , u.image AS avatarUser " +
             "FROM comments as c " +
             "CROSS JOIN posts as p ON c.post_id = p.id AND c.parent_comment_id IS NOT NULL " +
             "CROSS JOIN user as u ON u.id = c.user_id " +
             "WHERE p.id = ?1 AND c.parent_comment_id = ?2 " +
             "ORDER BY c.created_at DESC " +
             "LIMIT ?3", nativeQuery = true)
-    List<CommentById> getListParentCommentByPost(int postId,int commentId,int limit);
+    List<CommentParentById> getListParentCommentByPost(int postId, int commentId, int limit);
 
     // check comment child
     @Query(value = "SELECT COUNT(*) FROM comments WHERE parent_comment_id = ?1 ",nativeQuery = true)
@@ -51,8 +52,8 @@ public interface CommentsRepository extends JpaRepository<Comments, Long> {
     // update comment
     @Modifying
     @Transactional
-    @Query(value = "UPDATE comments c SET c.content = ?1, c.created_at = ?2 WHERE c.id = ?3", nativeQuery = true)
-    int updateComment(String content, String createdAt, String id);
+    @Query(value = "UPDATE comments c SET c.content = ?1 WHERE c.id = ?2", nativeQuery = true)
+    int updateComment(String content, int id);
 
     // get count comment parent by post
     @Query(value = "SELECT COUNT(*) FROM comments AS c WHERE c.post_id = ?1",nativeQuery = true)

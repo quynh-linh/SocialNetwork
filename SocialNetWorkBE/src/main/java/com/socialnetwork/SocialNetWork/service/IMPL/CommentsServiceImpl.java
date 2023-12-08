@@ -3,6 +3,7 @@ package com.socialnetwork.SocialNetWork.service.IMPL;
 import com.socialnetwork.SocialNetWork.entity.Comments;
 import com.socialnetwork.SocialNetWork.entity.Media;
 import com.socialnetwork.SocialNetWork.model.IMPL.CommentById;
+import com.socialnetwork.SocialNetWork.model.IMPL.CommentParentById;
 import com.socialnetwork.SocialNetWork.repository.CommentsRepository;
 import com.socialnetwork.SocialNetWork.service.CommentsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,9 +53,9 @@ public class CommentsServiceImpl implements CommentsService {
     }
 
     @Override
-    public List<CommentById> getListParentCommentByPost(int postId,int commentId , int limit){
+    public List<CommentParentById> getListParentCommentByPost(int postId,int commentId , int limit){
         try{
-            ArrayList<CommentById> result = (ArrayList<CommentById>) commentsRepository.getListParentCommentByPost(postId,commentId,limit);
+            ArrayList<CommentParentById> result = (ArrayList<CommentParentById>) commentsRepository.getListParentCommentByPost(postId,commentId,limit);
             if(result.isEmpty()){
                 return null;
             }
@@ -107,9 +108,9 @@ public class CommentsServiceImpl implements CommentsService {
     // update comment
     @Override
     @Transactional
-    public String updateComment(String content, String createdAt, String id){
+    public String updateComment(String content, int id){
         try {
-             int update = commentsRepository.updateComment(content,createdAt,id);
+             int update = commentsRepository.updateComment(content,id);
              if(update > 0){
                  return "update success";
              }

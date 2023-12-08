@@ -2,6 +2,7 @@ package com.socialnetwork.SocialNetWork.controller;
 
 import com.socialnetwork.SocialNetWork.entity.Comments;
 import com.socialnetwork.SocialNetWork.model.IMPL.CommentById;
+import com.socialnetwork.SocialNetWork.model.IMPL.CommentParentById;
 import com.socialnetwork.SocialNetWork.model.Response.ApiResponse;
 import com.socialnetwork.SocialNetWork.service.CommentsService;
 import com.socialnetwork.SocialNetWork.util.ConvertJSON;
@@ -40,17 +41,17 @@ public class CommentsController {
             if(postId <= 0){
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ApiResponse("postId not exist"));
             }
-            List<CommentById> result = commentsService.getListParentCommentByPost(postId,commentId,limit);
+            List<CommentParentById> result = commentsService.getListParentCommentByPost(postId,commentId,limit);
             return result == null ?  ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Data does not exist")) : ResponseEntity.status(HttpStatus.OK).body(result);
         }catch (Exception e){
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ApiResponse("Error occurred"));
         }
     }
+
     @PostMapping("/add")
     public ResponseEntity<?> addComment(@RequestBody String body){
         try{
             // CONVERT JSON TO STRING
-            String id = IdGenerator.generateUniqueId();
             Timestamp createdAt = Timestamp.valueOf(ConvertJSON.converJsonToString(body,"createdAt"));
             String content = ConvertJSON.converJsonToString(body,"content");
             String userId = ConvertJSON.converJsonToString(body,"userId");
@@ -60,7 +61,7 @@ public class CommentsController {
             System.err.println(checkParentComment);
             // INIT Media
             if(!content.isEmpty() && !userId.isEmpty() && postId > 0){
-                Comments comments = new Comments(id,userId,postId,checkParentComment,content,createdAt);
+                Comments comments = new Comments(userId,postId,checkParentComment,content,createdAt);
                 Comments result = commentsService.addComments(comments);
                 return result != null ? ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("success")) : ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("error"));
             } else {
@@ -71,39 +72,36 @@ public class CommentsController {
         }
     }
 
-    @GetMapping("/deleteComment")
-    public ResponseEntity<?> deleteComment(@RequestBody String body){
+    @GetMapping("/delete")
+    public ResponseEntity<?> deleteComment(@RequestParam String id){
         try {
-            String commentId = ConvertJSON.converJsonToString(body,"commentId");
-            int checkCommentChild = commentsService.checkCommentChild(commentId);
-            System.err.println(checkCommentChild);
+            int checkCommentChild = commentsService.checkCommentChild(id);
             if(checkCommentChild > 0){
-                commentsService.deleteCommentChild(commentId);
+                commentsService.deleteCommentChild(id);
             }
-            commentsService.deleteComment(commentId);
-            return ResponseEntity.status(HttpStatus.OK).body("Delete success");
+            commentsService.deleteComment(id);
+            return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Delete success"));
         }catch (Exception e){
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error occured");
         }
     }
 
     // update comment
-    @GetMapping("/updateComment")
+    @PostMapping("/updateComment")
     public ResponseEntity<?> updateComment(@RequestBody String body){
         try {
             String content = ConvertJSON.converJsonToString(body,"content");
-            String createdAt = ConvertJSON.converJsonToString(body,"createdAt");
             String id = ConvertJSON.converJsonToString(body,"id");
+            System.err.println("content:" + content);
+            System.err.println("id:" + id);
             if(!id.isEmpty() && !content.isEmpty()){
-                String result = commentsService.updateComment(content,createdAt,id);
-                if(result.equals("update success")){
-                    return ResponseEntity.status(HttpStatus.OK).body("Update success");
-                }
+                String result = commentsService.updateComment(content,Integer.parseInt(id));
+                return result.equals("update success") ? ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Update success")) : ResponseEntity.status(HttpStatus.OK).body("Update failure");
             }
-            return ResponseEntity.status(HttpStatus.OK).body("Update failure");
         }catch (Exception e){
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error occured");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error occurred");
         }
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error occurred");
     }
 
     // get count comment parent by post

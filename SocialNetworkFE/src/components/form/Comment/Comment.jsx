@@ -26,11 +26,15 @@ function Comment({type='',data,setMessage = undefined}) {
             parentCommentId: parentComment > 0 ? parentComment : '',
             postId: postId
         })).then((item) => {
-            if(item && item.payload){
+            if(item?.payload){
                 const {message} = item.payload;
                 if(message === "success"){
                     setValueCommentInPost("");
-                    setMessage(message);  
+                    setMessage({
+                        message: message,
+                        postId: postId,
+                        commentId: parentComment
+                    });  
                     setIsLoadingAddComment(false);
                 }
             }
@@ -65,7 +69,7 @@ function Comment({type='',data,setMessage = undefined}) {
     return ( 
         <div className={cx('wrapper','w-full flex items-center')}>
             <div className={cx('wrapper__img','flex justify-center')}>
-                <img src={nameUrlImageUser ? nameUrlImageUser : images.user} className={cx('wrapper__img-imgUser','w-16 h-16')} alt="COMMENTS USER"/>
+                <img src={nameUrlImageUser ? nameUrlImageUser : images.user} className={cx('wrapper__img-imgUser','flex items-center justify-center w-16 h-16 object-cover')} alt="COMMENTS USER"/>
             </div>
             <div className={cx('wrapper__addComment','')}>
                 <input 

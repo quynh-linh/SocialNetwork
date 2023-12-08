@@ -14,7 +14,7 @@ class CreateStories extends Component {
         stories: [
           {
             id: 'ramon',
-            photo:'https://firebasestorage.googleapis.com/v0/b/socialnerwork-ac060.appspot.com/o/stories%2F361848543_1651168908703220_1686531172149351760_n.jpg?alt=media&token=2ffce93e-67e8-42fd-a5e1-61a5765ab941',
+            photo:'https://firebasestorage.googleapis.com/v0/b/recruit-website-d9181.appspot.com/o/images%2Fassests%2F361848543_1651168908703220_1686531172149351760_n.jpg?alt=media&token=203eb757-8cfd-492d-861a-32a32a4bff5c',
             name: 'Quan Văn Mạnh',
             time: timestamp(),
             items: [
@@ -54,28 +54,8 @@ class CreateStories extends Component {
             ]
           },
           {
-            id: 'gorillaz',
-            photo:
-              'https://firebasestorage.googleapis.com/v0/b/socialnerwork-ac060.appspot.com/o/stories%2F341505819_749530289956789_5917805846700148747_n.jpg?alt=media&token=eead41ba-5e4a-4690-a539-02433f0c1456',
-            name: 'Nguyễn Ngọc Đính',
-            time: timestamp(),
-            items: [
-              {
-                id: 'gorillaz-1',
-                type: 'photo',
-                length: 3,
-                src: 'https://firebasestorage.googleapis.com/v0/b/socialnerwork-ac060.appspot.com/o/stories%2F315393913_1303793333533035_823784327376878651_n.jpg?alt=media&token=dab91701-9c68-4d98-9c05-6f8452598c90',
-                preview:
-                  'https://firebasestorage.googleapis.com/v0/b/socialnerwork-ac060.appspot.com/o/stories%2F315393913_1303793333533035_823784327376878651_n.jpg?alt=media&token=dab91701-9c68-4d98-9c05-6f8452598c90',
-                link: '',
-                linkText: false,
-                time: timestamp()
-              }
-            ]
-          },
-          {
             id: 'ladygaga',
-            photo:'https://firebasestorage.googleapis.com/v0/b/socialnerwork-ac060.appspot.com/o/stories%2F396500808_3453858458186603_6186985699583249971_n.jpg?alt=media&token=cb2f4863-8d55-42bb-b9da-09ca6b019266',
+            photo:'https://firebasestorage.googleapis.com/v0/b/recruit-website-d9181.appspot.com/o/images%2Fassests%2F361848543_1651168908703220_1686531172149351760_n.jpg?alt=media&token=203eb757-8cfd-492d-861a-32a32a4bff5c',
             name: 'Kiều My',
             time: timestamp(),
             items: [
@@ -83,9 +63,9 @@ class CreateStories extends Component {
                 id: 'ladygaga-1',
                 type: 'photo',
                 length: 5,
-                src: 'https://firebasestorage.googleapis.com/v0/b/socialnerwork-ac060.appspot.com/o/stories%2F61901520_2234092053496589_4430612769913438208_n.jpg?alt=media&token=fff5db91-df7c-4e07-8f94-913f1279ea5b',
+                src: 'https://firebasestorage.googleapis.com/v0/b/recruit-website-d9181.appspot.com/o/images%2Fassests%2F361848543_1651168908703220_1686531172149351760_n.jpg?alt=media&token=203eb757-8cfd-492d-861a-32a32a4bff5c',
                 preview:
-                  'https://firebasestorage.googleapis.com/v0/b/socialnerwork-ac060.appspot.com/o/stories%2F61901520_2234092053496589_4430612769913438208_n.jpg?alt=media&token=fff5db91-df7c-4e07-8f94-913f1279ea5b',
+                  'https://firebasestorage.googleapis.com/v0/b/recruit-website-d9181.appspot.com/o/images%2Fassests%2F361848543_1651168908703220_1686531172149351760_n.jpg?alt=media&token=203eb757-8cfd-492d-861a-32a32a4bff5c',
                 link: '',
                 linkText: false,
                 time: timestamp()
@@ -106,7 +86,7 @@ class CreateStories extends Component {
           {
             id: 'starboy',
             photo:
-              'https://firebasestorage.googleapis.com/v0/b/socialnerwork-ac060.appspot.com/o/stories%2F324501733_3324902007765032_4557991241711936971_n.jpg?alt=media&token=f130deaf-6945-44d1-ac40-79da0b167642',
+              'https://firebasestorage.googleapis.com/v0/b/recruit-website-d9181.appspot.com/o/images%2Fassests%2F361848543_1651168908703220_1686531172149351760_n.jpg?alt=media&token=203eb757-8cfd-492d-861a-32a32a4bff5c',
             name: 'Kim Yến',
             time: timestamp(),
             items: [
@@ -114,9 +94,9 @@ class CreateStories extends Component {
                 id: 'starboy-1',
                 type: 'photo',
                 length: 5,
-                src: 'https://firebasestorage.googleapis.com/v0/b/socialnerwork-ac060.appspot.com/o/stories%2Fb9023e4593a43afa63b5.jpg?alt=media&token=383b6163-15d9-4bfc-872d-2f0e5a986ab6',
+                src: 'https://firebasestorage.googleapis.com/v0/b/recruit-website-d9181.appspot.com/o/images%2Fassests%2F361848543_1651168908703220_1686531172149351760_n.jpg?alt=media&token=203eb757-8cfd-492d-861a-32a32a4bff5c',
                 preview:
-                  'https://firebasestorage.googleapis.com/v0/b/socialnerwork-ac060.appspot.com/o/stories%2Fb9023e4593a43afa63b5.jpg?alt=media&token=383b6163-15d9-4bfc-872d-2f0e5a986ab6',
+                  'https://firebasestorage.googleapis.com/v0/b/recruit-website-d9181.appspot.com/o/images%2Fassests%2F361848543_1651168908703220_1686531172149351760_n.jpg?alt=media&token=203eb757-8cfd-492d-861a-32a32a4bff5c',
                 link: '',
                 linkText: false,
                 time: timestamp()
@@ -126,7 +106,7 @@ class CreateStories extends Component {
           {
             id: 'riversquomo',
             photo:
-              'https://firebasestorage.googleapis.com/v0/b/socialnerwork-ac060.appspot.com/o/stories%2F191059187_1248722125584343_3739672310372904470_n.jpg?alt=media&token=34ad9850-647b-45d9-a4ba-379735926dde',
+              'https://firebasestorage.googleapis.com/v0/b/recruit-website-d9181.appspot.com/o/images%2Fassests%2F361848543_1651168908703220_1686531172149351760_n.jpg?alt=media&token=203eb757-8cfd-492d-861a-32a32a4bff5c',
             name: 'Quỳnh Linh',
             time: timestamp(),
             items: [
@@ -134,9 +114,9 @@ class CreateStories extends Component {
                 id: 'riverscuomo-1',
                 type: 'photo',
                 length: 10,
-                src: 'https://firebasestorage.googleapis.com/v0/b/socialnerwork-ac060.appspot.com/o/stories%2F326732207_694496359014332_8815794986923226733_n.jpg?alt=media&token=028969b8-fd39-4163-b8ce-2ad37ddf7c9e',
+                src: 'https://firebasestorage.googleapis.com/v0/b/recruit-website-d9181.appspot.com/o/images%2Fassests%2F361848543_1651168908703220_1686531172149351760_n.jpg?alt=media&token=203eb757-8cfd-492d-861a-32a32a4bff5c',
                 preview:
-                  'https://firebasestorage.googleapis.com/v0/b/socialnerwork-ac060.appspot.com/o/stories%2F326732207_694496359014332_8815794986923226733_n.jpg?alt=media&token=028969b8-fd39-4163-b8ce-2ad37ddf7c9e',
+                  'https://firebasestorage.googleapis.com/v0/b/recruit-website-d9181.appspot.com/o/images%2Fassests%2F361848543_1651168908703220_1686531172149351760_n.jpg?alt=media&token=203eb757-8cfd-492d-861a-32a32a4bff5c',
                 link: '',
                 linkText: false,
                 time: timestamp()

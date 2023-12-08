@@ -14,8 +14,10 @@ function CreatePost({onShow=undefined}) {
     }
     return ( 
         <div className={cx('wrapper','w-full')}>
-            <div className={cx('wrapper__inputPost','flex')}>
-                <span className={cx('wrapper__inputPost-img','')}><img src={nameUrlImageUser} className={cx('w-20 h-20 rounded-full','selection:')} alt="User Post"/></span>
+            <div className={cx('wrapper__inputPost','flex items-center')}>
+                <span className={cx('wrapper__inputPost-img','')}>
+                    <img src={nameUrlImageUser} className={cx('w-20 h-20 rounded-full object-cover')} alt="User Post"/>
+                </span>
                 <input 
                     className={cx('bg-background','wrapper__inputPost-input')} 
                     type="text" 

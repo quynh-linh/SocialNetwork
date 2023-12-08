@@ -29,7 +29,7 @@ public interface MediaRepository extends JpaRepository<Media,Long> {
     @Modifying
     @Transactional
     @Query(value = "DELETE FROM media WHERE id IN ?1", nativeQuery = true)
-    void deleteMediaOfPost(List<String> mediaId);
+    void deleteMediaOfPost(List<Long> mediaId);
 
 
     // update media

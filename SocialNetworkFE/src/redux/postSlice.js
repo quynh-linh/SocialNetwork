@@ -61,6 +61,25 @@ const addPosts = createAsyncThunk('addPosts',async(body)=> {
     }
 });
 
+// HANDLE DELETE POST TO DB
+const deletePost = createAsyncThunk('deletePost',async(body)=> {
+    try {
+        const {userId,postId} = body
+        const res = await fetch(URL_API + `api/v1/post/deletePost?postId=${postId}&&userId=${userId}`, {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        });
+        const data = await res.json();
+        return data;
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        throw error;
+    }
+});
+
 // HANDLE ADD POST MEDIA TO DB
 const addPostMedia = createAsyncThunk('addPostMedia',async(body)=> {
     try {
@@ -99,12 +118,38 @@ const postSlice = createSlice({
         builder.addCase(addPosts.rejected,(state,action) => {
             state.isLoading = true;
         });
+        // ================= DELETE POST =================
+        builder.addCase(deletePost.pending,(state,action) => {
+            state.isLoading = true;
+        });
+        builder.addCase(deletePost.fulfilled,(state,action) => {
+            const { message } = action.payload;
+            console.log(action.payload);
+            state.msg = message;
+            state.isLoading = false;
+        });
+        builder.addCase(deletePost.rejected,(state,action) => {
+            state.isLoading = true;
+        });
+        // ================= GET LIST POST BY USER ID =================
+        builder.addCase(getListPostByUserID.pending,(state,action) => {
+            state.isLoading = true;
+        });
+        builder.addCase(getListPostByUserID.fulfilled,(state,action) => {
+            const { message } = action.payload;
+            state.msg = message;
+            state.isLoading = false;
+        });
+        builder.addCase(getListPostByUserID.rejected,(state,action) => {
+            state.isLoading = true;
+        });
         // ================= GET LIST POST =================
         builder.addCase(getListPost.pending,(state,action) => {
             state.isLoading = true;
         });
         builder.addCase(getListPost.fulfilled,(state,action) => {
             const { message } = action.payload;
+            console.log(message);
             state.msg = message;
             state.isLoading = false;
         });
@@ -119,6 +164,8 @@ export {
     addPosts,
     // ADD POST MEDIA
     addPostMedia,
+    // DELETE POST
+    deletePost,
     // GET LIST POST
     getListPost,
     // GET LIST POST BY USER ID

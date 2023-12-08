@@ -37,7 +37,7 @@ function HomeProfile() {
         } else {
             setValueMessageGetList("");
         }
-    },[state.msg]);
+    },[state]);
 
     return (  
         <div className={cx('wrapper','flex')} >
@@ -163,23 +163,28 @@ function HomeProfile() {
                 <div className={cx('wrapper__right-createPost','bg-sidebar')}>
                     <CreatePost onShow={(e) => setIsShowCreatePost(e)}/>
                 </div>
-                <div>
-                    {
-                        valueMessageGetList === "No data" ?
-                            <h1>Chưa có bài viết nào</h1>
-                            : (listPostsByUserId.length > 0 ? listPostsByUserId.map((item) => {
-                                return (
-                                    <div key={item.id} className="mt-6">
-                                        <Post onShowBox={(e) => setIsShowBoxPost(e)}  data={item}/>
-                                    </div>
-                                )
-                            }) : <div className="mt-8"><Loader/></div>)
-                    }
-                </div>
+                {
+                    valueMessageGetList === "No data" ?
+                        <div className="bg-sidebar shadow-bsd-bottom text-center rounded-lg">
+                            <h1 className="text-color-text font-semibold text-2xl py-4">Chưa có bài viết nào</h1>
+                        </div>
+                        : (listPostsByUserId.length > 0 ? listPostsByUserId.map((item) => {
+                            return (
+                                <div key={item.id} className="mt-6">
+                                    <Post obCloseBox={isShowBoxPost} onShowBox={(e) => setIsShowBoxPost(e)}  data={item}/>
+                                </div>
+                            )
+                        }) : <div className="mt-8"><Loader/></div>)
+                }
                 {/* SHOW CREATE BOX  */}
                 {isShowCreatePost ? <CreatePostWrapper closeIsShow={(e) => setIsShowCreatePost(e)} isShow={isShowCreatePost} onShow={(e) => setIsShowCreatePost(e)}/> : ''}
                 {/* SHOW BOX POST */}
-                { isShowBoxPost ? <BoxPostModal closeIsShow={(e) => setIsShowBoxPost(e)} data={isShowBoxPost}/> : ""}
+                { isShowBoxPost ? 
+                    <BoxPostModal 
+                        closeIsShow={(e) => setIsShowBoxPost({...isShowBoxPost,isShow : e})} 
+                        data={isShowBoxPost}
+                    /> 
+                : ""}
             </div>
         </div>
     );

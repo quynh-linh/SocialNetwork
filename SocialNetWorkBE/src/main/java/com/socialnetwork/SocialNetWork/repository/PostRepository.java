@@ -74,7 +74,7 @@ public interface PostRepository extends JpaRepository<Post,Long> {
     @Modifying
     @Transactional
     @Query(value = "DELETE FROM posts WHERE id = ?1 AND user_id = ?2", nativeQuery = true)
-    void deletePostByUser(String postId, String userId);
+    void deletePostByUser(int postId, String userId);
 
     // update post
     @Modifying

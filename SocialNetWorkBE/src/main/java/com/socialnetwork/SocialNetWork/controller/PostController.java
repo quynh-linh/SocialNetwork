@@ -78,23 +78,22 @@ public class PostController {
 
     // delete post
     @GetMapping("/deletePost")
-    public ResponseEntity<?> deletePost(@RequestBody String body){
+    public ResponseEntity<?> deletePost(@RequestParam String postId , @RequestParam String userId){
         try {
-            String postId =ConvertJSON.converJsonToString(body,"postId");
-            String userId = ConvertJSON.converJsonToString(body,"userId");
             if(postId.isEmpty()){
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("PostId not exits!");
             }
             if(userId.isEmpty()){
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("UserId not exits");
             }
-            List<String> mediaId = postMediaService.getListMediaIdByPost(postId);
-            if(!mediaId.isEmpty()){
-                postMediaService.deletePostMediaByPost(postId);
+            int postIDConvert = Integer.parseInt(postId);
+            List<Long> mediaId = postMediaService.getListMediaIdByPost(postIDConvert);
+            if(mediaId != null){
+                postMediaService.deletePostMediaByPost(postIDConvert);
                 mediaService.deleteMediaOfPost(mediaId);
             }
-            postService.deletePostByUser(postId,userId);
-            return ResponseEntity.status(HttpStatus.OK).body("Delete success!");
+            postService.deletePostByUser(postIDConvert,userId);
+            return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Delete success!"));
         }catch (Exception e){
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error occurred");
         }
