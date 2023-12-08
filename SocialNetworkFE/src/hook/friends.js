@@ -34,14 +34,34 @@ function useFriends(receiverId,senderId) {
             const dateTime = currentTime();
             dispatch(updateStatusByFriends({
                 title : 'cancel',
-                receiverId : receiverId,
-                senderId : senderId,
+                receiverId: senderId,
+                senderId: receiverId,
                 updateAt: '',
                 delectedAt: dateTime
             })).then((item) => {
                 const msg = item.payload && item.payload.message ? item.payload.message : '';
                 if(msg === "success update"){
                     const update = {...valueResultRequest , id : receiverId, name : 'cancel'};
+                    setValueResultRequest(update);
+                }
+            })
+        }
+    };
+
+    // HANDLE CLICK EXITS REQUEST
+    const handleExitsRequest = (reId,seId) => {
+        if(reId !== null && seId !== null){
+            const dateTime = currentTime();
+            dispatch(updateStatusByFriends({
+                title : 'cancel',
+                receiverId: reId,
+                senderId: seId,
+                updateAt: '',
+                delectedAt: dateTime
+            })).then((item) => {
+                const msg = item.payload && item.payload.message ? item.payload.message : '';
+                if(msg === "success update"){
+                    const update = {...valueResultRequest , id : reId, name : 'cancel'};
                     setValueResultRequest(update);
                 }
             })
@@ -71,7 +91,8 @@ function useFriends(receiverId,senderId) {
         handleClickCancelRequest,
         handleClickConfirmRequest,
         valueResultRequest,
-        handleAddFriendsRequest
+        handleAddFriendsRequest,
+        handleExitsRequest
     };
 }
 export default useFriends;

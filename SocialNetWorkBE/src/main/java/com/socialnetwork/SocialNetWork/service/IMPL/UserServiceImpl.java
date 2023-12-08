@@ -217,10 +217,11 @@ public class UserServiceImpl implements UserService {
     public String updateStatusFriend(String updateAt , String delectedAt,String senderId , String receiverID , String title) {
         try{
             if(!receiverID.isEmpty() && !senderId.isEmpty()){
-                int updateStatusByFriends;
+                int updateStatusByFriends = 0;
                 if(title.equals("confirm")){
                     updateStatusByFriends = userRepository.updateStatusByFriends(2,updateAt, null, senderId, receiverID);
-                } else {
+                } else if(title.equals("cancel")) {
+                    System.err.println(title);
                     updateStatusByFriends = userRepository.updateStatusByFriends(3, null,delectedAt,senderId, receiverID);
                 }
                 if(updateStatusByFriends > 0){

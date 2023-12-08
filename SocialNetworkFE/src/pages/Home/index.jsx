@@ -24,10 +24,10 @@ function Home() {
 
     // HANDLE GET LIST POST
     useEffect(() => {
-        if(valueIdUser !== undefined){
+        if(valueIdUser !== undefined && !isShowCreatePost){
             handleGetListPost(valueIdUser);
         }
-    },[valueIdUser]);
+    },[valueIdUser,isShowCreatePost]);
 
     // SET VALUE MESSAGE
     useEffect(() => {
@@ -38,15 +38,6 @@ function Home() {
         }
     },[state.msg]);
 
-    // HANDLE ADD CLASS IN DEFAULT LAYOUT
-    useEffect(() => {
-        const query = document.querySelector("#defaultLayout");
-        if(isShowCreatePost) {
-            query.classList.add("overflow-hidden");
-        } else {
-            query.classList.remove("overflow-hidden");
-        }
-    },[isShowCreatePost])
     return (
         <div className={cx('wrapper')}>
             <div className="flex items-center">

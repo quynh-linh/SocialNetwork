@@ -53,7 +53,6 @@ function useUserToken() {
                         createdAt: createdAt,
                         title: 'Avatar',
                     }));
-                    console.log(respAddMedia);
                     const msgAddMedia = respAddMedia.payload ? respAddMedia.payload : null;
                     if(msgAddMedia !== null && msgAddMedia.mediaUrl !== ''){
                         const respUpdate = await dispatch(updateImageUserDB({

@@ -64,8 +64,8 @@ const addPosts = createAsyncThunk('addPosts',async(body)=> {
 // HANDLE DELETE POST TO DB
 const deletePost = createAsyncThunk('deletePost',async(body)=> {
     try {
-        const {userId,postId} = body
-        const res = await fetch(URL_API + `api/v1/post/deletePost?postId=${postId}&&userId=${userId}`, {
+        const {userId,postId} = body;
+        const res = await fetch(URL_API + `api/v1/post/deletePost?postID=${postId}&&userId=${userId}`, {
             method: 'GET',
             headers: {
                 'Accept': 'application/json',

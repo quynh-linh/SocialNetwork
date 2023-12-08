@@ -31,12 +31,11 @@ function BoxSearch({items=[],children,title = '',state = false,isLoading = true}
                         {
                             items.length <= 0 ? (
                                 <h1>Không có tìm kiếm nào gần đây</h1>
-                            ) : ''
-                        }
-                        {
-                            !isLoading ?
-                                showFlyOutsMenuitem()
-                            : <Loader/>
+                            ) : (
+                                !isLoading ?
+                                    showFlyOutsMenuitem()
+                                : <Loader/>
+                            )
                         }
                     </PopperWrapper>
                 </div>
