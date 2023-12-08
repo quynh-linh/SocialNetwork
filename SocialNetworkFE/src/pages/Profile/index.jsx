@@ -6,16 +6,44 @@ import { faCamera, faPen } from "@fortawesome/free-solid-svg-icons";
 import { Link, useLocation } from "react-router-dom";
 import { DATA_MENU_CHILDREN_PROFILE } from "~/const/data";
 import useUserToken from "~/hook/user";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import { getDetailUserById } from "~/redux/authSlice";
 function Profile({children}) {
     const cx = classNames.bind(styles);
+    const [valueObDetailUser,setValueObDetailUser] = useState({});
     const location = useLocation();
-    const {nameUrlImageUser,updateImageUser} = useUserToken();
-    
+    const dispatch = useDispatch();
+    const {updateImageUser} = useUserToken();
+
+    //
+    const { search } = useLocation();
+    const queryParams = new URLSearchParams(search);
+    const id = queryParams.get('id');
+
+    //
     const state = useSelector(state => state.auth);
+    
+
     const handleOnChangeImageUpLoad = (e) => {
         updateImageUser(e.target.files[0]);
     } 
+
+    //
+    useEffect(() => {
+        if (id !== null) {
+            dispatch(getDetailUserById({ id }));
+        }
+    }, [id]);
+    
+    //
+    useEffect(() => {
+        const isObDetailNotEmpty = state?.obDetail && Object.keys(state.obDetail).length > 0;
+        if (isObDetailNotEmpty) {
+            setValueObDetailUser(state.obDetail);
+        }
+    }, [state]);
+    
 
     return ( 
         <div className={cx('wrapper','w-full h-full')}>
@@ -30,7 +58,7 @@ function Profile({children}) {
             <div className={cx('wrapper__detail','bg-sidebar')}>
                 <div className={cx('wrapper__detail-info','flex')}>
                     <div className={cx('wrapper__detail-info-chooseImg')}>
-                        <img className={cx('wrapper__detail-info-chooseImg-img')} src={nameUrlImageUser} alt="Choose User"/>
+                        <img className={cx('wrapper__detail-info-chooseImg-img')} src={valueObDetailUser.image} alt="Choose User"/>
                         <input onChange={(e) => handleOnChangeImageUpLoad(e)} type="file" id="ip-chooseFile" className="hidden"></input>
                         <label htmlFor="ip-chooseFile">
                             <FontAwesomeIcon 
@@ -42,7 +70,7 @@ function Profile({children}) {
                     <div className={cx('wrapper__detail-info-box','flex items-center justify-between')}>
                         <div className={cx('','flex items-center ')}>
                             <div className={cx('text-white pl-5')}>
-                                <h1 className={cx('wrapper__detail-info-box-name')}>{state.user && (state.user.firstName !== '' && state.user.lastName !== '') ? state.user.firstName + " " + state.user.lastName : ''}</h1>
+                                <h1 className={cx('wrapper__detail-info-box-name')}>{valueObDetailUser?.firstName !== '' && valueObDetailUser?.lastName !== '' ? valueObDetailUser.firstName + " " + valueObDetailUser.lastName : ''}</h1>
                                 <span className={cx('wrapper__detail-info-box-quantityFriends','text-color-text')}>269 bạn bè</span>
                             </div>
                         </div>

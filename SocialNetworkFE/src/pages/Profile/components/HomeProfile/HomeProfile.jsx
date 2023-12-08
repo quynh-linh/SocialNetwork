@@ -5,39 +5,58 @@ import { DATA__PERSONAL__INFORMATION as personalInfo } from "~/const/data";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import {Button as ButtonEdit} from "~/components/button/button";
-import { Link } from "react-router-dom";
+import { Link ,useLocation } from "react-router-dom";
 import CreatePost from "~/components/form/CreatePost/CreatePost";
 import { useEffect, useState} from "react";
 import useUserToken from "~/hook/user";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Loader from "~/components/loader/loader";
 import usePosts from "~/hook/post";
 import BoxPostModal from "~/components/Popper/BoxPost";
 import CreatePostWrapper from "~/components/Popper/CreatePostWrapper";
+import { getDetailUserById } from "~/redux/authSlice";
 function HomeProfile() {
     const cx = classNames.bind(styles);
     const [valueMessageGetList,setValueMessageGetList] = useState('');
-    const {listMediaToUser,listUserFriends,valueIdUser,getListMediaToUser,getListFriendsToUser} = useUserToken();
-    const {handleGetListPostByUserId,listPostsByUserId} = usePosts();
+    const [valueObDetailUser,setValueObDetailUser] = useState({});
     const [isShowCreatePost,setIsShowCreatePost] = useState(false);
-    const state = useSelector(state => state.post);
     const [isShowBoxPost,setIsShowBoxPost] = useState({});
+    const dispatch = useDispatch();
+    const statePost = useSelector(state => state.post);
+    const stateAuth = useSelector(state => state.auth);
 
+    const { search } = useLocation();
+    const queryParams = new URLSearchParams(search);
+    const id = queryParams.get('id');
+
+    const {listMediaToUser,listUserFriends,getListMediaToUser,getListFriendsToUser} = useUserToken();
+    const {handleGetListPostByUserId,listPostsByUserId} = usePosts();
+    
+    //
     useEffect(() => {
-        if(valueIdUser !== undefined){
-            getListMediaToUser(6);
-            getListFriendsToUser(50);
-            handleGetListPostByUserId(valueIdUser);
+        if(id !== null){
+            getListMediaToUser(id,6);
+            getListFriendsToUser(id,50);
+            handleGetListPostByUserId(id);
+            dispatch(getDetailUserById({ id }));
         }
-    },[valueIdUser]);
+    },[id]);
 
     useEffect(() => {
-        if(state.msg === "No data"){
-            setValueMessageGetList(state.msg);
+        if(statePost.msg === "No data"){
+            setValueMessageGetList(statePost.msg);
         } else {
             setValueMessageGetList("");
         }
-    },[state]);
+    },[statePost]);
+ 
+    //
+    useEffect(() => {
+        const isObDetailNotEmpty = stateAuth?.obDetail && Object.keys(stateAuth.obDetail).length > 0;
+        if (isObDetailNotEmpty) {
+            setValueObDetailUser(stateAuth.obDetail);
+        }
+    }, [stateAuth]);
 
     return (  
         <div className={cx('wrapper','flex')} >
@@ -161,7 +180,7 @@ function HomeProfile() {
             </div>
             <div className={cx('wrapper__right','w-4/6')}>
                 <div className={cx('wrapper__right-createPost','bg-sidebar')}>
-                    <CreatePost onShow={(e) => setIsShowCreatePost(e)}/>
+                    <CreatePost inProfile={valueObDetailUser}  onShow={(e) => setIsShowCreatePost(e)}/>
                 </div>
                 {
                     valueMessageGetList === "No data" ?

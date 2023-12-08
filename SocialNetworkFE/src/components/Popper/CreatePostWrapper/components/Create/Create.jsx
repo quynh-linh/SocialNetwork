@@ -10,6 +10,8 @@ import Tippy from "@tippyjs/react";
 import currentTime from "~/const/currentTime";
 import { addMedia } from "~/redux/mediaSlice";
 import { addPostMedia, addPosts } from "~/redux/postSlice";
+import FountainLoader from "~/components/loader/components/fountain";
+import Loader from "~/components/loader/loader";
 function BoxCreate({onShow=undefined,forwardTo=undefined,valueDecentralization=''}) {
     const cx = classNames.bind(styles);
     const {nameUrlImageUser} = useUserToken();
@@ -17,7 +19,7 @@ function BoxCreate({onShow=undefined,forwardTo=undefined,valueDecentralization='
     const textareaRef = useRef();
     const [onChangeValuePost,setOnChangeValuePost] = useState('');
     const [isShowUploadPhoto,setIsShowUploadPhoto] = useState(false);
-    const [isLoading,setIsLoading] = useState(false);
+    const [isLoading,setIsLoading] = useState(true);
     const [pickListPhoto,setPickListPhoto] = useState([]);
     const {valueIdUser,upLoadFileToFireBase} = useUserToken();
     const dispatch = useDispatch();
@@ -148,6 +150,7 @@ function BoxCreate({onShow=undefined,forwardTo=undefined,valueDecentralization='
         const createdAt = currentTime();
         const privacy = getIdDecentralization(valueDecentralization);
         handleAddPost(createdAt,onChangeValuePost,valueIdUser,privacy).then((object) => {
+            setIsLoading(false);
             if(object && object.id > 0){
                 if(pickListPhoto.length > 0){
                     pickListPhoto.map((item) => {
@@ -156,8 +159,8 @@ function BoxCreate({onShow=undefined,forwardTo=undefined,valueDecentralization='
                                 handleAddMedia(valueIdUser,url,createdAt,item.type).then((media) => {
                                     if(media && media.id > 0){
                                         handleAddPostMedia(media.id,object.id).then((msg) => {
-                                            console.log(msg);
                                             if(msg && msg.message && msg.message === "success"){
+                                                setIsLoading(true);
                                                 onShow(false);
                                             }
                                         })
@@ -167,6 +170,7 @@ function BoxCreate({onShow=undefined,forwardTo=undefined,valueDecentralization='
                         });
                     })
                 } else {
+                    setIsLoading(true);
                     onShow(false);
                 }
             }     
@@ -193,7 +197,7 @@ function BoxCreate({onShow=undefined,forwardTo=undefined,valueDecentralization='
                 </div>
                 <div className={cx('wrapper__container-content','p-5')}>
                     <div className="flex items-center">
-                        <img src={nameUrlImageUser} alt="user" className={cx('w-16 h-16 rounded-full')}/>
+                        <img src={nameUrlImageUser} alt="user" className={cx('w-16 h-16 rounded-full object-cover')}/>
                         <div className={cx('ml-4')}>
                             <h1>{state.user.firstName +" " + state.user.lastName}</h1>
                             <div
@@ -301,10 +305,12 @@ function BoxCreate({onShow=undefined,forwardTo=undefined,valueDecentralization='
                 <div className={cx('wrapper__container-content-btn')}>
                     <button
                         type="submit"
-                        className={cx(onChangeValuePost !== '' ? 'wrapper__container-content-btn-btnSelected' : 'wrapper__container-content-btn-btnUnSelected',)}
+                        className={cx(onChangeValuePost !== '' ? 
+                                (!isLoading ? 'wrapper__container-content-btn-btnUnSelected' : 'wrapper__container-content-btn-btnSelected') 
+                            : 'wrapper__container-content-btn-btnUnSelected',)}
                         onClick={handleClickUpPosts}
                     >
-                        Đăng
+                        {isLoading ? 'Đăng' : <Loader/>}
                     </button>
                 </div>
             </div>

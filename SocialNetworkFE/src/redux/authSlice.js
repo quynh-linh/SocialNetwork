@@ -14,6 +14,8 @@ const  initialState = {
     isAuthenticated: false,
     isLoading: false,
     msg:'',
+    arrSearch: [],
+    obDetail: {}
 }
 
 // HANDLE REGISTER USER
@@ -326,8 +328,20 @@ const authSlice = createSlice({
         });
         builder.addCase(getListUserBySearch.fulfilled,(state,action) => {
             state.isLoading = false;
+            state.arrSearch = action.payload || []; // Use an empty array if action.payload is undefined
         });
         builder.addCase(getListUserBySearch.rejected,(state,action) => {
+            state.isLoading = true;
+        });
+        // ================= GET DETAIL USER =================
+        builder.addCase(getDetailUserById.pending,(state,action) => {
+            state.isLoading = true;
+        });
+        builder.addCase(getDetailUserById.fulfilled,(state,action) => {
+            state.isLoading = false;
+            state.obDetail = action.payload || null; // Use an empty array if action.payload is undefined
+        });
+        builder.addCase(getDetailUserById.rejected,(state,action) => {
             state.isLoading = true;
         });
     }

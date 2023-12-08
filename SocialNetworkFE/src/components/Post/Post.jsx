@@ -15,10 +15,11 @@ import FlyOutsLike from "../Popper/FlyOutsLike";
 import ShowFirstComment from "../form/Comment/components/ShowFirstComment";
 import ShowListComments from "../form/Comment/components/ShowListComments";
 import FlyOutsPost from "../Popper/FlyOutsPost";
-
+import { useNavigate } from "react-router-dom";
 function Post({data,onShowBox=undefined,isShowBox =false, obMessageAdd = undefined,obCloseBox=undefined}) {
     const cx = classNames.bind(styles);
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const [valueFirstComment,setValueFirstComment] = useState([]);
     const [valueListUserLiked,setValueListUserLiked] = useState([]);
     const [valueMessageAddComments,setValueMessageAddComments] = useState('');
@@ -30,6 +31,12 @@ function Post({data,onShowBox=undefined,isShowBox =false, obMessageAdd = undefin
     const [isOpenLike,setOpenLike] = useState(false);
     const [isOpenUpdatePost,setUpdatePost] = useState(false);
     const {valueIdUser} = useUserToken();
+
+
+    // HANDLE FO WARD DETAIL PROFILE USER
+    const handelClickFoWarDetailProfileUser = () => {
+        navigate(`/profile?id=${data.userID}`);
+    };
 
     // HANDLE GET LIST COMMENTS
     const handleGetListComments = async (id) => {
@@ -188,12 +195,23 @@ function Post({data,onShowBox=undefined,isShowBox =false, obMessageAdd = undefin
             <div className={cx('wrapper__header')}>
                 <div className={cx('wrapper__header-info','flex items-center justify-between p-5')}>
                     <div className={cx('flex')}>
-                        <img className={cx('wrapper__header-info-img','w-20 h-20')}  src={data && data.avatarUser ? data.avatarUser : images.user} alt="POST USER"/>
+                        <img 
+                            className={cx('wrapper__header-info-img','w-20 h-20 object-cover')}  
+                            src={data?.avatarUser ? data.avatarUser : images.user} 
+                            alt="POST USER"
+                        />
                         <div className={cx('text-white pl-5')}>
                             <div className={cx('flex items-center')}>
-                                <span className={cx('wrapper__header-info-name','')}>{data && data.firstName && data.lastName ? data.firstName  + " " + data.lastName : ""}</span>
+                                <span 
+                                    onClick={handelClickFoWarDetailProfileUser}
+                                    className={cx('wrapper__header-info-name','hover:underline cursor-pointer')}
+                                >
+                                    {data?.firstName && data?.lastName ? data.firstName  + " " + data.lastName : ""}
+                                </span>
                                 <FontAwesomeIcon className={cx('wrapper__header-info-icon','w-3 h-3')} icon={faCircleDot}/>
-                                <span className={cx('wrapper__header-info-timePost','')}>{data && data.createdAt ? calculateTime(data.createdAt) : ""}</span>
+                                <span className={cx('wrapper__header-info-timePost','')}>
+                                    {data?.createdAt ? calculateTime(data.createdAt) : ""}
+                                </span>
                             </div>
                             <div className={cx('wrapper__header-info-jobAt','flex items-center mt-3')}>
                                 <div className="text-lg">Web Developer at Tp.Ho Chi Minh</div>
