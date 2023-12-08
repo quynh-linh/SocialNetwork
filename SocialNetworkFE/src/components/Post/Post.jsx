@@ -5,7 +5,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleDot, faComment, faEarthAmericas, faEllipsisVertical, faShare, faThumbsUp, faUserGroup } from "@fortawesome/free-solid-svg-icons";
 import Comment from "../form/Comment/Comment";
 import calculateTime from "~/const/calculateTime";
-import ShowComment from "../form/Comment/components/ShowComment";
 import { useDispatch} from "react-redux";
 import { useEffect, useState } from "react";
 import { getListCommentByPost, getTotalCommentByPost } from "~/redux/commentSlice";
@@ -13,29 +12,39 @@ import { addLikes, getLikeByPostId } from "~/redux/likePostSlice";
 import useUserToken from "~/hook/user";
 import currentTime from "~/const/currentTime";
 import FlyOutsLike from "../Popper/FlyOutsLike";
-function Post({data,onShowBox=undefined,isShowBox = false, message = ''}) {
+import ShowFirstComment from "../form/Comment/components/ShowFirstComment";
+import ShowListComments from "../form/Comment/components/ShowListComments";
+import FlyOutsPost from "../Popper/FlyOutsPost";
+
+function Post({data,onShowBox=undefined,isShowBox =false, obMessageAdd = undefined,obCloseBox=undefined}) {
     const cx = classNames.bind(styles);
     const dispatch = useDispatch();
     const [valueFirstComment,setValueFirstComment] = useState([]);
     const [valueListUserLiked,setValueListUserLiked] = useState([]);
     const [valueMessageAddComments,setValueMessageAddComments] = useState('');
     const [valueMessageGetLikes,setValueMessageGetLikes] = useState('');
+    const [valueMessageUpdateComment,setValueMessageUpdateComment] = useState('');
     const [valueTotalLike,setValueTotalLike] = useState('');
     const [valueTotalComments,setValueTotalComments] = useState(null);
     const [isCheckUserLiked,setCheckUserLiked] = useState(false);
     const [isOpenLike,setOpenLike] = useState(false);
+    const [isOpenUpdatePost,setUpdatePost] = useState(false);
     const {valueIdUser} = useUserToken();
 
     // HANDLE GET LIST COMMENTS
     const handleGetListComments = async (id) => {
-        return await dispatch(getListCommentByPost({
-            id: id,
-            limit: 100
-        })).then((item) => {
-            const ob = item && item.payload && !item.payload.message ? item.payload : null;
+        try {
+            const item = await dispatch(getListCommentByPost({
+                id: id,
+                limit: 100
+            }));
+    
+            const ob = item?.payload?.message ? null : item?.payload;
             setValueFirstComment(ob);
-        })
-    }
+        } catch (error) {
+            // Handle errors if necessary
+        }
+    };
 
     // HANDLE CLICK SHOW BOX POST
     const handleClickShowBoxPost = () => {
@@ -45,6 +54,11 @@ function Post({data,onShowBox=undefined,isShowBox = false, message = ''}) {
                 isShow: true
             });
         }
+    };
+
+    //
+    const handleCLickOpenUpdatePost = () => {
+        setUpdatePost(!isOpenUpdatePost);
     };
 
     // HANDLE ADD LIKES
@@ -123,12 +137,43 @@ function Post({data,onShowBox=undefined,isShowBox = false, message = ''}) {
         }
     },[]);
 
+    //
+    const handleReRenderComments = (messageObject) => {
+        if (messageObject?.data?.message === 'success') {
+            const { postId } = messageObject.data;
+            handleGetListComments(postId);
+            handleGetTotalLikesByPost(postId);
+            handleGetTotalCommentByPost(postId);
+        }
+    };
+    
     // RENDER GET LIST COMMENTS AGAIN WHEN MESSAGE === SUCCESS
     useEffect(() => {
-        if(valueMessageAddComments === "success" || message === "success"){
-            handleGetListComments(data.id);
+        handleReRenderComments(valueMessageAddComments);
+    }, [valueMessageAddComments]);
+    
+    // RE-UPDATE DATA WHEN ADD COMMENT IN BOX MODAL POST
+    useEffect(() => {
+        handleReRenderComments(obMessageAdd);
+    }, [obMessageAdd]);
+    
+
+    // RENDER GET LIST COMMENTS AGAIN WHEN MESSAGE === SUCCESS
+    useEffect(() => {
+        const { data } = valueMessageUpdateComment || {};
+        if (data?.message === "success") {
+            handleGetListComments(data.postId);
         }
-    },[valueMessageAddComments,message]);
+    }, [valueMessageUpdateComment]);
+
+    // RENDER GET LIST COMMENTS AGAIN WHEN MESSAGE === SUCCESS
+    useEffect(() => {
+        if (obCloseBox && !obCloseBox.isShow && obCloseBox.id) {
+            handleGetListComments(obCloseBox.id);
+            handleGetTotalLikesByPost(obCloseBox.id);
+            handleGetTotalCommentByPost(obCloseBox.id);
+        }
+    }, [obCloseBox]);
 
     // RENDER GET TOTAL LIKE BY POST ID
     useEffect(() => {
@@ -136,7 +181,7 @@ function Post({data,onShowBox=undefined,isShowBox = false, message = ''}) {
             handleGetTotalLikesByPost(data.id);
             handleGetTotalCommentByPost(data.id);
         }
-    },[data,valueIdUser,isCheckUserLiked])
+    },[data,valueIdUser,isCheckUserLiked]);
 
     return (
         <div className={cx('wrapper','bg-sidebar')}>
@@ -171,14 +216,23 @@ function Post({data,onShowBox=undefined,isShowBox = false, message = ''}) {
                             </div>
                         </div>
                     </div>
-                    <div className={cx('text-white')}>
-                        <FontAwesomeIcon icon={faEllipsisVertical}/>
-                    </div>
+                    {/* POPPER MENU POST */}
+                    <FlyOutsPost
+                        data={data}
+                        state={isOpenUpdatePost}
+                    >
+                        <div className={cx('text-white')} onClick={handleCLickOpenUpdatePost}>
+                            <FontAwesomeIcon icon={faEllipsisVertical}/>
+                        </div>
+                    </FlyOutsPost>
+                    
                 </div> 
                 <div className={cx('wrapper__content')}>
+                    {/* DESCRIPTIONS */}
                     <div className={cx('wrapper__content-des','p-5')}>
                         {data && data.content ? data.content : ""}
                     </div>
+                    {/* MEDIA */}
                     {
                         data && data.media ? (
                             <div className={cx('wrapper__content-imgPost',data.media.length === 1 ? 'grid-cols-1' : 'grid gap-4 grid-cols-2')}>
@@ -195,6 +249,7 @@ function Post({data,onShowBox=undefined,isShowBox = false, message = ''}) {
                             </div>
                         ) : ""
                     }
+                    {/* TOOL POST */}
                     <div className={cx('wrapper__content-interactWith','text-white flex items-center justify-between px-10 py-5')}>
                         <div className={cx('flex items-center')}>
                             <FlyOutsLike
@@ -225,9 +280,9 @@ function Post({data,onShowBox=undefined,isShowBox = false, message = ''}) {
                         <div className={cx('wrapper__content-interactWith-Share','flex items-center')}>
                             <FontAwesomeIcon icon={faShare}/>
                             <span className="pl-3">Chia sẻ</span>
-                            {/* <span  className={cx('wrapper__content-interactWith-Share-quantity','')}>(103)</span> */}
                         </div>
                     </div>
+                    {/* COMMENTS */}
                     { 
                         !isShowBox && valueFirstComment !== null && valueFirstComment.length >= 2 ? (
                         <div className={cx('wrapper__content-seeAll','text-start ml-5 mt-4 text-xl font-semibold hover:underline cursor-pointer ')}>
@@ -239,13 +294,23 @@ function Post({data,onShowBox=undefined,isShowBox = false, message = ''}) {
                         !isShowBox ? (
                             valueFirstComment !== null ? (
                                 <div className="p-5">
-                                    <ShowComment type="first" data={valueFirstComment[0]}/>
+                                    <ShowFirstComment 
+                                        onMessageUpdateShow={(e) =>setValueMessageUpdateComment(e)} 
+                                        data={valueFirstComment[0]}
+                                    />
                                 </div>
                             ) : ''
                         ) : (
                             <div className="p-5">
                                 {
-                                    Array.isArray(valueFirstComment) && valueFirstComment.map((item,index) => <ShowComment isShowBox={isShowBox} key={index} type="first" data={item}/>)
+                                    Array.isArray(valueFirstComment) && valueFirstComment.map((item,index) => 
+                                        <ShowListComments 
+                                            onMessageUpdateShow={(e) =>setValueMessageUpdateComment(e)} 
+                                            isShowBox={isShowBox} 
+                                            key={index} 
+                                            data={item}
+                                        />
+                                    )
                                 }
                             </div>
                         )
@@ -253,7 +318,11 @@ function Post({data,onShowBox=undefined,isShowBox = false, message = ''}) {
                     {
                         isShowBox ? '' : (
                             <div className={cx('wrapper__content-addComment','p-5')}>
-                                <Comment type="father" data={data} setMessage={(e) => setValueMessageAddComments(e)}/>
+                                <Comment 
+                                    type="father" 
+                                    data={data} 
+                                    setMessage={(e) => setValueMessageAddComments({...valueMessageAddComments, data: e})}
+                                />
                             </div>
                         )   
                     }

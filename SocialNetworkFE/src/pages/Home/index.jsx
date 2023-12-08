@@ -69,7 +69,11 @@ function Home() {
                             : (listPosts.length > 0 ? listPosts.map((item) => {
                                 return (
                                     <div key={item.id} className="mt-6">
-                                        <Post onShowBox={(e) => setIsShowBoxPost(e)}  data={item}/>
+                                        <Post 
+                                            onShowBox={(e) => setIsShowBoxPost(e)}  
+                                            data={item}
+                                            obCloseBox={isShowBoxPost}
+                                        />
                                     </div>
                                 )
                             }) : <div className="mt-8"><Loader/></div>)
@@ -78,7 +82,10 @@ function Home() {
             </div>
             {isShowCreatePost ? <CreatePostWrapper closeIsShow={(e) => setIsShowCreatePost(e)} isShow={isShowCreatePost} onShow={(e) => setIsShowCreatePost(e)}/> : ''}
             {/* SHOW BOX POST */}
-            { isShowBoxPost ? <BoxPostModal closeIsShow={(e) => setIsShowBoxPost(e)} data={isShowBoxPost}/> : ""}
+            <BoxPostModal 
+                closeIsShow={(e) => setIsShowBoxPost({...isShowBoxPost,isShow : e})}
+                data={isShowBoxPost}
+            />
         </div>
     );
 }

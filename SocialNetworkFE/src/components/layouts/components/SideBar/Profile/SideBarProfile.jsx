@@ -11,7 +11,9 @@ function SideBarProfile() {
         <div className={cx('bg-sidebar shadow-bsd-bottom','wrapper')}>
             <div className={cx('wrapper__profileUser')}>
                 <div className={cx('wrapper__profileUser-background')}>
-                    <div className={cx('wrapper__profileUser-background-avatar','rounded-full')}><img className={cx('w-28 h-28','rounded-full')} src={valueDetailUserById.image} alt="Profile User"/></div>
+                    <div className={cx('wrapper__profileUser-background-avatar','rounded-full')}>
+                        <img className={cx('w-28 h-28 rounded-full object-cover')} src={valueDetailUserById.image} alt="Profile User"/>
+                    </div>
                 </div>
                 <div className={cx('wrapper__profileUser-info','text-white text-center ')}>
                     <div className={cx('wrapper__profileUser-info-title','text-3xl font-semibold')}>{valueDetailUserById && valueDetailUserById.firstName + " " + valueDetailUserById.lastName}</div>

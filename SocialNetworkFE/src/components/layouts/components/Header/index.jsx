@@ -179,7 +179,7 @@ function Header() {
                         <div className={cx('header__Controls-User')} onClick={handleCLickOpenMenuUser}>
                             <img
                                 
-                                className={cx('header__Controls-User-img','h-16 w-16')}
+                                className={cx('header__Controls-User-img','h-16 w-16 object-cover')}
                                 src={nameUrlImageUser ? nameUrlImageUser : images.user}
                                 alt="user"
                             />

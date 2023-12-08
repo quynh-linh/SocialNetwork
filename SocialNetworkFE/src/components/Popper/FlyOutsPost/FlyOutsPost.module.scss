@@ -1,0 +1,22 @@
+.wrapper{
+    &__showUpdatePost{
+        position: relative;
+        &::before{
+            content: " ";
+            position: absolute;
+            width: 5px;
+            height: 5px;
+            top: -11px;
+            border-left: 0px solid transparent;
+            border-right: 10px solid transparent;
+            border-bottom: 12.6px solid white;
+        }
+    }
+}
+.content{
+    width: 150px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+    background: rgb(255 255 255 / 80%);
+}

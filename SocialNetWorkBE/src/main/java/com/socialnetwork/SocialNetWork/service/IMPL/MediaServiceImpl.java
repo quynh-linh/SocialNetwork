@@ -69,7 +69,7 @@ public class MediaServiceImpl implements MediaService {
 
     // delete media of post
     @Override
-    public void deleteMediaOfPost(List<String> mediaId){
+    public void deleteMediaOfPost(List<Long> mediaId){
         try {
             postRepository.deleteMediaOfPost(mediaId);
         }catch (DataAccessException e){

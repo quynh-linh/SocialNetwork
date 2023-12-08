@@ -8,7 +8,7 @@ const store = configureStore({
         auth : authSlice,
         friends: friendsSlice,
         comment: commentSlice,
-        post: postSlice
+        post: postSlice,
     }
 })
 export default store;
