@@ -25,6 +25,7 @@ function Post({data,onShowBox=undefined,isShowBox =false, obMessageAdd = undefin
     const [valueMessageAddComments,setValueMessageAddComments] = useState('');
     const [valueMessageGetLikes,setValueMessageGetLikes] = useState('');
     const [valueMessageUpdateComment,setValueMessageUpdateComment] = useState('');
+    const [valueMessageDeletePost,setValueMessageDeletePost] = useState({});
     const [valueTotalLike,setValueTotalLike] = useState('');
     const [valueTotalComments,setValueTotalComments] = useState(null);
     const [isCheckUserLiked,setCheckUserLiked] = useState(false);
@@ -123,7 +124,14 @@ function Post({data,onShowBox=undefined,isShowBox =false, obMessageAdd = undefin
             handleAddLikes(valueIdUser,data.id).then((msg) => {
                 if(msg && msg.payload){
                     const {message} = msg.payload;
-                    if(message === 'success' || message === 'unLike') handleGetTotalLikesByPost(data.id);
+                    if(message === 'success') {
+                        setCheckUserLiked(true);
+                        handleGetTotalLikesByPost(data.id);
+                    }
+                    if(message === 'unLike') {
+                        setCheckUserLiked(false);
+                        handleGetTotalLikesByPost(data.id);
+                    }
                 }
             })
         }
@@ -172,6 +180,12 @@ function Post({data,onShowBox=undefined,isShowBox =false, obMessageAdd = undefin
             handleGetListComments(data.postId);
         }
     }, [valueMessageUpdateComment]);
+
+    useEffect(() => {
+        if (valueMessageDeletePost?.state && valueMessageDeletePost?.postId) {
+            handleGetListComments(valueMessageDeletePost?.postId);
+        }
+    }, [valueMessageDeletePost]);
 
     // RENDER GET LIST COMMENTS AGAIN WHEN MESSAGE === SUCCESS
     useEffect(() => {
@@ -238,6 +252,7 @@ function Post({data,onShowBox=undefined,isShowBox =false, obMessageAdd = undefin
                     <FlyOutsPost
                         data={data}
                         state={isOpenUpdatePost}
+                        onDelete={(e) => setValueMessageDeletePost(e)}
                     >
                         <div className={cx('text-white')} onClick={handleCLickOpenUpdatePost}>
                             <FontAwesomeIcon icon={faEllipsisVertical}/>

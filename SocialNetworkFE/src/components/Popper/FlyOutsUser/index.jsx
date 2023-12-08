@@ -47,7 +47,7 @@ function FlyOutUser({state = false , data , anchor,onClose}) {
 
     const handleClickLogOut =() => {
         dispatch(logOut());
-        navigate('/register');
+        navigate('/login');
     };
 
     useEffect(() => {
@@ -71,7 +71,7 @@ function FlyOutUser({state = false , data , anchor,onClose}) {
                     <PopperWrapper>
                         <div className={cx('container',' p-5')}>
                             <div className={cx('container-header','flex items-center')}>
-                                <img src={data && data.image ? data.image : images.user} className={cx('w-20 h-20 rounded-full')} alt='user'/>
+                                <img src={data && data.image ? data.image : images.user} className={cx('w-20 h-20 rounded-full object-cover')} alt='user'/>
                                 <div className={cx('pl-5')}>
                                     <div className={cx('container-header-title')}>{data && data.firstName && data.lastName ? data.firstName + " " + data.lastName : ''}</div>
                                     <div className={cx('container-header-job','text-color-text')}>Web Developer</div>

@@ -14,7 +14,7 @@ function Profile({children}) {
     const [valueObDetailUser,setValueObDetailUser] = useState({});
     const location = useLocation();
     const dispatch = useDispatch();
-    const {updateImageUser} = useUserToken();
+    const {updateImageUser,valueIdUser} = useUserToken();
 
     //
     const { search } = useLocation();
@@ -75,10 +75,14 @@ function Profile({children}) {
                             </div>
                         </div>
                         <div className={cx('wrapper__detail-info-box-menu')}>
-                            <Link to='/settings' className={cx('wrapper__detail-info-box-editInfo','flex items-center')}>
+                        {
+                            valueObDetailUser?.id === valueIdUser && (
+                                <Link to='/settings' className={cx('wrapper__detail-info-box-editInfo','flex items-center')}>
                                 <FontAwesomeIcon icon={faPen}/>
                                 <button className={cx('pl-2')} type="button">Chỉnh sữa thông tin</button>
-                            </Link>
+                                </Link>
+                            )
+                        }
                         </div>
                     </div>
                 </div>

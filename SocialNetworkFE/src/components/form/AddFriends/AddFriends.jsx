@@ -27,7 +27,7 @@ function AddFriends({data,type='',senderId=''}) {
             </div>  
         ) : (
             <div className={cx('wrapper__request','flex')}>
-                <img className={cx('w-1/5 h-28 object-contain')} alt="user" src={data.image}/>
+                <img className={cx('w-1/5 h-28 object-cover rounded-xl')} alt="user" src={data.image}/>
                 <div className={cx('wrapper__request-content','w-4/5 px-1')}>
                     <div className={cx('flex items-center justify-between')}>
                         <h1 className={cx('w-9/12')}>{data.firstName + ' ' + data.lastName}</h1>

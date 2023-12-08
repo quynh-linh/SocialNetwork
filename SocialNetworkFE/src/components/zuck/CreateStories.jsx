@@ -55,7 +55,7 @@ class CreateStories extends Component {
           },
           {
             id: 'ladygaga',
-            photo:'https://firebasestorage.googleapis.com/v0/b/recruit-website-d9181.appspot.com/o/images%2Fassests%2F361848543_1651168908703220_1686531172149351760_n.jpg?alt=media&token=203eb757-8cfd-492d-861a-32a32a4bff5c',
+            photo:'https://firebasestorage.googleapis.com/v0/b/recruit-website-d9181.appspot.com/o/images%2Fassests%2F387802087_1831367780653105_6921781964985768751_n.jpg?alt=media&token=bd18b09b-df87-40a4-94d8-c5c69c703118',
             name: 'Kiều My',
             time: timestamp(),
             items: [
@@ -63,9 +63,9 @@ class CreateStories extends Component {
                 id: 'ladygaga-1',
                 type: 'photo',
                 length: 5,
-                src: 'https://firebasestorage.googleapis.com/v0/b/recruit-website-d9181.appspot.com/o/images%2Fassests%2F361848543_1651168908703220_1686531172149351760_n.jpg?alt=media&token=203eb757-8cfd-492d-861a-32a32a4bff5c',
+                src: 'https://firebasestorage.googleapis.com/v0/b/recruit-website-d9181.appspot.com/o/images%2Fassests%2F61901520_2234092053496589_4430612769913438208_n.jpg?alt=media&token=684dff8a-a8f1-4294-bff4-62151ba47e57',
                 preview:
-                  'https://firebasestorage.googleapis.com/v0/b/recruit-website-d9181.appspot.com/o/images%2Fassests%2F361848543_1651168908703220_1686531172149351760_n.jpg?alt=media&token=203eb757-8cfd-492d-861a-32a32a4bff5c',
+                  'https://firebasestorage.googleapis.com/v0/b/recruit-website-d9181.appspot.com/o/images%2Fassests%2F61901520_2234092053496589_4430612769913438208_n.jpg?alt=media&token=684dff8a-a8f1-4294-bff4-62151ba47e57',
                 link: '',
                 linkText: false,
                 time: timestamp()
@@ -86,7 +86,7 @@ class CreateStories extends Component {
           {
             id: 'starboy',
             photo:
-              'https://firebasestorage.googleapis.com/v0/b/recruit-website-d9181.appspot.com/o/images%2Fassests%2F361848543_1651168908703220_1686531172149351760_n.jpg?alt=media&token=203eb757-8cfd-492d-861a-32a32a4bff5c',
+              'https://firebasestorage.googleapis.com/v0/b/recruit-website-d9181.appspot.com/o/images%2Fassests%2F323052474_553946006627634_2512847703726122135_n.jpg?alt=media&token=6e44def2-c868-4419-90a8-3773aef54d6c',
             name: 'Kim Yến',
             time: timestamp(),
             items: [
@@ -94,9 +94,9 @@ class CreateStories extends Component {
                 id: 'starboy-1',
                 type: 'photo',
                 length: 5,
-                src: 'https://firebasestorage.googleapis.com/v0/b/recruit-website-d9181.appspot.com/o/images%2Fassests%2F361848543_1651168908703220_1686531172149351760_n.jpg?alt=media&token=203eb757-8cfd-492d-861a-32a32a4bff5c',
+                src: 'https://firebasestorage.googleapis.com/v0/b/recruit-website-d9181.appspot.com/o/images%2Fassests%2Fb9023e4593a43afa63b5.jpg?alt=media&token=f64a7adf-0ed2-4c4f-8915-4289b0934cdf',
                 preview:
-                  'https://firebasestorage.googleapis.com/v0/b/recruit-website-d9181.appspot.com/o/images%2Fassests%2F361848543_1651168908703220_1686531172149351760_n.jpg?alt=media&token=203eb757-8cfd-492d-861a-32a32a4bff5c',
+                  'https://firebasestorage.googleapis.com/v0/b/recruit-website-d9181.appspot.com/o/images%2Fassests%2Fb9023e4593a43afa63b5.jpg?alt=media&token=f64a7adf-0ed2-4c4f-8915-4289b0934cdf',
                 link: '',
                 linkText: false,
                 time: timestamp()
@@ -106,7 +106,7 @@ class CreateStories extends Component {
           {
             id: 'riversquomo',
             photo:
-              'https://firebasestorage.googleapis.com/v0/b/recruit-website-d9181.appspot.com/o/images%2Fassests%2F361848543_1651168908703220_1686531172149351760_n.jpg?alt=media&token=203eb757-8cfd-492d-861a-32a32a4bff5c',
+              'https://firebasestorage.googleapis.com/v0/b/recruit-website-d9181.appspot.com/o/images%2Fassests%2F327898676_1027671731956043_2947151331630452073_n.jpg?alt=media&token=de5a8f4b-ea32-4837-aa69-4ae8f2b6d355',
             name: 'Quỳnh Linh',
             time: timestamp(),
             items: [
@@ -114,9 +114,20 @@ class CreateStories extends Component {
                 id: 'riverscuomo-1',
                 type: 'photo',
                 length: 10,
-                src: 'https://firebasestorage.googleapis.com/v0/b/recruit-website-d9181.appspot.com/o/images%2Fassests%2F361848543_1651168908703220_1686531172149351760_n.jpg?alt=media&token=203eb757-8cfd-492d-861a-32a32a4bff5c',
+                src: 'https://firebasestorage.googleapis.com/v0/b/recruit-website-d9181.appspot.com/o/images%2Fassests%2F229994949_1293159267807295_5495284847977983067_n.jpg?alt=media&token=1afcafaf-6a91-4b1b-87f8-6586b17b688e',
                 preview:
-                  'https://firebasestorage.googleapis.com/v0/b/recruit-website-d9181.appspot.com/o/images%2Fassests%2F361848543_1651168908703220_1686531172149351760_n.jpg?alt=media&token=203eb757-8cfd-492d-861a-32a32a4bff5c',
+                  'https://firebasestorage.googleapis.com/v0/b/recruit-website-d9181.appspot.com/o/images%2Fassests%2F229994949_1293159267807295_5495284847977983067_n.jpg?alt=media&token=1afcafaf-6a91-4b1b-87f8-6586b17b688e',
+                link: '',
+                linkText: false,
+                time: timestamp()
+              },
+              {
+                id: 'riverscuomo-2',
+                type: 'photo',
+                length: 10,
+                src: 'https://firebasestorage.googleapis.com/v0/b/recruit-website-d9181.appspot.com/o/images%2Fassests%2F323052474_553946006627634_2512847703726122135_n.jpg?alt=media&token=6e44def2-c868-4419-90a8-3773aef54d6c',
+                preview:
+                  'https://firebasestorage.googleapis.com/v0/b/recruit-website-d9181.appspot.com/o/images%2Fassests%2F323052474_553946006627634_2512847703726122135_n.jpg?alt=media&token=6e44def2-c868-4419-90a8-3773aef54d6c',
                 link: '',
                 linkText: false,
                 time: timestamp()
@@ -210,7 +221,7 @@ class CreateStories extends Component {
                     data-photo={story.photo}
                 >
                     <a className="" href={story.link}>
-                        <span><img className="w-16 h-16 rounded-full border-4 absolute top-4 left-4 border-primaryColor" src={story.photo} /></span>
+                        <span><img className="w-16 h-16 rounded-full border-4 absolute object-cover top-4 left-4 border-primaryColor" src={story.photo} /></span>
                         <span className="item-preview">
                             <img src={story.items[0].preview} />
                         </span>

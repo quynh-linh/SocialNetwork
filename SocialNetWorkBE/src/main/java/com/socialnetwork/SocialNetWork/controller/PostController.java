@@ -80,10 +80,10 @@ public class PostController {
 
     // delete post
     @GetMapping("/deletePost")
-    public ResponseEntity<?> deletePost(@RequestBody String body){
+    public ResponseEntity<?> deletePost(@RequestParam String postID,  @RequestParam String userId){
         try {
-            int postId =Integer.parseInt(ConvertJSON.converJsonToString(body,"postId"));
-            String userId = ConvertJSON.converJsonToString(body,"userId");
+            System.err.println(postID +"-ccc-" + userId);
+            int postId =Integer.parseInt(postID);
             if(postId < 0){
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("PostId not exits!");
             }

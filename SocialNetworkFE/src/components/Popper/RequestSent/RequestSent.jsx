@@ -7,12 +7,19 @@ import { useEffect, useState } from 'react';
 import { getListUserRequestSent} from '~/redux/authSlice';
 import { useDispatch } from 'react-redux';
 import images from '~/assets/images';
+import useFriends from '~/hook/friends';
 function RequestSent({onClose=undefined}) {
     const cx = classNames.bind(styles);
     const [listDataRequestFriends, setListDataRequestFriends] = useState([]);
+    const { handleExitsRequest,valueResultRequest } = useFriends();
     const {valueIdUser} = useUserToken();
     const dispatch = useDispatch();
 
+    const handleClickExitsRequest = (receiverId)=>{
+        if(valueIdUser && receiverId){
+            handleExitsRequest(receiverId,valueIdUser);
+        }
+    }
     const handleCloseRequestSent = () =>{
         onClose(false);
     };
@@ -45,7 +52,7 @@ function RequestSent({onClose=undefined}) {
                             return  (
                                 <div key={index} className={cx('wrapper__content-request','py-3 px-1 flex items-center justify-between')}>
                                     <div className='flex items-center w-3/5'>
-                                        <img className={cx('w-1/5 h-28 object-contain ml-5')} alt={item.first_name} src={item.image}/>
+                                        <img className={cx('w-1/5 h-28 object-cover rounded-xl ml-5')} alt={item.first_name} src={item.image}/>
                                         <div className={cx('wrapper__content-request-info','w-4/5 px-1 ml-3')}>
                                             <div className={cx('flex items-center justify-between')}>
                                                 <h1 className={cx('w-9/12 font-semibold')}>{item.firstName + ' ' + item.lastName}</h1>
@@ -58,7 +65,13 @@ function RequestSent({onClose=undefined}) {
                                             </div>
                                         </div>
                                     </div>
-                                    <button className={cx('wrapper__content-request-btn','w-2/6 p-4 mr-6')} type='button'>Hủy yêu cầu</button>
+                                    <button 
+                                        className={cx('wrapper__content-request-btn','w-2/6 p-4 mr-6')} 
+                                        onClick={() => handleClickExitsRequest(item.id)}
+                                        type='button'
+                                    >
+                                        {valueResultRequest.id === item.id ? 'Đã hủy yêu cầu kết bạn' : 'Hủy yêu cầu'}
+                                    </button>
                                 </div>
                             )
                         }) : <div className='text-2xl text-center p-5'>Bạn chưa gửi lời mời kết bạn nào.</div>

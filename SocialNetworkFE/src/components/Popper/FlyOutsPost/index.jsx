@@ -9,9 +9,10 @@ import useUserToken from '~/hook/user';
 import { useDispatch , useSelector} from "react-redux";
 import { deletePost } from '~/redux/postSlice';
 import { Toast } from '~/components/toast';
-function FlyOutsPost({state = false, children , title,data}) {
+function FlyOutsPost({state = false, children , title,data,onDelete=undefined}) {
     const cx = classNames.bind(styles);
     const [open,setOpen] = useState(false);
+    const [valuePostIdSelected,setValuePostIdSelected] = useState('');
     const {valueIdUser} = useUserToken();
     const dispatch = useDispatch();
     const statePost = useSelector(state => state.post);
@@ -22,6 +23,7 @@ function FlyOutsPost({state = false, children , title,data}) {
                 userId: data.userID,
                 postId: data.id
             }))
+            setValuePostIdSelected(valuePostIdSelected);
         }
     };
 
@@ -31,6 +33,7 @@ function FlyOutsPost({state = false, children , title,data}) {
 
     useEffect(() => {
         if(statePost.msg === 'Delete success!'){
+            onDelete({postId: valuePostIdSelected, state: true});
             Toast({type:'success',position:'bottom-left',autoClose:3000,limit:1,des:'edit',content: 'Đã xóa bài viết'});
         }
     },[statePost])

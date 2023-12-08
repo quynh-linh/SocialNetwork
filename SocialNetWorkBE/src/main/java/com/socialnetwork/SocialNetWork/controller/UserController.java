@@ -142,16 +142,18 @@ public class UserController {
 
     @PostMapping("/updateStatus")
     public ResponseEntity<?> updateStatusByFriends(@RequestBody String body){
-        String convertSender = ConvertJSON.converJsonToString(body,"senderId");
-        String convertReceiver = ConvertJSON.converJsonToString(body,"receiverId");
-        String convertTitle = ConvertJSON.converJsonToString(body,"title");
-        String updateAt = ConvertJSON.converJsonToString(body,"updateAt");
-        String delectedAt = ConvertJSON.converJsonToString(body,"delectedAt");
-        String result = userService.updateStatusFriend(updateAt,delectedAt,convertSender,convertReceiver,convertTitle);
-        if(result.equals("success update")){
-            return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse(result));
+        try{
+            String convertSender = ConvertJSON.converJsonToString(body,"senderId");
+            String convertReceiver = ConvertJSON.converJsonToString(body,"receiverId");
+            String convertTitle = ConvertJSON.converJsonToString(body,"title");
+            String updateAt = ConvertJSON.converJsonToString(body,"updateAt");
+            String delectedAt = ConvertJSON.converJsonToString(body,"delectedAt");
+            System.err.println("u:"+updateAt+"d:"+delectedAt+"s:"+convertSender+"r:"+convertReceiver+"t"+convertTitle);
+            String result = userService.updateStatusFriend(updateAt,delectedAt,convertSender,convertReceiver,convertTitle);
+            return result.equals("success update") ?  ResponseEntity.status(HttpStatus.OK).body(new ApiResponse(result)) : ResponseEntity.status(HttpStatus.NOT_FOUND).body("Error");
+        } catch(Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error occurred");
         }
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Error");
     }
 
 }
