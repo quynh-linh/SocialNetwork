@@ -24,7 +24,7 @@ export const Toast = ({type,title,position,autoClose,limit,des,content}) =>{
                 draggable: true,
                 progress: undefined,
                 theme: "light",
-                limit: limit
+                limit: 1
             });
         } else if(type === 'warning'){
             toast.warning('Trang '+ title +' đang phát triển', {
