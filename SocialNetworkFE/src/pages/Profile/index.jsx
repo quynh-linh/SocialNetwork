@@ -15,7 +15,7 @@ function Profile({children}) {
     const location = useLocation();
     const dispatch = useDispatch();
     const {updateImageUser,valueIdUser} = useUserToken();
-
+    const [valueIdParams,setValueIdParams] = useState('');
     //
     const { search } = useLocation();
     const queryParams = new URLSearchParams(search);
@@ -33,6 +33,7 @@ function Profile({children}) {
     useEffect(() => {
         if (id !== null) {
             dispatch(getDetailUserById({ id }));
+            setValueIdParams(id);
         }
     }, [id]);
     
@@ -94,7 +95,7 @@ function Profile({children}) {
                                     <Link 
                                         className={cx(location.pathname === item.path ? 'wrapper__detail-content-list-itemSelected' : '')} 
                                         key={index} 
-                                        to={item.path}
+                                        to={`${item.path}?id=${valueIdParams}`}
                                     >
                                         {item.name}
                                     </Link>

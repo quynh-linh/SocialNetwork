@@ -2,18 +2,18 @@ import classNames from "classnames/bind";
 import styles from "./Friends.module.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsisVertical, faSearch } from "@fortawesome/free-solid-svg-icons";
-import { Link } from "react-router-dom";
+import { useLocation , Link } from "react-router-dom";
 import { useState , useEffect } from "react";
 import useUserToken from "~/hook/user";
 import { DATA_MENU_FRIENDS_PROFILE } from "~/const/data";
 function FriendsProfile() {
     const cx = classNames.bind(styles);
     const [valueMenu,setValueMenu] = useState('AllFriends');
-    const {listUserFriends , getListFriendsToUser, valueIdUser} = useUserToken();
-    
-    useEffect(() => {
-        if(valueIdUser !== undefined){
-            getListFriendsToUser(50);
+    const {listUserFriends , getListFriendsToUser,valueIdUser} = useUserToken();
+    //
+    useEffect(() => { 
+        if (valueIdUser !== null) {
+            getListFriendsToUser(valueIdUser,50);
         }
     },[valueIdUser])
     return ( 

@@ -92,7 +92,7 @@ public class PostController {
             }
             // delete media and postMedia in post
             List<String> mediaId = postMediaService.getListMediaIdByPost(postId);
-            if(!mediaId.isEmpty()){
+            if(mediaId != null){
                 postMediaService.deletePostMediaByPost(postId);
                 mediaService.deleteMediaOfPost(mediaId);
             }

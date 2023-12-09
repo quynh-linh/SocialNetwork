@@ -16,6 +16,7 @@ import ShowFirstComment from "../form/Comment/components/ShowFirstComment";
 import ShowListComments from "../form/Comment/components/ShowListComments";
 import FlyOutsPost from "../Popper/FlyOutsPost";
 import { useNavigate } from "react-router-dom";
+import { Toast } from "../toast";
 function Post({data,onShowBox=undefined,isShowBox =false, obMessageAdd = undefined,obCloseBox=undefined}) {
     const cx = classNames.bind(styles);
     const dispatch = useDispatch();

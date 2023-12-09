@@ -32,9 +32,10 @@ function FlyOutsPost({state = false, children , title,data,onDelete=undefined}) 
     },[state])
 
     useEffect(() => {
-        if(statePost.msg === 'Delete success!'){
+        if(statePost.msg === 'Delete success ?'){
+            Toast({type:'success',position:'bottom-left',autoClose:1000,limit:1,des:'edit',content: 'Đã xóa bài viết'});
             onDelete({postId: valuePostIdSelected, state: true});
-            Toast({type:'success',position:'bottom-left',autoClose:3000,limit:1,des:'edit',content: 'Đã xóa bài viết'});
+            setOpen(false);
         }
     },[statePost])
 
