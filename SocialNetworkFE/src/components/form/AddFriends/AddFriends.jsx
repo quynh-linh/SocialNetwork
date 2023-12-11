@@ -13,7 +13,7 @@ function AddFriends({data,type='',senderId=''}) {
                 <div className={cx('wrapper-boxImg')}><img src={data.image} alt="Add user" className={cx('w-16 h-16','wrapper-img')}/></div>
                 <div className={cx('wrapper-title')}>
                     <div className={cx('wrapper-name')}>{data.firstName + ' ' + data.lastName}</div>
-                    <div className={cx('wrapper-mutualFriends')}>60 bạn bè chung</div>
+                    {/* <div className={cx('wrapper-mutualFriends')}>60 bạn bè chung</div> */}
                 </div>
                 <div className={cx('wrapper-icon', data.accept ? 'wrapper-check' : '')}>
                     {

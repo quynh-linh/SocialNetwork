@@ -11,13 +11,15 @@ import { faCircleHalfStroke, faGear, faHandshake, faMoon, faPowerOff, faSun } fr
 import { useEffect, useState } from 'react';
 import Menu from '@mui/material/Menu';
 import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch} from "react-redux";
 import { logOut } from '~/redux/authSlice';
+import useUserToken from '~/hook/user';
 function FlyOutUser({state = false , data , anchor,onClose}) {
     const cx = classNames.bind(styles);
     const [modeBackgroundWindowDark,setModeBackgroundWindowDark] = useState(true);
     const [modeBackgroundWindowLight,setModeBackgroundWindowLight] = useState(false);
     const [modeBackgroundWindowAuto,setModeBackgroundWindowAuto] = useState(false);
+    const {valueIdUser} = useUserToken();
     const [anchorEl, setAnchorEl] = useState(null);
     const [open,setOpen] = useState(false);
     const dispatch = useDispatch();
@@ -78,7 +80,7 @@ function FlyOutUser({state = false , data , anchor,onClose}) {
                                 </div>
                             </div>
                             <div className={cx('container-viewProfile')}>
-                                <Link to="/profile">
+                                <Link to={`/profile?id=${valueIdUser}`}>
                                    Xem trang cá nhân
                                 </Link>
                             </div>

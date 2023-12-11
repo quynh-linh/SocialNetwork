@@ -2,20 +2,21 @@ import classNames from "classnames/bind";
 import styles from "./Profile.module.scss";
 import images from "~/assets/images";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCamera, faPen } from "@fortawesome/free-solid-svg-icons";
+import { faCamera, faPen, faUser, faUserGroup } from "@fortawesome/free-solid-svg-icons";
 import { Link, useLocation } from "react-router-dom";
 import { DATA_MENU_CHILDREN_PROFILE } from "~/const/data";
 import useUserToken from "~/hook/user";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { getDetailUserById } from "~/redux/authSlice";
+import { checkStatusFriends } from "~/redux/friendSlice";
 function Profile({children}) {
     const cx = classNames.bind(styles);
     const [valueObDetailUser,setValueObDetailUser] = useState({});
     const location = useLocation();
     const dispatch = useDispatch();
     const {updateImageUser,valueIdUser} = useUserToken();
-    const [valueIdParams,setValueIdParams] = useState('');
+    const [valueCheckStatusUser,setCheckStatusUser] = useState('');
     //
     const { search } = useLocation();
     const queryParams = new URLSearchParams(search);
@@ -23,19 +24,29 @@ function Profile({children}) {
 
     //
     const state = useSelector(state => state.auth);
-    
+    const stateFriends = useSelector(state => state.friends);
 
+    //
     const handleOnChangeImageUpLoad = (e) => {
         updateImageUser(e.target.files[0]);
     } 
 
     //
-    useEffect(() => {
-        if (id !== null) {
+    const handleDispatch = (id,currentId) => {
+        if (id && currentId !== undefined && id !== currentId) {
             dispatch(getDetailUserById({ id }));
-            setValueIdParams(id);
+            dispatch(checkStatusFriends({
+              current: currentId,
+              other: id
+            }));
         }
-    }, [id]);
+    }
+
+    //
+    useEffect(() => {
+        handleDispatch(id,valueIdUser);
+    }, [id, valueIdUser]);
+      
     
     //
     useEffect(() => {
@@ -44,7 +55,16 @@ function Profile({children}) {
             setValueObDetailUser(state.obDetail);
         }
     }, [state]);
-    
+
+    useEffect(() => {
+        if (stateFriends?.msg !== '') {
+            setCheckStatusUser(stateFriends?.msg);
+        }
+    }, [stateFriends]);
+
+    useEffect(() => {
+        dispatch(getDetailUserById({ id }));
+    },[]);
 
     return ( 
         <div className={cx('wrapper','w-full h-full')}>
@@ -76,14 +96,33 @@ function Profile({children}) {
                             </div>
                         </div>
                         <div className={cx('wrapper__detail-info-box-menu')}>
-                        {
-                            valueObDetailUser?.id === valueIdUser && (
-                                <Link to='/settings' className={cx('wrapper__detail-info-box-editInfo','flex items-center')}>
-                                <FontAwesomeIcon icon={faPen}/>
-                                <button className={cx('pl-2')} type="button">Chỉnh sữa thông tin</button>
-                                </Link>
-                            )
-                        }
+                            {
+                                (valueObDetailUser?.id === valueIdUser && (
+                                    <Link to='/settings' className={cx('wrapper__detail-info-box-editInfo', 'flex items-center')}>
+                                        <FontAwesomeIcon icon={faPen} />
+                                        <button className={cx('pl-2')} type="button">Chỉnh sữa thông tin</button>
+                                    </Link>
+                                )) ||
+                                (valueCheckStatusUser && (
+                                    <div className={cx('py-2 px-4 rounded-lg text-xl bg-primaryColor text-white font-medium flex items-center')}>
+                                        <div>
+                                            <FontAwesomeIcon icon={faUserGroup} />
+                                        </div>
+                                        <button className={cx('pl-2')} type="button">
+                                            {valueCheckStatusUser === 'Bạn bè' && 'Bạn bè'}
+                                            {valueCheckStatusUser === 'Đã gửi yêu cầu kết bạn' && 'Đã gửi yêu cầu kết bạn'}
+                                        </button>
+                                    </div>
+                                )) ||
+                                (
+                                    <div className={cx('py-2 px-4 rounded-lg text-xl bg-primaryColor text-white font-medium flex items-center')}>
+                                        <div>
+                                            <FontAwesomeIcon icon={faUserGroup} />
+                                        </div>
+                                        <button className={cx('pl-2')} type="button">Thêm bạn bè</button>
+                                    </div>
+                                )
+                            }
                         </div>
                     </div>
                 </div>
@@ -95,7 +134,7 @@ function Profile({children}) {
                                     <Link 
                                         className={cx(location.pathname === item.path ? 'wrapper__detail-content-list-itemSelected' : '')} 
                                         key={index} 
-                                        to={`${item.path}?id=${valueIdParams}`}
+                                        to={`${item.path}?id=${id}`}
                                     >
                                         {item.name}
                                     </Link>

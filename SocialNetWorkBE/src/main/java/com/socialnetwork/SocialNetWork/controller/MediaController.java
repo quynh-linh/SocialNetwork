@@ -20,7 +20,6 @@ public class MediaController {
     @GetMapping("")
     public ResponseEntity<?> getListMediaById(@RequestParam String id , @RequestParam int limit){
         try {
-            System.err.println(id +"-ccc-" + limit);
             if(id.isEmpty()){
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ApiResponse("userId not exist"));
             }

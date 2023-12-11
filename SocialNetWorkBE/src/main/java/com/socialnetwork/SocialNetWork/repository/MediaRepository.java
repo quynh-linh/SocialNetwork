@@ -13,10 +13,10 @@ import java.util.List;
 
 public interface MediaRepository extends JpaRepository<Media,Long> {
     @Query(value = "SELECT * " +
-            "FROM media " +
-            "WHERE user_id = ?1 AND media_type = 'image' " +
-            "ORDER BY created_at DESC " +
-            "LIMIT ?2",nativeQuery = true)
+            "FROM media AS m " +
+            "WHERE m.user_id = ?1 AND m.media_type = 'images' " +
+            "ORDER BY m.created_at DESC " +
+            "LIMIT ?2 ",nativeQuery = true)
     List<Media> getListImageMedia(String id , int limit);
 
     @Query(value = "SELECT m.* " +

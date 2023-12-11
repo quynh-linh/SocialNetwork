@@ -53,6 +53,7 @@ function BoxCreate({onShow=undefined,forwardTo=undefined,valueDecentralization='
     // HANDLE CHANGE FILE PHOTO
     const handleChangeFilePhoto = (e) => {
         const selectedFile =e.target.files[0];
+        console.log(selectedFile);
         if (selectedFile) {
             const fileType = selectedFile.type
             const reader = new FileReader();
@@ -64,6 +65,7 @@ function BoxCreate({onShow=undefined,forwardTo=undefined,valueDecentralization='
                 };
                 reader.readAsDataURL(selectedFile);
             } else if (fileType.startsWith('video/')) {
+                console.log("video");
                 reader.onloadend = () => {
                     const ob = [...pickListPhoto,{file : selectedFile , url : reader.result , type : 'videos'}];
                     setPickListPhoto(ob);

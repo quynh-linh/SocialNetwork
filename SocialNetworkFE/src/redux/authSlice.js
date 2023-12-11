@@ -15,7 +15,8 @@ const  initialState = {
     isLoading: false,
     msg:'',
     arrSearch: [],
-    obDetail: {}
+    obDetail: {},
+    listFriends: []
 }
 
 // HANDLE REGISTER USER
@@ -342,6 +343,17 @@ const authSlice = createSlice({
             state.obDetail = action.payload || null; // Use an empty array if action.payload is undefined
         });
         builder.addCase(getDetailUserById.rejected,(state,action) => {
+            state.isLoading = true;
+        });
+        // ================= GET LIST FRIENDS BY USER =================
+        builder.addCase(getListUserFriends.pending,(state,action) => {
+            state.isLoading = true;
+        });
+        builder.addCase(getListUserFriends.fulfilled,(state,action) => {
+            state.isLoading = false;
+            state.listFriends =  action.payload || null;
+        });
+        builder.addCase(getListUserFriends.rejected,(state,action) => {
             state.isLoading = true;
         });
     }
