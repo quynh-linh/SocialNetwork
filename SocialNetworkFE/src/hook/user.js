@@ -1,6 +1,6 @@
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { useEffect, useState } from "react";
-import { useDispatch} from "react-redux";
+import { useDispatch, useSelector} from "react-redux";
 import { v4 } from "uuid";
 import { storage } from "~/config/firebase";
 import currentTime from "~/const/currentTime";
@@ -14,6 +14,14 @@ function useUserToken() {
     const [valueDetailUserById,setValueDetailUserById] = useState({});
     const [listMediaToUser,setListMediaToUser] = useState([]);
     const [listUserFriends,setListUserFriends] = useState([]);
+
+    // INIT IS
+    const [isLoadingMedia,setIsLoadingMedia] = useState(true);
+    const [isLoadingGetListUserFriends,setIsLoadingGetListUserFriends] = useState(true);
+
+    // REDUX TOOLKIT STATE
+    const stateMedia = useSelector(state => state.media);
+    const stateAuth = useSelector(state => state.auth);
 
     // UPLOAD IMAGE TO FIREBASE
     const upLoadFileToFireBase = (valueIdUser, imageUpload,typeFile) => {
@@ -70,27 +78,14 @@ function useUserToken() {
     }
 
     // GET LIST MEDIA TO USER
-    const getListMediaToUser = async (idUser,limit) => {
-        try {
-            const response = await dispatch(getListMedia({id: idUser, limit: limit}));
-            const arr = response.payload ? response.payload : [];
-            setListMediaToUser(arr);
-        } catch (error) {
-            console.error(error);
-            return [];
-        }
+    const getListMediaToUser = (idUser, limit) => {
+        dispatch(getListMedia({ id: idUser, limit }));
     };
 
+
     // GET LIST MEDIA TO USER
-    const getListFriendsToUser = async (idUser,limit) => {
-        try {
-            const resp = await dispatch(getListUserFriends({id : idUser , limit : limit}));
-            const newArr = resp.payload ? resp.payload : [];
-            setListUserFriends(newArr);
-        } catch (error) {
-            console.error(error);
-            return [];
-        }
+    const getListFriendsToUser = (idUser,limit) => {
+        dispatch(getListUserFriends({id : idUser , limit : limit}));
     };
 
     // GET LIST MEDIA TO USER
@@ -114,25 +109,47 @@ function useUserToken() {
         }
     },[dispatch]);
 
+    useEffect(() => {
+        if(stateMedia.listMediaByUser !== null && !stateMedia.isLoading){
+            setListMediaToUser(stateMedia.listMediaByUser);
+            setIsLoadingMedia(false);
+        }
+    },[stateMedia]);
+
+    useEffect(() => {
+        if(stateAuth.listFriends !== null && !stateAuth.isLoading){
+            setListUserFriends(stateAuth.listFriends);
+            setIsLoadingGetListUserFriends(false);
+        }
+    },[stateAuth]);
+
     return {
-        //  VALUE ID USER BY GET TOKEN
+        // VALUE
+            //  VALUE ID USER BY GET TOKEN
         valueIdUser,
-        // VALUE URL IMAGE USER
+            // VALUE URL IMAGE USER
         nameUrlImageUser,
-        // VALUE LIST MEDIA TO USER
+            // VALUE LIST MEDIA TO USER
         listMediaToUser,
-        // VALUE LIST USER FRIENDS
+            // VALUE LIST USER FRIENDS
         listUserFriends,
-        // VALUE DETAIL USER BY ID
+            // VALUE DETAIL USER BY ID
         valueDetailUserById,
-        // GET LIST FRIENDS TO USER
+        // GET LIST
+            // GET LIST FRIENDS TO USER
         getListFriendsToUser,
-        // GET LIST MEDIA TO USER
+            // GET LIST MEDIA TO USER
         getListMediaToUser,
-        // UP LOAD IMAGE TO FIREBASE
+            // UP LOAD IMAGE TO FIREBASE
         upLoadFileToFireBase,
-        // UPDATE AVATAR BY USER
-        updateImageUser
+        // UPDATE
+            // UPDATE AVATAR BY USER
+        updateImageUser,
+        // IS LOADING
+            // IS LOADING MEDIA
+        isLoadingMedia,
+            // IS LOADING GET LIST USER FRIENDS
+        isLoadingGetListUserFriends
     };
 }
 export default useUserToken;

@@ -10,6 +10,7 @@ import Register from "~/pages/auth/Register";
 import Connections from "~/pages/Connections";
 import FriendRequest from "~/pages/Connections/components/FriendRequest/FriendRequest";
 import FriendsProfile from "~/pages/Profile/components/Friends/Friends";
+import ImagesProfile from "~/pages/Profile/components/Images";
 const publicRoutes =[
     {   
         path: '/login', 
@@ -49,7 +50,7 @@ const privateRoutes = [
             },
             {
                 path: 'photos',
-                component: AboutProfile,
+                component: ImagesProfile,
                 name: 'Ảnh'
             },
             {
@@ -80,6 +81,33 @@ const privateRoutes = [
     {   
         path: '/friends/*', 
         name: 'Kết nối',
+        layout : 'Connections Layout',
+        routes: [
+            {
+                path: '',
+                component: Connections,
+                name: 'Friends'
+            },
+            {
+                path: 'requests',
+                component: FriendRequest,
+                name: 'Request'
+            },
+            {
+                path: 'suggestions',
+                component: FriendRequest,
+                name: 'Suggestions'
+            },
+            {
+                path: 'list',
+                component: FriendRequest,
+                name: 'List'
+            }
+        ]
+    },
+    {   
+        path: '/search/*', 
+        name: 'Tìm kiếm',
         layout : 'Connections Layout',
         routes: [
             {

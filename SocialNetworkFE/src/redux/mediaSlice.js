@@ -3,6 +3,7 @@ const { createSlice, createAsyncThunk } = require("@reduxjs/toolkit");
 const  initialState = {
     isLoading: false,
     msg:'',
+    listMediaByUser: []
 }
 // HANDLE ADD MEDIA TO DB
 const getListMedia = createAsyncThunk('getListMedia',async(body)=> {
@@ -59,7 +60,7 @@ const addMedia = createAsyncThunk('addMedia',async(body)=> {
     }
 });
 
-const friendSlice = createSlice({
+const mediaSlice = createSlice({
     name: "media",
     initialState,
     reducers: {
@@ -75,9 +76,20 @@ const friendSlice = createSlice({
         builder.addCase(addMedia.rejected,(state,action) => {
             state.isLoading = true;
         });
+        // ================= GET LIST MEDIA USER =================
+        builder.addCase(getListMedia.pending,(state,action) => {
+            state.isLoading = true;
+        });
+        builder.addCase(getListMedia.fulfilled,(state,action) => {
+            state.isLoading = false;
+            state.listMediaByUser = action.payload || null;
+        });
+        builder.addCase(getListMedia.rejected,(state,action) => {
+            state.isLoading = true;
+        });
     }
 });
-export default friendSlice.reducer;
+export default mediaSlice.reducer;
 export {
     // ADD FRIENDS
     addMedia,
