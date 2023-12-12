@@ -1,10 +1,15 @@
 package com.socialnetwork.SocialNetWork.controller;
 
 import com.socialnetwork.SocialNetWork.entity.Comments;
+import com.socialnetwork.SocialNetWork.entity.Notifications;
 import com.socialnetwork.SocialNetWork.model.IMPL.CommentById;
 import com.socialnetwork.SocialNetWork.model.IMPL.CommentParentById;
 import com.socialnetwork.SocialNetWork.model.Response.ApiResponse;
+import com.socialnetwork.SocialNetWork.model.dto.UserDTO;
 import com.socialnetwork.SocialNetWork.service.CommentsService;
+import com.socialnetwork.SocialNetWork.service.NotificationService;
+import com.socialnetwork.SocialNetWork.service.PostService;
+import com.socialnetwork.SocialNetWork.service.UserService;
 import com.socialnetwork.SocialNetWork.util.ConvertJSON;
 import com.socialnetwork.SocialNetWork.util.IdGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +25,12 @@ import java.util.List;
 public class CommentsController {
     @Autowired
     public CommentsService commentsService;
+    @Autowired
+    public UserService userService;
+    @Autowired
+    public PostService postService;
+    @Autowired
+    public NotificationService notificationService;
 
     @GetMapping("/getListCommentByPost")
     public  ResponseEntity<?> getListCommentByPost(@RequestParam int postId,@RequestParam int limit){
@@ -62,7 +73,19 @@ public class CommentsController {
             // INIT Media
             if(!content.isEmpty() && !userId.isEmpty() && postId > 0){
                 Comments comments = new Comments(userId,postId,checkParentComment,content,createdAt);
+                System.err.println(comments);
                 Comments result = commentsService.addComments(comments);
+                // add notification
+                String userIdComment = userService.getUserIdByPost(postId);
+                UserDTO userDTO = userService.getDetailUserById(userId);
+                String imageUser = userService.getImageUserByUserId(userId);
+                if (userIdComment != null && userDTO != null && !userIdComment.equals(userId) && imageUser != null){
+                    String contentPost = postService.getContentPostByPostId(postId);
+                    String contentNotification =" vừa bình luận về bài viết của bạn : " + contentPost;
+                    String nameUser = userDTO.getFirstName() + " " + userDTO.getLastName();
+                    Notifications notifications = new Notifications(userIdComment,nameUser, contentNotification, createdAt,0,0,imageUser);
+                    notificationService.addNotification(notifications);
+                }
                 return result != null ? ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("success")) : ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("error"));
             } else {
                 return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Data cannot be left blank"));
@@ -127,3 +150,4 @@ public class CommentsController {
     }
 
 }
+

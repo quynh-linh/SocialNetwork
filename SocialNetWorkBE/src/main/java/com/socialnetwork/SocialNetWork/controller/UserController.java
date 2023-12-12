@@ -1,10 +1,12 @@
 package com.socialnetwork.SocialNetWork.controller;
 
+import com.socialnetwork.SocialNetWork.entity.Notifications;
 import com.socialnetwork.SocialNetWork.entity.Post;
 import com.socialnetwork.SocialNetWork.entity.User;
 import com.socialnetwork.SocialNetWork.model.Response.ApiResponse;
 import com.socialnetwork.SocialNetWork.model.Response.AuthResponse;
 import com.socialnetwork.SocialNetWork.model.dto.UserDTO;
+import com.socialnetwork.SocialNetWork.service.NotificationService;
 import com.socialnetwork.SocialNetWork.service.UserService;
 import com.socialnetwork.SocialNetWork.util.ConvertJSON;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,6 +23,8 @@ import java.util.List;
 public class UserController {
     @Autowired
     public UserService userService;
+    @Autowired
+    public NotificationService notificationService;
     @GetMapping("")
     public ResponseEntity<?> getListUser(){
         List<UserDTO> result = userService.getListUser();
@@ -149,6 +154,16 @@ public class UserController {
             String updateAt = ConvertJSON.converJsonToString(body,"updateAt");
             String delectedAt = ConvertJSON.converJsonToString(body,"delectedAt");
             System.err.println("u:"+updateAt+"d:"+delectedAt+"s:"+convertSender+"r:"+convertReceiver+"t"+convertTitle);
+            if(convertTitle.equals("confirm")){
+                UserDTO userDTO = userService.getDetailUserById(convertReceiver);
+                String imageUser = userService.getImageUserByUserId(convertReceiver);
+                if (userDTO != null && imageUser != null){
+                    String contentNotification =" đã chấp nhận lời mời kết bạn của bạn ";
+                    String nameUser = userDTO.getFirstName() + " " + userDTO.getLastName();
+                    Notifications notifications = new Notifications(convertSender,nameUser,contentNotification, Timestamp.valueOf(updateAt),0,0,imageUser);
+                    notificationService.addNotification(notifications);
+                }
+            }
             String result = userService.updateStatusFriend(updateAt,delectedAt,convertSender,convertReceiver,convertTitle);
             return result.equals("success update") ?  ResponseEntity.status(HttpStatus.OK).body(new ApiResponse(result)) : ResponseEntity.status(HttpStatus.NOT_FOUND).body("Error");
         } catch(Exception e){

@@ -40,7 +40,7 @@ public interface UserRepository extends JpaRepository<User,Long> {
             "AND " +
             "fr.receiver_id = ?5 ",nativeQuery = true)
     int updateStatusByFriends(int status,String updateAt , String delectedAt,String senderId , String receiverID);
-    @Query(value = "SELECT DISTINCT u.* " +
+    @Query(value = "SELECT u.* " +
             "FROM `user` as u " +
             "CROSS JOIN frindship as fr " +
             "ON u.id = fr.receiver_id " +
@@ -49,7 +49,7 @@ public interface UserRepository extends JpaRepository<User,Long> {
             "LIMIT ?2", nativeQuery = true)
     List<User> getUserRequestFriends(String id,int limit);
 
-    @Query(value = "SELECT DISTINCT u.* " +
+    @Query(value = "SELECT u.* " +
             "FROM user AS u " +
             "LEFT JOIN frindship AS f1 ON u.id = f1.receiver_id AND f1.sender_id = ?1 AND f1.status = 1 " +
             "LEFT JOIN frindship AS f2 ON u.id = f2.sender_id AND f2.receiver_id = ?1 AND f2.status = 1 " +
@@ -63,13 +63,13 @@ public interface UserRepository extends JpaRepository<User,Long> {
             "LIMIT ?2 ", nativeQuery = true)
     List<User> getListSuggestedFriends(String id, int limit);
 
-    @Query(value = "SELECT DISTINCT u.* FROM user as u " +
+    @Query(value = "SELECT u.* FROM user as u " +
             "WHERE u.id IN (SELECT f.sender_id FROM frindship as f WHERE f.receiver_id = ?1 AND f.status = 1 " +
             "ORDER BY f.created_at DESC) " +
             "LIMIT ?2", nativeQuery = true)
     List<User> getListUserVerifyRequest(String id, int limit);
 
-    @Query(value = "SELECT DISTINCT u.* " +
+    @Query(value = "SELECT u.* " +
             "FROM user AS u " +
             "JOIN frindship AS f ON (u.id = f.sender_id OR u.id = f.receiver_id) " +
             "WHERE (f.sender_id = ?1 OR f.receiver_id = ?1) " +
@@ -83,8 +83,24 @@ public interface UserRepository extends JpaRepository<User,Long> {
             "WHERE u.id = ?1 ",nativeQuery = true)
     User getDetailUserById(String id);
 
-    @Query(value = "SELECT DISTINCT * FROM user " +
+    @Query(value = "SELECT * FROM user " +
             "WHERE first_name LIKE %?1% OR last_name LIKE %?1%", nativeQuery = true)
     List<User> getListUserBySearch(String name);
 
+    // get list userId friend
+    @Query(value = "SELECT u.id " +
+            "FROM user AS u " +
+            "JOIN frindship AS f ON (u.id = f.sender_id OR u.id = f.receiver_id) " +
+            "WHERE (f.sender_id = ?1 OR f.receiver_id = ?1) " +
+            "AND u.id != ?1 " +
+            "AND f.status = 2", nativeQuery = true)
+    List<String> getListUserIdFriends(String userId);
+
+    // get userId by post
+    @Query(value = "SELECT p.user_id FROM posts AS p WHERE p.id = ?1", nativeQuery = true)
+    String getUserIdByPost(int postId);
+
+    // get image user by userId
+    @Query(value = "SELECT image FROM user WHERE id = ?1", nativeQuery = true)
+    String getImageUserByUserId(String userId);
 }

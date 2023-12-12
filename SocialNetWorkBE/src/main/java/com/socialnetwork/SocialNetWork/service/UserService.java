@@ -24,5 +24,8 @@ public interface UserService {
     public String updateImageUser(User user);
     public String updateStatusFriend(String updateAt , String delectedAt,String senderId , String receiverID , String title);
     public String checkTokenUser(String token);
-
+    public List<String> getListUserIdFriends(String userId);
+    public String getUserIdByPost(int postId);
+    public String getImageUserByUserId(String userId);
 }
+

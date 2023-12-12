@@ -77,4 +77,9 @@ public interface PostRepository extends JpaRepository<Post,Long> {
             "WHERE p.id = ?4 AND p.user_id = ?5", nativeQuery = true)
     void updatePost(String content, Timestamp createdAt, int privacyId, int postId, String userId);
 
+    // get content post by postId
+    @Query(value = "SELECT content FROM posts WHERE id = ?1", nativeQuery = true)
+    String getContentPostByPostId(int postId);
+
 }
+

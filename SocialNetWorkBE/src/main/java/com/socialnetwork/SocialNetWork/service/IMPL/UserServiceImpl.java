@@ -244,4 +244,56 @@ public class UserServiceImpl implements UserService {
             return "not exits";
         }
     }
+
+    // get list userId friend
+    @Override
+    public List<String> getListUserIdFriends(String userId){
+        try{
+            if (!userId.isEmpty()){
+                ArrayList<String> result = (ArrayList<String>) userRepository.getListUserIdFriends(userId);
+                if (result != null){
+                    return result;
+                }
+            }
+            return null;
+        }catch (DataAccessException e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    // get userId by post
+    @Override
+    public String getUserIdByPost(int postId){
+        try {
+            if (postId > 0){
+                String userId = userRepository.getUserIdByPost(postId);
+                if (!userId.isEmpty()){
+                    return userId;
+                }
+            }
+            return null;
+        }catch (DataAccessException e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    // get image user by userId
+    @Override
+    public String getImageUserByUserId(String userId){
+        try{
+            if (!userId.isEmpty()){
+                String imageUser = userRepository.getImageUserByUserId(userId);
+                if (!imageUser.isEmpty()){
+                    return imageUser;
+                }
+            }
+            return null;
+        }catch (DataAccessException e){
+            e.printStackTrace();
+            return null;
+        }
+    }
 }
+

@@ -1,9 +1,13 @@
 package com.socialnetwork.SocialNetWork.controller;
 
 import com.socialnetwork.SocialNetWork.entity.Frindship;
+import com.socialnetwork.SocialNetWork.entity.Notifications;
 import com.socialnetwork.SocialNetWork.model.IMPL.CheckStatus;
 import com.socialnetwork.SocialNetWork.model.Response.ApiResponse;
+import com.socialnetwork.SocialNetWork.model.dto.UserDTO;
 import com.socialnetwork.SocialNetWork.service.FrindshipService;
+import com.socialnetwork.SocialNetWork.service.NotificationService;
+import com.socialnetwork.SocialNetWork.service.UserService;
 import com.socialnetwork.SocialNetWork.util.ConvertJSON;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,6 +21,10 @@ import java.sql.Timestamp;
 public class FrindshipController {
     @Autowired
     public FrindshipService frindshipService;
+    @Autowired
+    public UserService userService;
+    @Autowired
+    public NotificationService notificationService;
 
     @PostMapping("/add")
     public ResponseEntity<?> addUser(@RequestBody String body){
@@ -25,6 +33,15 @@ public class FrindshipController {
             Timestamp createdAt = Timestamp.valueOf(ConvertJSON.converJsonToString(body,"createdAt"));
             String receiverId = ConvertJSON.converJsonToString(body,"receiverId");
             String senderId = ConvertJSON.converJsonToString(body,"senderId");
+            //
+            UserDTO userDTO = userService.getDetailUserById(senderId);
+            String imageUser = userService.getImageUserByUserId(senderId);
+            if (userDTO != null && imageUser != null){
+                String contentNotification =" đã gửi cho bạn lời mời kết bạn ";
+                String nameUser = userDTO.getFirstName() + " " + userDTO.getLastName();
+                Notifications notifications = new Notifications(receiverId,nameUser,contentNotification, createdAt,0,0,imageUser);
+                notificationService.addNotification(notifications);
+            }
             // INIT FRINDSHIP
             Frindship frindship = new Frindship(senderId,receiverId,createdAt,null,null,1);
             String result = frindshipService.addFrindship(frindship);

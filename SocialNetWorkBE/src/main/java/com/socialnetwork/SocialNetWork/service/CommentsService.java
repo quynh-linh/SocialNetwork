@@ -36,4 +36,7 @@ public interface CommentsService {
 
     public void deleteAllCommentChildInPost(List<String> commentId);
 
+    public String getUserIdByParentComment(int parentCommentId);
+
 }
+
