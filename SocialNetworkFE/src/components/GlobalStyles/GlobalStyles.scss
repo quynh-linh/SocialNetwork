@@ -86,3 +86,10 @@ body {
     background-color: var(--var-primary) !important;
     color: white !important;
 }
+// MENU
+.css-6hp17o-MuiList-root-MuiMenu-list{
+    padding: 0px !important;
+}
+.css-3dzjca-MuiPaper-root-MuiPopover-paper-MuiMenu-paper{
+    border-radius: 0px !important;
+}

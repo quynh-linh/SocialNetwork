@@ -108,7 +108,7 @@ const privateRoutes = [
     {   
         path: '/search/*', 
         name: 'Tìm kiếm',
-        layout : 'Connections Layout',
+        layout : 'Search Layout',
         routes: [
             {
                 path: '',

@@ -8,6 +8,7 @@ import SettingsLayout from "./components/layouts/SettingsLayout/SettingsLayout";
 import { ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ConnectionsLayout from "./components/layouts/ConnectionsLayout/ConnectionsLayout";
+import SearchLayout from "./components/layouts/SearchLayout";
 function App() {
   return (
     <Router>
@@ -38,6 +39,7 @@ function App() {
               const ProfileLayouts = route.layout === null ? Fragment : ProfileLayout;
               const SettingsLayouts = route.layout === null ? Fragment : SettingsLayout;
               const ConnectionsLayouts = route.layout === null ? Fragment : ConnectionsLayout;
+              const SearchLayouts = route.layout === null ? Fragment : SearchLayout;
               const Layout = route.layout === null ? Fragment : DefaultLayout;
               const Page = route.component ? route.component : null;
               if (route.layout === 'Default Layout'){
@@ -120,6 +122,28 @@ function App() {
                             ))}
                         </Routes>
                       </ConnectionsLayouts>
+                    }
+                  />
+                ) 
+              } else if (route.layout === 'Search Layout'){
+                return (
+                  <Route 
+                    key={index} 
+                    path={route.path} 
+                    element={
+                      <SearchLayouts>
+                        <Routes>
+                            {route.routes && route.routes.map((subRoute, subIndex) => (
+                              <Route
+                                  key={subIndex}
+                                  path={subRoute.path}
+                                  element={
+                                    <subRoute.component/>
+                                  }
+                              />
+                            ))}
+                        </Routes>
+                      </SearchLayouts>
                     }
                   />
                 ) 

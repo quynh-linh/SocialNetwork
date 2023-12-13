@@ -13,7 +13,10 @@ module.exports = {
       'color-text' : '#88888e',
       'primaryColor':'#0468eb',
       'comment':'#202227',
-      'second' :'#141e2e'
+      'second' :'#141e2e',
+      'search' :'#e4e6eb',
+      'text-primary': '#3498db',
+      'error' : '#e41e3f',
     },
     fontFamily: {
       sans: ['Inter', 'sans-serif'],
