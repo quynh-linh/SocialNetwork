@@ -15,5 +15,7 @@ public interface PostService {
     public void updatePost(String content, Timestamp createdAt, int privacyId, int postId, String userId);
 
     public String getContentPostByPostId(int postId);
+
+    public List<PostById> searchByPost(String userId, String content, int limit);
 }
 

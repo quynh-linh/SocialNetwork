@@ -181,5 +181,19 @@ public class PostController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error occurred");
         }
     }
+
+    // search by post
+    @GetMapping("/searchByPost")
+    public ResponseEntity<?> searchByPost(@RequestParam String userId, @RequestParam String content, @RequestParam int limit){
+        try {
+            if (userId.isEmpty() || content.isEmpty()){
+                return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("userId and content is required !"));
+            }
+            List<PostById> listPost = postService.searchByPost(userId,content,limit);
+            return listPost != null ? ResponseEntity.status(HttpStatus.OK).body(listPost) : ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("data is null !"));
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ApiResponse("Error occurred ?"));
+        }
+    }
 }
 

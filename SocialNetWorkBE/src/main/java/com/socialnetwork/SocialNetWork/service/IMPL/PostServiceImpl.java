@@ -110,5 +110,22 @@ public class PostServiceImpl implements PostService{
         }
     }
 
+    // search by post
+    @Override
+    public List<PostById> searchByPost(String userId, String content, int limit){
+        try{
+            if (!userId.isEmpty() && !content.isEmpty()){
+                ArrayList<PostById> listPost = (ArrayList<PostById>) postRepository.searchByPost(userId,content,limit);
+                if (!listPost.isEmpty()){
+                    return listPost;
+                }
+            }
+            return null;
+        }catch (DataAccessException e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
 }
 
