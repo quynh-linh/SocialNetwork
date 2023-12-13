@@ -85,12 +85,30 @@ public class PostServiceImpl implements PostService{
     @Override
     public void updatePost(String content, Timestamp createdAt, int privacyId, int postId, String userId){
         try{
-           if(postId > 0 && !userId.isEmpty()){
-               postRepository.updatePost(content, createdAt, privacyId, postId, userId);
-           }
+            if(postId > 0 && !userId.isEmpty()){
+                postRepository.updatePost(content, createdAt, privacyId, postId, userId);
+            }
         }catch (DataAccessException e){
             e.printStackTrace();
         }
     }
 
+    // get content post by ppostId
+    @Override
+    public String getContentPostByPostId(int postId){
+        try{
+            if(postId > 0){
+                String content = postRepository.getContentPostByPostId(postId);
+                if (!content.isEmpty()){
+                    return content;
+                }
+            }
+            return null;
+        }catch (DataAccessException e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
 }
+

@@ -1,6 +1,7 @@
 package com.socialnetwork.SocialNetWork.controller;
 
 import com.socialnetwork.SocialNetWork.entity.Media;
+import com.socialnetwork.SocialNetWork.entity.Notifications;
 import com.socialnetwork.SocialNetWork.entity.Post;
 import com.socialnetwork.SocialNetWork.model.IMPL.PostById;
 import com.socialnetwork.SocialNetWork.model.Response.ApiResponse;
@@ -30,6 +31,10 @@ public class PostController {
     public CommentsService commentsService;
     @Autowired
     public LikesService likesService;
+    @Autowired
+    public UserService userService;
+    @Autowired
+    public NotificationService notificationService;
 
     @GetMapping("/getListPost/{id}")
     public ResponseEntity<?> getListPost(@PathVariable String id) {
@@ -69,9 +74,30 @@ public class PostController {
             // INIT Media
             if(!content.isEmpty() && !userId.isEmpty() && privacyId > 0){
                 Post media = new Post(userId,content,createdAt,null,privacyId);
-                return ResponseEntity.status(HttpStatus.OK).body(postService.addPost(media));
+                // Save the post and retrieve the saved post with ID
+                Post savedPost = postService.addPost(media);
+                // Check if the post was saved successfully
+                if (savedPost != null) {
+                    // Extract the ID from the saved post
+                    int postId = savedPost.getId();
+                    // add notification
+                    UserDTO userDTO = userService.getDetailUserById(userId);
+                    String imageUser = userService.getImageUserByUserId(userId);
+                    List<String> listUserId = userService.getListUserIdFriends(userId);
+                    if (listUserId != null && userDTO != null && imageUser != null){
+                        for(String id : listUserId){
+                            String notificationMessage = " vừa đăng bài " + content;
+                            String nameUser = userDTO.getFirstName() + " " + userDTO.getLastName();
+                            Notifications notifications = new Notifications(id,nameUser,notificationMessage,createdAt,postId,0,imageUser);
+                            notificationService.addNotification(notifications);
+                        }
+                    }
+                    return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Post added successfully with ID: " + postId));
+                } else {
+                    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ApiResponse("Error occurred while adding the post"));
+                }
             } else {
-                return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Data cannot be left blank"));
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApiResponse("Data cannot be left blank"));
             }
         } catch(Exception e){
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error occurred");
@@ -156,3 +182,4 @@ public class PostController {
         }
     }
 }
+

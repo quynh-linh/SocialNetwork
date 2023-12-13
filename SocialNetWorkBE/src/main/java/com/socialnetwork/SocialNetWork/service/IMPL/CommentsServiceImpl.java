@@ -71,12 +71,12 @@ public class CommentsServiceImpl implements CommentsService {
     @Override
     public int checkCommentChild(String id){
         try {
-           int check =  commentsRepository.checkCommentChild(id);
-           System.err.println(check);
-           if(check > 0){
-               return check;
-           }
-           return 0;
+            int check =  commentsRepository.checkCommentChild(id);
+            System.err.println(check);
+            if(check > 0){
+                return check;
+            }
+            return 0;
         }catch (DataAccessException e){
             e.printStackTrace();
             return 0;
@@ -110,10 +110,10 @@ public class CommentsServiceImpl implements CommentsService {
     @Transactional
     public String updateComment(String content, int id){
         try {
-             int update = commentsRepository.updateComment(content,id);
-             if(update > 0){
-                 return "update success";
-             }
+            int update = commentsRepository.updateComment(content,id);
+            if(update > 0){
+                return "update success";
+            }
         }catch (DataAccessException e) {
             e.printStackTrace();
         }
@@ -179,6 +179,7 @@ public class CommentsServiceImpl implements CommentsService {
     }
 
     // get List id Comment By Post
+    @Override
     public  List<String> getListIdCommentByPost(int postId){
         try{
             if(postId > 0){
@@ -196,6 +197,7 @@ public class CommentsServiceImpl implements CommentsService {
     }
 
     // delete All Comment Child In Post
+    @Override
     public void deleteAllCommentChildInPost(List<String> commentId){
         try{
             commentsRepository.deleteAllCommentChildInPost(commentId);
@@ -204,6 +206,24 @@ public class CommentsServiceImpl implements CommentsService {
         }
     }
 
+    // get UserId By Parent Comment
+    @Override
+    public String getUserIdByParentComment(int parentCommentId){
+        try{
+            if (parentCommentId > 0){
+                String id = commentsRepository.getUserIdByParentComment(parentCommentId);
+                if (!id.isEmpty()){
+                    return id;
+                }
+            }
+            return null;
+        }catch (DataAccessException e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
 }
+
 
 

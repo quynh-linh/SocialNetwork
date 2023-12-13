@@ -82,4 +82,9 @@ public interface CommentsRepository extends JpaRepository<Comments, Long> {
     @Transactional
     @Query(value = "DELETE FROM comments WHERE parent_comment_id IN ?1", nativeQuery = true)
     void deleteAllCommentChildInPost(List<String> commentId);
+
+    // get userId by parent_comment_id
+    @Query(value = "SELECT user_id FROM comments WHERE parent_comment_id = ?1 ORDER BY created_at DESC LIMIT 1", nativeQuery = true)
+    String getUserIdByParentComment(int parentCommentId);
 }
+
