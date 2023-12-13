@@ -1,4 +1,5 @@
-import { faHouse, faLocationDot, faSchool, faUserMinus, faUserPlus, faUserSecret, faUsers } from "@fortawesome/free-solid-svg-icons";
+import { faImage, faMessage, faNewspaper } from "@fortawesome/free-regular-svg-icons";
+import { faHouse, faLocationDot, faSchool, faUserGroup, faUserMinus, faUserPlus, faUserSecret, faUsers } from "@fortawesome/free-solid-svg-icons";
 import images from "~/assets/images";
 
 const DATA_PAGES = [
@@ -264,6 +265,36 @@ const DATA_MENU_FRIENDS_PROFILE = [
         status: false
     }
 ];
+const DATA_SIDEBAR_SEARCH = [
+    {
+        id: 'all',
+        name: 'Tất cả',
+        image: faNewspaper,
+        path:'/search',
+        status: true
+    },
+    {
+        id: 'post',
+        name: 'Bài viết',
+        image: faMessage,
+        path:'/search/posts',
+        status: false
+    },
+    {
+        id: 'peoples',
+        name: 'Mọi người',
+        image: faUserGroup,
+        path:'/search/people',
+        status: false
+    },
+    {
+        id: 'photos',
+        name: 'Ảnh',
+        image: faImage,
+        path:'/search/photos',
+        status: false
+    }
+];
 export {
     DATA_PAGES,DATA_MENU_PAGES,
     DATA_MENU_CHILDREN_PROFILE,
@@ -272,5 +303,6 @@ export {
     ALL_FRIENDS_USER,
     DATA_SETTINGS_MENU_CONTROL,
     DATA_CONNECTIONS,
-    DATA_MENU_FRIENDS_PROFILE
+    DATA_MENU_FRIENDS_PROFILE,
+    DATA_SIDEBAR_SEARCH
 };

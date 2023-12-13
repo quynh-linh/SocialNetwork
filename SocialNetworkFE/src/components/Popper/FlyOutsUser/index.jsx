@@ -26,7 +26,7 @@ function FlyOutUser({state = false , data , anchor,onClose}) {
     const navigate = useNavigate();
     const handleClose = () => {
         onClose(false);
-        setOpen(null);
+        setOpen(false);
     };
 
     const handleSetModeBgDark = () => {

@@ -8,25 +8,44 @@ import { faMessage } from "@fortawesome/free-regular-svg-icons";
 import FlyOutUser from "~/components/Popper/FlyOutsUser";
 import { useEffect, useRef, useState } from "react";
 import { DATA_MENU_PAGES } from "~/const/data";
-import { Link } from "react-router-dom";
+import { Link , createSearchParams, useNavigate } from "react-router-dom";
 import BoxSearch from "~/components/Popper/BoxSearch";
 import { useDispatch, useSelector } from "react-redux";
 import { getListUserBySearch } from "~/redux/authSlice";
 import useUserToken from "~/hook/user";
+import FlyOutsNotify from "~/components/Popper/FlyOutsNotify";
+import { getCountNotificationUnread, getNotification } from "~/redux/notificationSlice";
 function Header() {
     const cx = classNames.bind(styles);
+
     const [isOpenMenuUser,setOpenMenuUser] = useState(false);
     const [isOpenMenuPage,setOpenMenuPage] = useState(false);
+    const [isOpenNotify,setOpenNotify] = useState(false);
     const [isOpenMenuAccount,setOpenMenuAccount] = useState(false);
     const [isShowBoxSearch,setShowBoxSearch] = useState(false);
+
+    const [valueInputSearch,setValueInputSearch] = useState('');
+    const [valueCountNotify,setValueCountNotify] = useState('');
+
     const [listUserBySearch,setListUserBySearch] = useState([]);
-    const {nameUrlImageUser,valueDetailUserById} = useUserToken();
+    const [listNotifyByUser,setListNotifyByUser] = useState([]);
+    const {nameUrlImageUser,valueDetailUserById,valueIdUser} = useUserToken();
+
     const [anchorEl, setAnchorEl] = useState(null);
+    const [anchorNotify, setAnchorNotify] = useState(null);
+
     const menuPageRef = useRef(null);
     const menuUserRef = useRef(null);
     const menuAccountRef = useRef(null);
+
     const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+    //
     const state = useSelector(state => state.auth);
+    const stateNotify = useSelector(state => state.notify);
+
+
     // HANDLE CLICK OPEN MENU USER
     const handleCLickOpenMenuUser = (event) => {
         setOpenMenuUser(!isOpenMenuUser);
@@ -59,31 +78,59 @@ function Header() {
         setShowBoxSearch(false);
     };
 
-    // 
+    // HANDLE ON CHANGE VALUE IP SEARCH
     const handleOnChangeInputSearch = (e) => {
         const name = e.target.value;
-        if(name !== ''){
-            dispatch(getListUserBySearch({
-                name : name
-            })).then((item) => {
-                if(item && item.payload && !item.payload.message){
-                    setListUserBySearch(item.payload);
-                }
-            })
-        } else {
-            setListUserBySearch([])
+        setValueInputSearch(name);
+        dispatch(getListUserBySearch({name : name}))
+    };
+
+    // HANDLE CLICK SHOW NOTIFY
+    const handleCLickShowNotify = (event) => {
+        setValueCountNotify(null);
+        setOpenNotify(!isOpenNotify);
+        setAnchorNotify(event.currentTarget);
+        setOpenMenuPage(false);
+        setOpenMenuAccount(false);
+    };
+
+    // HANDLE KET PRESS
+    const handleKeyPress = (event) => {
+        if (event.key === 'Enter') {
+            const params = {
+                q: valueInputSearch !== '' ? valueInputSearch : '' ,
+            };
+            navigate(`/search?${createSearchParams(params)}`)
         }
     };
 
     useEffect(() => {
         const { isLoading, arrSearch } = state;
-        if (!isLoading && arrSearch.length > 0) {
-            const timer = setTimeout(() => setListUserBySearch(arrSearch), 3000);
-            return () => clearTimeout(timer);
+        if(state?.msg === 'name is required'){
+            setListUserBySearch([]);
+        } else {
+            if (!isLoading && arrSearch.length > 0) {
+                setListUserBySearch(arrSearch);
+            }
         }
     }, [state]);
-    
 
+    useEffect(() => {
+        if(valueIdUser !== undefined){
+            dispatch(getNotification({userId: valueIdUser, limit: 1000}));
+            dispatch(getCountNotificationUnread({userId: valueIdUser}));
+        }   
+    },[valueIdUser]);
+
+
+    useEffect(() => {
+        setListNotifyByUser(stateNotify.arrNotify ?? []);
+    }, [stateNotify.arrNotify]);
+
+    useEffect(() => {
+        setValueCountNotify(stateNotify.count ?? 0);
+    }, [stateNotify.count]);
+    
     useEffect(() => {
         // HANDLE CLICK
         const handleClickOutside = (event) => {
@@ -132,6 +179,7 @@ function Header() {
                                 name="search"
                                 onClick={handleClickInputSearch}
                                 onChange={handleOnChangeInputSearch}
+                                onKeyDown={handleKeyPress}
                             />
                         </div>
                     </div>
@@ -176,13 +224,42 @@ function Header() {
                     </div>
                     <div className={cx('flex items-center justify-between')}>
                         <div className={cx('header__Controls')}>
-                            <FontAwesomeIcon className={cx('header__Controls-icon')} icon={faMessage}/>
+                            <FontAwesomeIcon 
+                                className={cx('header__Controls-icon','hover:cursor-pointer hover:bg-primaryColor hover:text-white')} 
+                                icon={faMessage}
+                            />
                         </div>
                         <div className={cx('header__Controls')}>
-                            <FontAwesomeIcon className={cx('header__Controls-icon')} icon={faGear}/>
+                            <FontAwesomeIcon 
+                                className={cx('header__Controls-icon','hover:cursor-pointer hover:bg-primaryColor hover:text-white')} 
+                                icon={faGear}
+                            />
                         </div>
                         <div className={cx('header__Controls')}>
-                            <FontAwesomeIcon className={cx('header__Controls-icon')} icon={faBell}/>
+                            <div className="relative">
+                                <FontAwesomeIcon
+                                    className={cx('header__Controls-icon','hover:cursor-pointer hover:bg-primaryColor hover:text-white'
+                                    ,isOpenNotify ? 'bg-primaryColor' : '')}
+                                    icon={faBell}
+                                    onClick={handleCLickShowNotify}
+                                />
+                                {
+                                    valueCountNotify > 0 && (
+                                        <span 
+                                            className="absolute -top-0.5 right-0 py-1 px-3 font-bold rounded-full text-lg bg-error"
+                                        >
+                                            {valueCountNotify}
+                                        </span>
+                                    )
+                                }
+                            </div>
+                            <FlyOutsNotify
+                                state={isOpenNotify}
+                                data = {listNotifyByUser}
+                                anchor= {anchorNotify}
+                                onClose = {(e) => setOpenNotify(e)}
+                                onShowCount= {(e) => setValueCountNotify(e)}
+                            />
                         </div>
                         {/* FLY OUTS USER */}
                         <div className={cx('header__Controls-User')} onClick={handleCLickOpenMenuUser}>

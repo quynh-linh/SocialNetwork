@@ -12,7 +12,7 @@ import java.util.List;
 public interface FrindshipRepository extends JpaRepository<Frindship,Long> {
     @Query(value = "SELECT " +
             "CASE " +
-            "   WHEN f.status = 2 THEN Bạn bè''" +
+            "   WHEN f.status = 2 THEN 'Bạn bè' " +
             "   WHEN f.status = 1 THEN 'Đã gửi yêu cầu kết bạn' " +
             "   ELSE 'Không phải bạn bè' " +
             "END AS FriendshipStatus " +

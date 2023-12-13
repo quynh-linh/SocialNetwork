@@ -330,6 +330,7 @@ const authSlice = createSlice({
         builder.addCase(getListUserBySearch.fulfilled,(state,action) => {
             state.isLoading = false;
             state.arrSearch = action.payload || []; // Use an empty array if action.payload is undefined
+            state.msg = action.payload?.message || '';
         });
         builder.addCase(getListUserBySearch.rejected,(state,action) => {
             state.isLoading = true;

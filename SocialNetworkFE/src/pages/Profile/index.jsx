@@ -58,6 +58,7 @@ function Profile({children}) {
 
     useEffect(() => {
         if (stateFriends?.msg !== '') {
+            console.log(stateFriends?.msg);
             setCheckStatusUser(stateFriends?.msg);
         }
     }, [stateFriends]);
