@@ -16,6 +16,6 @@ public interface PostService {
 
     public String getContentPostByPostId(int postId);
 
-    public List<PostById> searchByPost(String userId, String content, int limit);
+    public List<PostById> searchByPost(String content, int limit);
 }
 

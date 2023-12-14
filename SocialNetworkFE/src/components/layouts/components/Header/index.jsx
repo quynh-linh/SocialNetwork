@@ -8,7 +8,7 @@ import { faMessage } from "@fortawesome/free-regular-svg-icons";
 import FlyOutUser from "~/components/Popper/FlyOutsUser";
 import { useEffect, useRef, useState } from "react";
 import { DATA_MENU_PAGES } from "~/const/data";
-import { Link , createSearchParams, useNavigate } from "react-router-dom";
+import { Link , createSearchParams, useNavigate , useLocation } from "react-router-dom";
 import BoxSearch from "~/components/Popper/BoxSearch";
 import { useDispatch, useSelector } from "react-redux";
 import { getListUserBySearch } from "~/redux/authSlice";
@@ -37,6 +37,11 @@ function Header() {
     const menuPageRef = useRef(null);
     const menuUserRef = useRef(null);
     const menuAccountRef = useRef(null);
+
+    //
+    const { search } = useLocation();
+    const queryParams = new URLSearchParams(search);
+    const query = queryParams.get('q');
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -100,7 +105,8 @@ function Header() {
             const params = {
                 q: valueInputSearch !== '' ? valueInputSearch : '' ,
             };
-            navigate(`/search?${createSearchParams(params)}`)
+            navigate(`/search?${createSearchParams(params)}`);
+            setShowBoxSearch(false);
         }
     };
 
@@ -131,6 +137,13 @@ function Header() {
         setValueCountNotify(stateNotify.count ?? 0);
     }, [stateNotify.count]);
     
+    useEffect(() => {
+        if(query !== null){
+            setValueInputSearch(query);
+        };
+    }, [query]);
+
+
     useEffect(() => {
         // HANDLE CLICK
         const handleClickOutside = (event) => {
@@ -180,6 +193,7 @@ function Header() {
                                 onClick={handleClickInputSearch}
                                 onChange={handleOnChangeInputSearch}
                                 onKeyDown={handleKeyPress}
+                                value={valueInputSearch}
                             />
                         </div>
                     </div>

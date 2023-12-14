@@ -9,6 +9,7 @@ import { ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ConnectionsLayout from "./components/layouts/ConnectionsLayout/ConnectionsLayout";
 import SearchLayout from "./components/layouts/SearchLayout";
+import PostsLayout from "./components/layouts/PostsLayout";
 function App() {
   return (
     <Router>
@@ -40,6 +41,7 @@ function App() {
               const SettingsLayouts = route.layout === null ? Fragment : SettingsLayout;
               const ConnectionsLayouts = route.layout === null ? Fragment : ConnectionsLayout;
               const SearchLayouts = route.layout === null ? Fragment : SearchLayout;
+              const PostsLayouts = route.layout === null ? Fragment : PostsLayout;
               const Layout = route.layout === null ? Fragment : DefaultLayout;
               const Page = route.component ? route.component : null;
               if (route.layout === 'Default Layout'){
@@ -144,6 +146,18 @@ function App() {
                             ))}
                         </Routes>
                       </SearchLayouts>
+                    }
+                  />
+                ) 
+              } else if (route.layout === 'Posts Layout'){
+                return (
+                  <Route 
+                    key={index} 
+                    path={route.path} 
+                    element={
+                      <PostsLayouts>
+                        <Page/>
+                      </PostsLayouts>
                     }
                   />
                 ) 

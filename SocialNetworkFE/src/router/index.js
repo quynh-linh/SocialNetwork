@@ -11,6 +11,11 @@ import Connections from "~/pages/Connections";
 import FriendRequest from "~/pages/Connections/components/FriendRequest/FriendRequest";
 import FriendsProfile from "~/pages/Profile/components/Friends/Friends";
 import ImagesProfile from "~/pages/Profile/components/Images";
+import Post from "~/components/Post/Post";
+import PostsLayout from "~/components/layouts/PostsLayout";
+import Search from "~/pages/Search";
+import PostsSearch from "~/pages/Search/components/PostsSearch";
+import PeopleSearch from "~/pages/Search/components/PeopleSearch";
 const publicRoutes =[
     {   
         path: '/login', 
@@ -112,23 +117,23 @@ const privateRoutes = [
         routes: [
             {
                 path: '',
-                component: Connections,
+                component: Search,
                 name: 'Friends'
             },
             {
-                path: 'requests',
-                component: FriendRequest,
-                name: 'Request'
+                path: '/posts',
+                component: PostsSearch,
+                name: 'Bài đăng'
             },
             {
-                path: 'suggestions',
-                component: FriendRequest,
-                name: 'Suggestions'
+                path: '/people',
+                component: PeopleSearch,
+                name: 'Mọi người'
             },
             {
-                path: 'list',
+                path: 'photos',
                 component: FriendRequest,
-                name: 'List'
+                name: 'Ảnh'
             }
         ]
     },
@@ -137,6 +142,12 @@ const privateRoutes = [
         component: Home,
         name: 'Trang chủ',
         layout : 'Default Layout'
+    },
+    {   
+        path: '/posts', 
+        component: PostsLayout,
+        name: 'Bài đăng',
+        layout : 'Posts Layout'
     }
 ];
 export {publicRoutes,privateRoutes};

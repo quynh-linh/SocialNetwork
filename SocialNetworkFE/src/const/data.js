@@ -274,7 +274,7 @@ const DATA_SIDEBAR_SEARCH = [
         status: true
     },
     {
-        id: 'post',
+        id: 'posts',
         name: 'Bài viết',
         image: faMessage,
         path:'/search/posts',

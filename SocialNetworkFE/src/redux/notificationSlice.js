@@ -64,6 +64,25 @@ const fromNotificationToPostOrUserDetail = createAsyncThunk('fromNotificationToP
     }
 });
 
+// HANDLE UPDATE STATUS NOTIFICATION
+const updateStatusNotificationReaDed = createAsyncThunk('updateStatusNotificationReaDed',async(body)=> {
+    try {
+        const {id} = body;
+        const res = await fetch(URL_API + `api/v1/notifications/updateStatusNotificationReaDed?idNotification=${id}`, {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+        });
+        const data = await res.json();
+        return data;
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        throw error;
+    }
+});
+
 
 const notifySlice = createSlice({
     name: "notify",
@@ -99,8 +118,19 @@ const notifySlice = createSlice({
         });
         builder.addCase(fromNotificationToPostOrUserDetail.fulfilled,(state,action) => {
             state.isLoading = false;
+            console.log(action.payload);
         });
         builder.addCase(fromNotificationToPostOrUserDetail.rejected,(state,action) => {
+            state.isLoading = true;
+        });
+        // ================= UPDATE STATUS NOTIFICATION =================
+        builder.addCase(updateStatusNotificationReaDed.pending,(state,action) => {
+            state.isLoading = true;
+        });
+        builder.addCase(updateStatusNotificationReaDed.fulfilled,(state,action) => {
+            state.isLoading = false;
+        });
+        builder.addCase(updateStatusNotificationReaDed.rejected,(state,action) => {
             state.isLoading = true;
         });
     }
@@ -112,6 +142,8 @@ export {
     getNotification,
     // GET COUNT NOTIFICATION BY USER ID
     getCountNotificationUnread,
-    fromNotificationToPostOrUserDetail
+    fromNotificationToPostOrUserDetail,
+    // UPDATE STATUS NOTIFICATION
+    updateStatusNotificationReaDed
 };
 //export const {} = friendSlice.actions; 

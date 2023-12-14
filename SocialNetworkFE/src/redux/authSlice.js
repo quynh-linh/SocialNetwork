@@ -329,8 +329,9 @@ const authSlice = createSlice({
         });
         builder.addCase(getListUserBySearch.fulfilled,(state,action) => {
             state.isLoading = false;
-            state.arrSearch = action.payload || []; // Use an empty array if action.payload is undefined
+            state.arrSearch = action.payload || [];
             state.msg = action.payload?.message || '';
+            console.log(action.payload);
         });
         builder.addCase(getListUserBySearch.rejected,(state,action) => {
             state.isLoading = true;
@@ -341,7 +342,7 @@ const authSlice = createSlice({
         });
         builder.addCase(getDetailUserById.fulfilled,(state,action) => {
             state.isLoading = false;
-            state.obDetail = action.payload || null; // Use an empty array if action.payload is undefined
+            state.obDetail = action.payload || null;
         });
         builder.addCase(getDetailUserById.rejected,(state,action) => {
             state.isLoading = true;
