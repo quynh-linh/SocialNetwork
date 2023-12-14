@@ -51,7 +51,7 @@ public class NotificationController {
     }
 
     // update Status Notification Readed
-    @PostMapping("/updateStatusNotificationReaDed")
+    @GetMapping("/updateStatusNotificationReaDed")
     public ResponseEntity<?> updateStatusNotificationReaDed(@RequestParam int idNotification){
         try {
             if(idNotification <= 0){

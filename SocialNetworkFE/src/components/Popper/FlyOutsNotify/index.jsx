@@ -13,23 +13,29 @@ import useUserToken from '~/hook/user';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBell, faEllipsisVertical } from '@fortawesome/free-solid-svg-icons';
 import calculateTime from '~/const/calculateTime';
-import { fromNotificationToPostOrUserDetail } from '~/redux/notificationSlice';
+import { fromNotificationToPostOrUserDetail, updateStatusNotificationReaDed } from '~/redux/notificationSlice';
 function FlyOutsNotify({state = false , data , anchor,onClose,onShowCount}) {
     const cx = classNames.bind(styles);
 
-    const {valueIdUser} = useUserToken();
     const [anchorEl, setAnchorEl] = useState(null);
     const [open,setOpen] = useState(false);
     const dispatch = useDispatch();
     const navigate = useNavigate();
+
+    //
     const handleClose = () => {
         onClose(false);
         setOpen(false);
     };
 
-    const handelClickToNotification = (id) => {
+    const handelClickToNotification = (item) => {
         onShowCount(0);
-        dispatch(fromNotificationToPostOrUserDetail({id : id}));
+        console.log(item);
+        if(item.post_id === 0) {
+            navigate(`/friends/requests?id=${item.user_id}`);
+        }
+        dispatch(fromNotificationToPostOrUserDetail({id : item.id}));
+        dispatch(updateStatusNotificationReaDed({id : item.id}));
     };
 
     useEffect(() => {
@@ -81,7 +87,7 @@ function FlyOutsNotify({state = false , data , anchor,onClose,onShowCount}) {
                                                 </div>
                                                 <div 
                                                     className={cx('ml-4 relative w-4/5',item.status === 0 ? 'text-search' : 'text-color-text')}
-                                                    onClick={(e) =>  handelClickToNotification(item.id)}
+                                                    onClick={(e) =>  handelClickToNotification(item)}
                                                 >
                                                     <h1>
                                                         <span className='font-semibold'>{item.nameUser}</span> 

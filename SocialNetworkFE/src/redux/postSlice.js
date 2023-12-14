@@ -3,6 +3,7 @@ const { createSlice, createAsyncThunk } = require("@reduxjs/toolkit");
 const  initialState = {
     isLoading: false,
     msg:'',
+    arrSearchPost: []
 }
 // GET LIST POST BY USER ID
 const getListPost = createAsyncThunk('getListPost',async(body)=> {
@@ -99,6 +100,25 @@ const addPostMedia = createAsyncThunk('addPostMedia',async(body)=> {
     }
 });
 
+// HANDLE SEARCH POSTS
+const searchByPost = createAsyncThunk('searchByPost',async(body)=> {
+    try {
+        const {content,limit} = body;
+        const res = await fetch(URL_API + `api/v1/post/searchByPost?content=${content}&&limit=${limit}`, {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        });
+        const data = await res.json();
+        return data;
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        throw error;
+    }
+});
+
 const postSlice = createSlice({
     name: "post",
     initialState,
@@ -124,7 +144,6 @@ const postSlice = createSlice({
         });
         builder.addCase(deletePost.fulfilled,(state,action) => {
             const { message } = action.payload;
-            console.log(action.payload);
             state.msg = message;
             state.isLoading = false;
         });
@@ -149,11 +168,22 @@ const postSlice = createSlice({
         });
         builder.addCase(getListPost.fulfilled,(state,action) => {
             const { message } = action.payload;
-            console.log(message);
             state.msg = message;
             state.isLoading = false;
         });
         builder.addCase(getListPost.rejected,(state,action) => {
+            state.isLoading = true;
+        });
+        // ================= SEARCH POSTS =================
+        builder.addCase(searchByPost.pending,(state,action) => {
+            state.isLoading = true;
+        });
+        builder.addCase(searchByPost.fulfilled,(state,action) => {
+            state.isLoading = false;
+            state.arrSearchPost = action.payload || null;
+            state.msg = action.payload?.message || '';
+        });
+        builder.addCase(searchByPost.rejected,(state,action) => {
             state.isLoading = true;
         });
     }
@@ -169,5 +199,7 @@ export {
     // GET LIST POST
     getListPost,
     // GET LIST POST BY USER ID
-    getListPostByUserID
+    getListPostByUserID,
+    // SEARCH POSTS
+    searchByPost
 };

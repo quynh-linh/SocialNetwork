@@ -83,8 +83,8 @@ public interface UserRepository extends JpaRepository<User,Long> {
             "WHERE u.id = ?1 ",nativeQuery = true)
     User getDetailUserById(String id);
 
-    @Query(value = "SELECT * FROM user " +
-            "WHERE first_name LIKE %?1% OR last_name LIKE %?1%", nativeQuery = true)
+    @Query(value = "SELECT * FROM user AS u " +
+            "WHERE LOWER(u.last_name) LIKE CONCAT('%', LOWER(?1), '%')", nativeQuery = true)
     List<User> getListUserBySearch(String name);
 
     // get list userId friend

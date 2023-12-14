@@ -44,6 +44,7 @@ function Profile({children}) {
 
     //
     useEffect(() => {
+        console.log(id);
         handleDispatch(id,valueIdUser);
     }, [id, valueIdUser]);
       
