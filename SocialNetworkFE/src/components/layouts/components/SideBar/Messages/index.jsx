@@ -109,14 +109,17 @@ function MessagesSidebar() {
                             return (
                                 <li 
                                     key={item[0]} 
-                                    className="flex items-center mt-4 p-2 rounded-2xl hover:bg-comment hover:cursor-pointer"
+                                    className={cx("flex items-center mt-4 p-2 rounded-2xl hover:bg-comment hover:cursor-pointer")}
                                     onClick={() => handleSelect(item)}
                                 >
-                                    <img 
-                                        className="w-20 h-w-20 rounded-full"
-                                        src={item[1].userInfo.photoURL}
-                                        alt="message user"
-                                    />
+                                    <div className="relative">
+                                        <img
+                                            className="w-20 h-w-20 rounded-full"
+                                            src={item[1].userInfo.photoURL}
+                                            alt="message user"
+                                        />
+                                        <div className="absolute right-0 bottom-0 w-5 h-5 rounded-full bg-text-primary"></div>
+                                    </div>
                                     <div className="ml-6">
                                         <h1 className="text-search text-2xl font-bold">{item[1].userInfo.displayName}</h1>
                                         <span 

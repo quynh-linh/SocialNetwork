@@ -130,7 +130,7 @@ const postSlice = createSlice({
             state.isLoading = true;
         });
         builder.addCase(addPosts.fulfilled,(state,action) => {
-            const { message } = action;
+            const { message } = action.payload;
             console.log(action);
             state.msg = message;
             state.isLoading = false;

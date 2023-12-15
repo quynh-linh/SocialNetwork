@@ -42,7 +42,7 @@ function PostsSearch() {
     return (  
         <div className={cx('wrapper','h-full overflow-y-auto')}>
             <div className="flex items-center justify-center ">
-                <div className="py-20 px-36 mb-20 w-full text-center">
+                <div className={cx("py-20 px-36 mb-20 w-full", valueMessageSearch === "data is null !" ? 'text-center' : '')}>
                     {
                         valueMessageSearch === "data is null !" ? (
                             <h1 className="text-color-text font-bold text-3xl">Không tìm thấy kết quả phù hợp</h1>

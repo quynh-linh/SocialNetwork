@@ -152,6 +152,7 @@ function BoxCreate({onShow=undefined,forwardTo=undefined,valueDecentralization='
         const createdAt = currentTime();
         const privacy = getIdDecentralization(valueDecentralization);
         handleAddPost(createdAt,onChangeValuePost,valueIdUser,privacy).then((object) => {
+            console.log(object);
             setIsLoading(false);
             if(object && object.id > 0){
                 if(pickListPhoto.length > 0){
@@ -161,7 +162,8 @@ function BoxCreate({onShow=undefined,forwardTo=undefined,valueDecentralization='
                                 handleAddMedia(valueIdUser,url,createdAt,item.type).then((media) => {
                                     if(media && media.id > 0){
                                         handleAddPostMedia(media.id,object.id).then((msg) => {
-                                            if(msg && msg.message && msg.message === "success"){
+                                            console.log(msg);
+                                            if(msg?.message === "success"){
                                                 setIsLoading(true);
                                                 onShow(false);
                                             }

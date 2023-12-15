@@ -51,6 +51,7 @@ function Messages() {
             },
             [room + ".date"]: currentTime(),
         });
+        setValueTextSent('')
     }
 
     //
@@ -108,7 +109,7 @@ function Messages() {
                                 <FontAwesomeIcon className="p-4 bg-comment ml-4 rounded-full" icon={faCamera}/>
                             </div>
                         </div>
-                        <div className={cx('wrapper__messages',"p-6")}>
+                        <div className={cx('wrapper__messages')}>
                             {messages.map((m) => (
                                 <Message message={m} key={m.id} />
                             ))}
@@ -116,7 +117,7 @@ function Messages() {
                         <div className={cx('wrapper__footer',"absolute w-full  bottom-16 h-24")}>
                             <div className="relative w-full">
                                 <FontAwesomeIcon
-                                    className="absolute left-2 text-text-primary bottom-0 top-0 m-auto p-2 rounded-full text-2xl bg-background"
+                                    className="absolute left-2 text-text-primary bottom-0 top-0 m-auto p-2 rounded-full text-2xl bg-second"
                                     icon={faPlus}
                                 />
                                 <input

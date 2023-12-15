@@ -134,8 +134,8 @@ const getListUserRequestSent = createAsyncThunk('getListUserRequestSent',async(b
 // HANDLE GET USER BY REQUEST SENT
 const getListUserBySearch = createAsyncThunk('getListUserBySearch',async(body)=> {
     try {
-        const {name} = body;
-        const res = await fetch(URL_API + `api/v1/users/searchByName?name=${name}`, {
+        const {name,userId,limit} = body;
+        const res = await fetch(URL_API + `api/v1/users/searchByName?name=${name}&&userId=${userId}&&limit=${limit}`, {
             method: 'GET',
             headers: {
                 'Accept': 'application/json',
