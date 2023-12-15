@@ -5,7 +5,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { getListUserBySearch } from "~/redux/authSlice";
 import Loader from "~/components/loader/loader";
-import useUserToken from "~/hook/user";
 function PeopleSearch() {
     const cx = classNames.bind(styles);
     const [listUserBySearch,setListUserBySearch] = useState([]);

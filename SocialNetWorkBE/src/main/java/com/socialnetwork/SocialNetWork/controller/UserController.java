@@ -5,6 +5,7 @@ import com.socialnetwork.SocialNetWork.entity.Post;
 import com.socialnetwork.SocialNetWork.entity.User;
 import com.socialnetwork.SocialNetWork.model.Response.ApiResponse;
 import com.socialnetwork.SocialNetWork.model.Response.AuthResponse;
+import com.socialnetwork.SocialNetWork.model.Response.RespSuccessUser;
 import com.socialnetwork.SocialNetWork.model.dto.UserDTO;
 import com.socialnetwork.SocialNetWork.service.NotificationService;
 import com.socialnetwork.SocialNetWork.service.UserService;
@@ -107,8 +108,8 @@ public class UserController {
     @PostMapping("/add")
     public ResponseEntity<?> addUser(@RequestBody User user){
         try{
-            String result = userService.addUser(user);
-            return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse(result));
+            RespSuccessUser result = userService.addUser(user);
+            return ResponseEntity.status(HttpStatus.OK).body(result);
         } catch(Exception e){
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error occurred");
         }

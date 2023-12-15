@@ -10,6 +10,7 @@ const  initialState = {
         dateOfBirth: '',
         image: ''
     },
+    uid: '',
     token : '',
     isAuthenticated: false,
     isLoading: false,
@@ -268,8 +269,10 @@ const authSlice = createSlice({
             state.isLoading = true;
         });
         builder.addCase(signUpUser.fulfilled,(state,action) => {
-            const {message} = action.payload;
+            const {message,uid} = action.payload;
+            console.log(action.payload);
             state.isLoading = false;
+            state.uid = uid;
             state.msg = message;
         });
         builder.addCase(signUpUser.rejected,(state,action) => {

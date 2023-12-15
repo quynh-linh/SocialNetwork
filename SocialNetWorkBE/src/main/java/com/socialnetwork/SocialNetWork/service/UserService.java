@@ -2,6 +2,7 @@ package com.socialnetwork.SocialNetWork.service;
 
 import com.socialnetwork.SocialNetWork.entity.User;
 import com.socialnetwork.SocialNetWork.model.Response.AuthResponse;
+import com.socialnetwork.SocialNetWork.model.Response.RespSuccessUser;
 import com.socialnetwork.SocialNetWork.model.dto.UserDTO;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +18,7 @@ public interface UserService {
     public List<UserDTO> getListUserFriends(String id,int limit);
     public List<UserDTO> getListUserBySearch(String name);
     public UserDTO getDetailUserById(String id);
-    public String addUser(User user);
+    public RespSuccessUser addUser(User user);
     public UserDTO getUserByToken(String id);
     public AuthResponse login(String email, String password);
     public String updateUser(User user);

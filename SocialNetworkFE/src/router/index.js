@@ -16,6 +16,7 @@ import PostsLayout from "~/components/layouts/PostsLayout";
 import Search from "~/pages/Search";
 import PostsSearch from "~/pages/Search/components/PostsSearch";
 import PeopleSearch from "~/pages/Search/components/PeopleSearch";
+import Messages from "~/pages/Messages";
 const publicRoutes =[
     {   
         path: '/login', 
@@ -148,6 +149,12 @@ const privateRoutes = [
         component: PostsLayout,
         name: 'Bài đăng',
         layout : 'Posts Layout'
+    },
+    {   
+        path: '/messages', 
+        component: Messages,
+        name: 'Tin nhắn',
+        layout : 'Messages Layout'
     }
 ];
 export {publicRoutes,privateRoutes};

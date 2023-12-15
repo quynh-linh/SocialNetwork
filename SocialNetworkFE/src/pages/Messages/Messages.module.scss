@@ -1,0 +1,10 @@
+.wrapper{
+    &__header,
+    &__footer{
+        height: 10%;
+    }
+    &__messages{
+        height: 80%;
+        overflow-y: scroll;
+    }
+}

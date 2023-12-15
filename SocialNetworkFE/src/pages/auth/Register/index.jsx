@@ -11,6 +11,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { signUpUser } from "~/redux/authSlice";
 import { InputTemplate } from "~/components/input";
 import { isValidEmail } from "~/const/checkEmail";
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { doc, setDoc } from "firebase/firestore";
+import { db } from "~/config/firebase";
 function Register() {
     const cx = classNames.bind(styles);
     const [checkSafetyPassWord,setCheckSafetyPassWord] = useState('');
@@ -191,8 +194,28 @@ function Register() {
         
     };
 
+    const createUserFireBase = async(uid,email, password,displayName) => {
+        const auth = getAuth();
+        try{
+            await createUserWithEmailAndPassword(auth, email, password);  
+            //create user on fire store
+            await setDoc(doc(db, "users", uid), {
+                uid: uid,
+                displayName,
+                email
+            });
+  
+              //create empty user chats on fire store
+            await setDoc(doc(db, "userChats", uid), {});
+        }catch(error){
+
+        }
+    }
+
     useEffect(() => {
-        if(state.msg === 'success'){
+        if(state.msg === 'success' && state.uid !== ''){
+            const fullName = valueFirstNameUser + " " +valueLastNameUser;
+            createUserFireBase(state.uid,valueEmailUser,valuePasswordUser,fullName);
             const timer = setTimeout(() => {
                 setLoading(state.isLoading); 
                 const updateOb = {...logCheckConfirmPassWord , title : 'Tạo tài khoản thành công' , state:true}
@@ -200,7 +223,7 @@ function Register() {
             },3000);
             return () => clearTimeout(timer);
         }
-    },[state.msg,state.isLoading])
+    },[state.msg,state.isLoading,state.uid])
 
     return ( 
         <AuthForm title={'Đăng ký'} des={'Bạn có sẵn tài khoản?'} toWith={'Đăng nhập ngay'}>
