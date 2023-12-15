@@ -3,6 +3,7 @@ package com.socialnetwork.SocialNetWork.controller;
 import com.socialnetwork.SocialNetWork.entity.Notifications;
 import com.socialnetwork.SocialNetWork.entity.Post;
 import com.socialnetwork.SocialNetWork.entity.User;
+import com.socialnetwork.SocialNetWork.model.IMPL.UserById;
 import com.socialnetwork.SocialNetWork.model.Response.ApiResponse;
 import com.socialnetwork.SocialNetWork.model.Response.AuthResponse;
 import com.socialnetwork.SocialNetWork.model.dto.UserDTO;
@@ -66,18 +67,20 @@ public class UserController {
         }
     }
 
+    // search by name user
     @GetMapping("/searchByName")
-    public ResponseEntity<?> getListUserBySearch(@RequestParam String name){
+    public ResponseEntity<?> getListUserBySearch(@RequestParam String userId, @RequestParam String name, @RequestParam int limit){
         try {
-            if (name.isEmpty()) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApiResponse("name is required"));
+            if (name.isEmpty() || userId.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApiResponse("userId and name is required"));
             }
-            ArrayList<UserDTO> userDTO = (ArrayList<UserDTO>) userService.getListUserBySearch(name);
-            return userDTO == null ? ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("null")) : ResponseEntity.status(HttpStatus.OK).body(userDTO);
+            ArrayList<UserById> userByIds = (ArrayList<UserById>) userService.getListUserBySearch(userId, name, limit);
+            return userByIds == null ? ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("null")) : ResponseEntity.status(HttpStatus.OK).body(userByIds);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ApiResponse("Error occurred"));
         }
     }
+
 
     @GetMapping("/getDetailUser/{id}")
     public ResponseEntity<?> getDetailUserById(@PathVariable String id){

@@ -1,6 +1,7 @@
 package com.socialnetwork.SocialNetWork.repository;
 
 import com.socialnetwork.SocialNetWork.entity.User;
+import com.socialnetwork.SocialNetWork.model.IMPL.UserById;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -83,9 +84,26 @@ public interface UserRepository extends JpaRepository<User,Long> {
             "WHERE u.id = ?1 ",nativeQuery = true)
     User getDetailUserById(String id);
 
-    @Query(value = "SELECT * FROM user AS u " +
-            "WHERE LOWER(u.last_name) LIKE CONCAT('%', LOWER(?1), '%')", nativeQuery = true)
-    List<User> getListUserBySearch(String name);
+    @Query(value = "SELECT " +
+            "    u.id AS userId, " +
+            "    u.first_name AS firstName, " +
+            "    u.last_name AS lastName, " +
+            "    u.image AS avatar, " +
+            "    CASE " +
+            "        WHEN f.status = 2 THEN 'Bạn bè' " +
+            "        WHEN f.status = 1 THEN 'Đã gửi yêu cầu kết bạn' " +
+            "        ELSE 'Không phải bạn bè' " +
+            "    END AS friendshipStatus " +
+            "FROM " +
+            "    user AS u " +
+            "JOIN " +
+            "    frindship AS f ON f.sender_id = u.id OR f.receiver_id = u.id " +
+            "WHERE " +
+            "    u.id = ?1 AND LOWER(u.last_name) LIKE CONCAT('%', LOWER(?2), '%') OR " +
+            "    LOWER(u.first_name) LIKE CONCAT('%', LOWER(?2), '%') " +
+            "LIMIT ?3", nativeQuery = true)
+    List<UserById> getListUserBySearch(String userId, String name, int limit);
+
 
     // get list userId friend
     @Query(value = "SELECT u.id " +
