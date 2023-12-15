@@ -3,6 +3,7 @@ package com.socialnetwork.SocialNetWork.service.IMPL;
 import com.socialnetwork.SocialNetWork.entity.User;
 import com.socialnetwork.SocialNetWork.model.IMPL.UserById;
 import com.socialnetwork.SocialNetWork.model.Response.AuthResponse;
+import com.socialnetwork.SocialNetWork.model.Response.RespSuccessUser;
 import com.socialnetwork.SocialNetWork.model.dto.UserDTO;
 import com.socialnetwork.SocialNetWork.model.mapper.UserMapper;
 import com.socialnetwork.SocialNetWork.repository.UserRepository;
@@ -141,7 +142,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String addUser(User user) {
+    public RespSuccessUser addUser(User user) {
         try{
             String uniqueId = IdGenerator.generateUniqueId();
             ArrayList<User> listUsers = (ArrayList<User>) userRepository.findAll();
@@ -152,10 +153,10 @@ public class UserServiceImpl implements UserService {
             }
             user.setId(uniqueId);
             userRepository.save(user);
-            return "success";
+            return new RespSuccessUser(uniqueId,"success");
         } catch(DataAccessException ex){
             ex.printStackTrace();
-            return "error";
+            return null;
         }
     }
 

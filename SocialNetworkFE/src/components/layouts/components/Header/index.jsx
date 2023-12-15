@@ -143,7 +143,6 @@ function Header() {
         };
     }, [query]);
 
-
     useEffect(() => {
         // HANDLE CLICK
         const handleClickOutside = (event) => {
@@ -237,7 +236,8 @@ function Header() {
                         </FlyOutsMenu>
                     </div>
                     <div className={cx('flex items-center justify-between')}>
-                        <div className={cx('header__Controls')}>
+                        <div className={cx('header__Controls')}
+                            onClick={() => navigate('/messages')}>
                             <FontAwesomeIcon 
                                 className={cx('header__Controls-icon','hover:cursor-pointer hover:bg-primaryColor hover:text-white')} 
                                 icon={faMessage}

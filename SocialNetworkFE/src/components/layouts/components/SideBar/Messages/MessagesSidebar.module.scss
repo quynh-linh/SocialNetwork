@@ -1,0 +1,9 @@
+.wrapper{
+    width: 400px;
+    &__header{
+        height: 30%;
+    }
+    &__listMessage{
+        height: 70%;
+    }
+}
