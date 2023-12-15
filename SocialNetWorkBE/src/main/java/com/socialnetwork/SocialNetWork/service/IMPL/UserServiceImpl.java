@@ -1,6 +1,7 @@
 package com.socialnetwork.SocialNetWork.service.IMPL;
 
 import com.socialnetwork.SocialNetWork.entity.User;
+import com.socialnetwork.SocialNetWork.model.IMPL.UserById;
 import com.socialnetwork.SocialNetWork.model.Response.AuthResponse;
 import com.socialnetwork.SocialNetWork.model.dto.UserDTO;
 import com.socialnetwork.SocialNetWork.model.mapper.UserMapper;
@@ -113,21 +114,21 @@ public class UserServiceImpl implements UserService {
         return null;
     }
 
+    // search by name user
     @Override
-    public List<UserDTO> getListUserBySearch(String name) {
-        if(!name.isEmpty()){
-            ArrayList<User> result = (ArrayList<User>) userRepository.getListUserBySearch(name);
-            if(!result.isEmpty()){
-                ArrayList<UserDTO> userDTOS = new ArrayList<UserDTO>();
-                // Convert users -> result
-                for (User user : result) {
-                    System.err.println(user);
-                    userDTOS.add(UserMapper.toUserDto(user));
+    public List<UserById> getListUserBySearch(String userId, String name, int limit) {
+        try {
+            if(!name.isEmpty()){
+                ArrayList<UserById> result = (ArrayList<UserById>) userRepository.getListUserBySearch(userId,name,limit);
+                if(!result.isEmpty()){
+                    return result;
                 }
-                return userDTOS;
             }
+            return null;
+        }catch (DataAccessException e){
+            e.printStackTrace();
+            return null;
         }
-        return null;
     }
 
     @Override
