@@ -5,10 +5,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { getListUserBySearch } from "~/redux/authSlice";
 import Loader from "~/components/loader/loader";
+import useUserToken from "~/hook/user";
 function PeopleSearch() {
     const cx = classNames.bind(styles);
     const [listUserBySearch,setListUserBySearch] = useState([]);
     const [valueMessageSearch,setValueMessageSearch] = useState('');
+    const {valueIdUser} = useUserToken();
     //
     const { search } = useLocation();
     const dispatch = useDispatch();
@@ -17,13 +19,18 @@ function PeopleSearch() {
     const stateAuth = useSelector(state => state.auth);
     
     useEffect(() => {
-        if(query){
-            dispatch(getListUserBySearch({name: query}));
+        if(query && valueIdUser !== undefined){
+            dispatch(getListUserBySearch({
+                name: query,
+                userId: valueIdUser,
+                limit: 100
+            }));
         }
-    },[query]);
+    },[query,valueIdUser]);
 
     useEffect(() => {
         if(stateAuth.arrSearch.length > 0){
+            console.log(stateAuth.arrSearch);
             setListUserBySearch(stateAuth.arrSearch);
         }
     },[stateAuth]);

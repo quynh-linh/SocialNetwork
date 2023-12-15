@@ -87,7 +87,13 @@ function Header() {
     const handleOnChangeInputSearch = (e) => {
         const name = e.target.value;
         setValueInputSearch(name);
-        dispatch(getListUserBySearch({name : name}))
+        if(valueIdUser !== undefined){
+            dispatch(getListUserBySearch({
+                name: query,
+                userId: valueIdUser,
+                limit: 100
+            }));
+        }
     };
 
     // HANDLE CLICK SHOW NOTIFY

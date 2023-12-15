@@ -39,6 +39,7 @@ public class PostController {
     @GetMapping("/getListPost/{id}")
     public ResponseEntity<?> getListPost(@PathVariable String id) {
         try {
+            System.err.println(id);
             if (id.isEmpty()) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApiResponse("userId is required"));
             }
@@ -92,7 +93,7 @@ public class PostController {
                             notificationService.addNotification(notifications);
                         }
                     }
-                    return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Post added successfully with ID: " + postId));
+                    return ResponseEntity.status(HttpStatus.OK).body(savedPost);
                 } else {
                     return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ApiResponse("Error occurred while adding the post"));
                 }

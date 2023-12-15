@@ -57,7 +57,7 @@ function useUserToken() {
                     const respAddMedia = await dispatch(addMedia({
                         userId: valueIdUser,
                         mediaUrl: url,
-                        mediaType: 'image',
+                        mediaType: 'images',
                         createdAt: createdAt,
                         title: 'Avatar',
                     }));

@@ -10,7 +10,6 @@ function Message({message}) {
     const [valueObDetailUser,setValueObDetailUser] = useState({});
     const dispatch = useDispatch();
     const state = useSelector(state => state.auth);
-    console.log(message);
     const {valueDetailUserById} = useUserToken();
 
     //
@@ -37,7 +36,7 @@ function Message({message}) {
                 >
                     <div className="">
                         <img
-                            className="w-16 h-16 rounded-full"
+                            className="w-14 h-14 rounded-full"
                             src={
                                 message.senderId === valueDetailUserById.id
                                   ? valueDetailUserById.image
@@ -53,7 +52,7 @@ function Message({message}) {
                         <p>{message.text}</p>
                     </div>
                 </div>
-                <div className="mt-4 ml-2"><p className="text-lg font-semibold">{calculateTime(message.date)+" trước"}</p></div>
+                <div className="mt-4 ml-2"><p className="text-base font-semibold">{"đã gửi " + calculateTime(message.date)+" trước"}</p></div>
             </div>
         </div>
     );
