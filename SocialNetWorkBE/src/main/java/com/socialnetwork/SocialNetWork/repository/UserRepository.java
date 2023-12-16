@@ -96,12 +96,16 @@ public interface UserRepository extends JpaRepository<User,Long> {
             "    END AS friendshipStatus " +
             "FROM " +
             "    user AS u " +
-            "JOIN " +
+            "LEFT JOIN " +
             "    frindship AS f ON f.sender_id = u.id OR f.receiver_id = u.id " +
             "WHERE " +
-            "    u.id = ?1 AND LOWER(u.last_name) LIKE CONCAT('%', LOWER(?2), '%') OR " +
+            "    (u.id = ?1 " +
+            "    OR f.sender_id = ?1 " +
+            "    OR f.receiver_id = ?1 " +
+            "    OR f.sender_id IS NULL OR f.receiver_id IS NULL) " +
+            "    AND LOWER(u.last_name) LIKE CONCAT('%', LOWER(?2), '%') OR " +
             "    LOWER(u.first_name) LIKE CONCAT('%', LOWER(?2), '%') " +
-            "LIMIT ?3", nativeQuery = true)
+            "LIMIT ?3 ", nativeQuery = true)
     List<UserById> getListUserBySearch(String userId, String name, int limit);
 
 

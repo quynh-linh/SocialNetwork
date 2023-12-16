@@ -311,10 +311,6 @@ function Register() {
                             autoComplete='new-password'
                         />
                     </div>
-                    <div className={cx('flex items-center','mt-10')}>
-                        <input type="checkbox" className={cx('')}/>
-                        <span className={cx('pl-5 text-xl')}>Lưu đăng nhập</span>
-                    </div>
                     <button 
                         className={cx('container__content-btn','flex items-center justify-center')} 
                         type="submit"
