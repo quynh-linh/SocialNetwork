@@ -81,19 +81,20 @@ function Header() {
     // HANDLE CLOSE BOX SEARCH
     const handleClickCloseBoxSearch = () => {
         setShowBoxSearch(false);
+        setListUserBySearch([]);
     };
 
     // HANDLE ON CHANGE VALUE IP SEARCH
     const handleOnChangeInputSearch = (e) => {
         const name = e.target.value;
-        setValueInputSearch(name);
         if(valueIdUser !== undefined){
             dispatch(getListUserBySearch({
-                name: query,
+                name: name,
                 userId: valueIdUser,
                 limit: 100
             }));
         }
+        setValueInputSearch(name);
     };
 
     // HANDLE CLICK SHOW NOTIFY
@@ -118,7 +119,7 @@ function Header() {
 
     useEffect(() => {
         const { isLoading, arrSearch } = state;
-        if(state?.msg === 'name is required'){
+        if(state?.msg === 'userId and name is required'){
             setListUserBySearch([]);
         } else {
             if (!isLoading && arrSearch.length > 0) {

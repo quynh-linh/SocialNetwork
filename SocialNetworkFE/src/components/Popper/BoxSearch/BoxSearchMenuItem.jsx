@@ -14,10 +14,9 @@ function FlyOutsMenuItem({data, onClick=undefined}) {
                 <div className='ml-4'>
                     <h2 className='text-2xl font-semibold'>{data.firstName + " " + data.lastName}</h2>
                     {data.address !== '' && (<span className='text-xl font-medium'>Đang sống tại {data.address}</span>)}
-                    
                 </div>
             </div>
-            <img className='w-16 h-16 rounded-full' src={data.image} alt='user'/>
+            <img className='w-16 h-16 rounded-full' src={data.avatar} alt='user'/>
         </div>
     );
 }

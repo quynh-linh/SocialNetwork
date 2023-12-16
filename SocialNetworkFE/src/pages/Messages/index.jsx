@@ -20,6 +20,7 @@ function Messages() {
     const {valueDetailUserById} = useUserToken();
     //
     const { search } = useLocation();
+    const location = useLocation();
     const dispatch = useDispatch();
     const state = useSelector(state => state.auth);
     const queryParams = new URLSearchParams(search);
@@ -56,7 +57,8 @@ function Messages() {
 
     //
     useEffect(() => {
-        if (query !== '') {
+        if (query !== valueDetailUserById.id) {
+            console.log(query);
             dispatch(getDetailUserById({ id: query}));
         }
     },[query]);
@@ -76,7 +78,8 @@ function Messages() {
     //
     useEffect(() => {
         const isObDetailNotEmpty = state?.obDetail && Object.keys(state.obDetail).length > 0;
-        if (isObDetailNotEmpty) {
+        if (isObDetailNotEmpty && state.obDetail.id === query) {
+            console.log(state.obDetail);
             setValueObDetailUser(state.obDetail);
         }
     }, [state]);

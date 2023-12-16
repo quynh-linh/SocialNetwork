@@ -22,7 +22,7 @@ function Message({message}) {
     //
     useEffect(() => {
         const isObDetailNotEmpty = state?.obDetail && Object.keys(state.obDetail).length > 0;
-        if (isObDetailNotEmpty) {
+        if (isObDetailNotEmpty && state.obDetail.id === message.senderId) {
             setValueObDetailUser(state.obDetail);
         }
     }, [state]);

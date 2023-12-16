@@ -38,10 +38,6 @@ function Home() {
         }
     },[state.msg]);
 
-    useEffect(() => {
-        console.log(listPosts);
-    },[listPosts]);
-
     return (
         <div className={cx('wrapper')}>
             <div className="flex items-center">

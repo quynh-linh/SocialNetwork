@@ -10,9 +10,9 @@ function BoxSearch({items=[],children,title = '',state = false,isLoading = true}
     const cx = classNames.bind(styles);
     const navigate = useNavigate();
     
-    const handleClickMenuItem = ({ id }) => {
-        if (id) {
-            navigate(`/profile?id=${id}`);
+    const handleClickMenuItem = ({ userId }) => {
+        if (userId) {
+            navigate(`/profile?id=${userId}`);
         }
     };
     const showFlyOutsMenuitem = () => {
