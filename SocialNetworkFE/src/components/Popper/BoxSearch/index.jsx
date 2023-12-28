@@ -6,12 +6,13 @@ import styles from './BoxSearch.module.scss';
 import {Wrapper as PopperWrapper} from '~/components/Popper';
 import Loader from '~/components/loader/loader';
 import { useNavigate } from "react-router-dom";
-function BoxSearch({items=[],children,title = '',state = false,isLoading = true}) {
+function BoxSearch({items=[],children,title = '',state = false,isLoading = true,onClose=undefined}) {
     const cx = classNames.bind(styles);
     const navigate = useNavigate();
     
     const handleClickMenuItem = ({ userId }) => {
         if (userId) {
+            onClose(false);
             navigate(`/profile?id=${userId}`);
         }
     };

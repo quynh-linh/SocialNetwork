@@ -181,6 +181,9 @@ function Header() {
                     items={listUserBySearch}
                     state={isShowBoxSearch}
                     isLoading={isShowBoxSearch ? state.isLoading : true}
+                    onClose={(e) => {
+                        if(!e) setListUserBySearch([])
+                    }}
                 >
                     <div className={cx("flex items-center",'header__content-search')}>
                         <div className={cx("text-center",isShowBoxSearch ? 'w-1/6' : 'w-1/5 ')}>
