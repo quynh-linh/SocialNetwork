@@ -50,21 +50,24 @@ function PeopleSearch() {
                         )
                         : (listUserBySearch.length > 0 ? listUserBySearch.map((item) => {
                             return (
-                                <div key={item.id} className="mt-6 w-full bg-comment rounded-2xl p-6 flex text-search">
-                                    <img 
-                                        className="w-32 h-32 rounded-full" 
-                                        src={item.image} 
-                                        alt="search people"
-                                    />
-                                    <div className="ml-10">
-                                        <h1 className="font-bold text-3xl">{item.firstName+ " "+item.lastName}</h1>
-                                        {item.address !== '' && (
-                                            <span className="mt-5 text-xl font-medium text-start">Sống tại {item.address}</span>
-                                        )}
-                                        <div className="mt-4 flex items-center">
-                                            <img className="w-10 h-10 rounded-full" src={item.image} alt="user"/>
-                                            <span className="ml-4 text-xl font-medium">70 Bạn chung</span>
+                                <div key={item.userId} className="mt-6 w-full bg-comment rounded-2xl p-6 flex items-center justify-between text-search">
+                                    <div className="flex items-center">
+                                        <img
+                                            className="w-32 h-32 rounded-full"
+                                            src={item?.avatar}
+                                            alt="search people"
+                                        />
+                                        <div className="ml-10">
+                                            <h1 className="font-bold text-3xl">{item.firstName+ " "+item.lastName}</h1>
+                                            <div className="mt-4 flex items-center">
+                                                <img className="w-10 h-10 rounded-full" src={item?.avatar} alt="user"/>
+                                                <span className="ml-4 text-xl font-medium">70 Bạn chung</span>
+                                            </div>
                                         </div>
+                                    </div>
+                                    <div className={cx("px-6 py-4  rounded-2xl text-xl font-semibold",
+                                     item.friendshipStatus === 'Đã gửi yêu cầu kết bạn' ? 'bg-sidebar' : 'bg-primaryColor')}>
+                                        {item.friendshipStatus === 'Không phải bạn bè' ? 'Thêm bạn bè' : item.friendshipStatus}
                                     </div>
                                 </div>
                             )

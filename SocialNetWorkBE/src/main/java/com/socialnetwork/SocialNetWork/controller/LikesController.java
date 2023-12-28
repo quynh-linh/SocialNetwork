@@ -48,11 +48,13 @@ public class LikesController {
                     UserDTO userDTO = userService.getDetailUserById(userId);
                     String imageUser = userService.getImageUserByUserId(userId);
                     if(userIdNotification != null && userDTO != null){
-                        String contentPost = postService.getContentPostByPostId(parsePostId);
-                        String contentNotification = " vừa like bài viết của bạn : " + contentPost;
-                        String nameUser = userDTO.getFirstName() + " " + userDTO.getLastName();
-                        Notifications notifications = new Notifications(userIdNotification,nameUser,contentNotification, createAt,parsePostId,0,imageUser);
-                        notificationService.addNotification(notifications);
+                        if(!userIdNotification.equals(userId)){
+                            String contentPost = postService.getContentPostByPostId(parsePostId);
+                            String contentNotification = " vừa like bài viết của bạn : " + contentPost;
+                            String nameUser = userDTO.getFirstName() + " " + userDTO.getLastName();
+                            Notifications notifications = new Notifications(userIdNotification,nameUser,contentNotification, createAt,parsePostId,0,imageUser);
+                            notificationService.addNotification(notifications);
+                        }
                     }
                     return result != null ? ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("success")) : ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("error"));
                 }else{

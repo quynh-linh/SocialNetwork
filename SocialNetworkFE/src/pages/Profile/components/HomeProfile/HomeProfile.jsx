@@ -21,6 +21,7 @@ function HomeProfile() {
     const [valueObDetailUser,setValueObDetailUser] = useState({});
     const [isShowCreatePost,setIsShowCreatePost] = useState(false);
     const [isShowBoxPost,setIsShowBoxPost] = useState({});
+    const {valueDetailUserById} = useUserToken()
     const dispatch = useDispatch();
     const statePost = useSelector(state => state.post);
     const stateAuth = useSelector(state => state.auth);
@@ -154,7 +155,7 @@ function HomeProfile() {
                                             })
                                         }
                                     </div>
-                                ) : <h3>Bạn chưa có hình ảnh/video</h3>)
+                                ) : <h3>{id === valueDetailUserById.id ? 'Bạn chưa': 'Chưa'}  có hình ảnh/video</h3>)
                             )
                         }
                     </div>
@@ -180,7 +181,7 @@ function HomeProfile() {
                                             })
                                         }
                                     </div>
-                                ) : <h3>Bạn chưa có bạn bè</h3>)
+                                ) : <h3>{id === valueDetailUserById.id ? 'Bạn chưa ': 'Chưa '} chưa có bạn bè</h3>)
                             )
                         }
                     </div>
